@@ -1,0 +1,18 @@
+[project]
+name = "ppt-maker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "google-genai>=1.62.0",
+    "langchain>=1.2.9",
+    "langchain-google-genai>=4.2.0",
+    "langchain-openai>=1.1.7",
+    "pdfkit>=1.0.0",
+    "playwright>=1.58.0",
+    "pypdf>=6.6.2",
+    "python-pptx>=1.0.2",
+    "weasyprint>=68.1",
+]

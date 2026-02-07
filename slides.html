@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renewable Energy Slide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Dark background for the browser to make the slide pop */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* SLIDE CONTAINER */
+        .slide {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            background-color: #F5F7FA;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            color: #1F2933;
+        }
+
+        /* BACKGROUND VISUALS */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* High quality renewable energy image */
+            background-image: url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2570&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15; /* Faded to ensure text contrast */
+            z-index: 0;
+        }
+
+        /* Quantum-inspired geometric gradient overlay */
+        .bg-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(31, 41, 51, 0.05) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+        .content-container {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            width: 100%;
+            padding: 70px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px; /* Scaled up for Hero Title focus */
+            font-weight: 700;
+            color: #003366; /* Header BG color used for text for contrast */
+            margin: 0 0 24px 0;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            max-width: 900px;
+        }
+
+        .separator {
+            width: 80px;
+            height: 4px;
+            background-color: #2563EB; /* Accent */
+            margin-bottom: 40px;
+            border-radius: 2px;
+        }
+
+        /* SUBTITLE / CONTENT LIST */
+        /* Transforming bullet points into a high-tracking subtitle aesthetic */
+        .subtitle-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 32px;
+            max-width: 1000px;
+        }
+
+        .subtitle-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2933;
+            text-transform: uppercase;
+            letter-spacing: 2px; /* High tracking as requested */
+            display: flex;
+            align-items: center;
+        }
+
+        /* Decorative dot between items */
+        .subtitle-item:not(:last-child)::after {
+            content: "•";
+            color: #2563EB;
+            margin-left: 32px;
+            font-size: 24px;
+            line-height: 0;
+        }
+
+        /* BOTTOM BAR */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 16px; /* Thick accent bar */
+            background-color: #2563EB;
+            z-index: 20;
+        }
+
+        /* DECORATIVE CORNER ELEMENTS (Quantum/Tech feel) */
+        .corner-decor {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #2563EB;
+            opacity: 0.3;
+            z-index: 5;
+        }
+        .top-left { top: 40px; left: 40px; border-right: none; border-bottom: none; }
+        .top-right { top: 40px; right: 40px; border-left: none; border-bottom: none; }
+        .bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+        .bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <!-- Background Layers -->
+        <div class="bg-image"></div>
+        <div class="bg-gradient"></div>
+
+        <!-- Decorative Corners -->
+        <div class="corner-decor top-left"></div>
+        <div class="corner-decor top-right"></div>
+        
+        <!-- Main Content -->
+        <div class="content-container">
+            <h1>Renewable Energy Infrastructure 2030</h1>
+            
+            <div class="separator"></div>
+            
+            <!-- Content transformed into stylized subtitle list -->
+            <div class="subtitle-grid">
+                <div class="subtitle-item">Smart Grid Integration</div>
+                <div class="subtitle-item">Solid-State Battery Storage</div>
+                <div class="subtitle-item">Green Hydrogen Production</div>
+                <div class="subtitle-item">Carbon Capture Automation</div>
+            </div>
+        </div>
+
+        <!-- Bottom Accent -->
+        <div class="bottom-bar"></div>
+    </div>
+
+</body>
+</html>
