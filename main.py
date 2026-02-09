@@ -4,7 +4,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
 from prompts.designer_prompt import DESIGNER_PROMPT
-from prompts.slide_prompt import SLIDE_PROMPT
+from prompts.slide_design_prompt import SLIDE_PROMPT
 import re
 load_dotenv()
 
