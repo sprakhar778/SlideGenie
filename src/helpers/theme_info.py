@@ -1,25 +1,129 @@
+from pydantic import BaseModel, Field
+from typing import Literal
+
 def get_theme_info(theme_name: str) -> str:
     themes = {
-        "Arctic Frost": "Theme name-Arctic Frost Cool and crisp winter-inspired theme. Hex: #d4e4f7 (Ice Blue), #4a6fa5 (Steel Blue), #c0c0c0 (Silver), #fafafa (Crisp White). Typography: Headers: DejaVu Sans Bold, Body Text: DejaVu Sans.",
-        
-        "Botanical Garden": "Theme name-Botanical Garden Fresh and organic theme featuring vibrant garden-inspired colors. Hex: #4a7c59 (Fern Green), #f9a620 (Marigold), #b7472a (Terracotta), #f5f3ed (Cream). Typography: Headers: DejaVu Serif Bold, Body Text: DejaVu Sans.",
-        
-        "Desert Rose": "Theme name-Desert Rose Soft and sophisticated theme with dusty, muted tones. Hex: #d4a5a5 (Dusty Rose), #b87d6d (Clay), #e8d5c4 (Sand), #5d2e46 (Deep Burgundy). Typography: Headers: FreeSans Bold, Body Text: FreeSans.",
-        
-        "Forest Canopy": "Theme name-Forest Canopy Natural and grounded theme inspired by dense forests. Hex: #2d4a2b (Forest Green), #7d8471 (Sage), #a4ac86 (Olive), #faf9f6 (Ivory). Typography: Headers: FreeSerif Bold, Body Text: FreeSans.",
-        
-        "Golden Hour": "Theme name-Golden Hour Rich and warm autumnal palette for inviting atmospheres. Hex: #f4a900 (Mustard Yellow), #c1666b (Terracotta), #d4b896 (Warm Beige), #4a403a (Chocolate Brown). Typography: Headers: FreeSans Bold, Body Text: FreeSans.",
-        
-        "Midnight Galaxy": "Theme name-Midnight Galaxy Dramatic and cosmic theme with deep purples. Hex: #2b1e3e (Deep Purple), #4a4e8f (Cosmic Blue), #a490c2 (Lavender), #e6e6fa (Silver). Typography: Headers: FreeSans Bold, Body Text: FreeSans.",
-        
-        "Modern Minimalist": "Theme name-Modern Minimalist Clean and contemporary grayscale palette. Hex: #36454f (Charcoal), #708090 (Slate Gray), #d3d3d3 (Light Gray), #ffffff (White). Typography: Headers: DejaVu Sans Bold, Body Text: DejaVu Sans.",
-        
-        "Ocean Depths": "Theme name-Ocean Depths Professional and calming maritime theme. Hex: #1a2332 (Deep Navy), #2d8b8b (Teal), #a8dadc (Seafoam), #f1faee (Cream). Typography: Headers: DejaVu Sans Bold, Body Text: DejaVu Sans.",
-        
-        "Sunset Boulevard": "Theme name-Sunset Boulevard Warm and vibrant theme inspired by golden sunsets. Hex: #e76f51 (Burnt Orange), #f4a261 (Coral), #e9c46a (Warm Sand), #264653 (Deep Purple). Typography: Headers: DejaVu Serif Bold, Body Text: DejaVu Sans.",
-        
-        "Tech Innovation": "Theme name-Tech Innovation Bold and modern theme with high-contrast tech colors. Hex: #028090 (Teal), #00A896 (Seafoam), #02C39A (Mint), #F2F2F2 (Off-white). Typography: Headers: DejaVu Sans Bold, Body Text: DejaVu Sans."
+        "Arctic Frost": """### Theme: Arctic Frost
+Identity: Cool, crisp, and professional. Designed for precision and clarity.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #fafafa (Crisp White) - Backgrounds and clean space.
+- Secondary (30%): #4a6fa5 (Steel Blue) - Headers and core branding.
+- Accent (10%): #d4e4f7 (Ice Blue) - Highlights and CTAs.
+- Neutral: #c0c0c0 (Silver) - Decorative elements.
+
+#### Typography
+- Headers: DejaVu Sans Bold
+- Body Text: DejaVu Sans""",
+
+        "Botanical Garden": """### Theme: Botanical Garden
+Identity: Fresh and organic. Evokes growth and natural vitality.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #f5f3ed (Cream) - Warm, soft background.
+- Secondary (30%): #4a7c59 (Fern Green) - Professional natural text and icons.
+- Accent (10%): #f9a620 (Marigold) - Vibrant call-to-actions.
+- Contrast: #b7472a (Terracotta) - Depth and accents.
+
+#### Typography
+- Headers: DejaVu Serif Bold
+- Body Text: DejaVu Sans""",
+
+        "Desert Rose": """### Theme: Desert Rose
+Identity: Sophisticated and muted. Ideal for high-end, elegant content.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #e8d5c4 (Sand) - Earthy neutral base.
+- Secondary (30%): #d4a5a5 (Dusty Rose) - Soft, professional secondary surfaces.
+- Accent (10%): #5d2e46 (Deep Burgundy) - High-contrast text and links.
+
+#### Typography
+- Headers: FreeSans Bold
+- Body Text: FreeSans""",
+
+        "Forest Canopy": """### Theme: Forest Canopy
+Identity: Grounded and stable. Inspired by deep woodland environments.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #faf9f6 (Ivory) - Bright, natural canvas.
+- Secondary (30%): #2d4a2b (Forest Green) - Strong, stable headings.
+- Accent (10%): #7d8471 (Sage) - Soft UI elements and dividers.
+
+#### Typography
+- Headers: FreeSerif Bold
+- Body Text: FreeSans""",
+
+        "Golden Hour": """### Theme: Golden Hour
+Identity: Inviting and warm. Designed for storytelling and hospitality.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #d4b896 (Warm Beige) - Comforting background.
+- Secondary (30%): #4a403a (Chocolate Brown) - Highly readable body text.
+- Accent (10%): #f4a900 (Mustard Yellow) - Bold highlights.
+
+#### Typography
+- Headers: FreeSans Bold
+- Body Text: FreeSans""",
+
+        "Midnight Galaxy": """### Theme: Midnight Galaxy
+Identity: Dramatic and high-impact. Uses cosmic tones for a modern edge.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #2b1e3e (Deep Purple) - Immersive dark mode.
+- Secondary (30%): #e6e6fa (Silver) - Crisp, luminous text.
+- Accent (10%): #4a4e8f (Cosmic Blue) - Structural highlights.
+
+#### Typography
+- Headers: FreeSans Bold
+- Body Text: FreeSans""",
+
+        "Modern Minimalist": """### Theme: Modern Minimalist
+Identity: High-end grayscale. Focuses on content over decoration.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #ffffff (White) - Absolute clarity.
+- Secondary (30%): #36454f (Charcoal) - Strong typography contrast.
+- Accent (10%): #708090 (Slate Gray) - Subtle UI accents.
+
+#### Typography
+- Headers: DejaVu Sans Bold
+- Body Text: DejaVu Sans""",
+
+        "Ocean Depths": """### Theme: Ocean Depths
+Identity: Calming and trustworthy. Professional maritime aesthetic.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #1a2332 (Deep Navy) - Serious, deep background.
+- Secondary (30%): #f1faee (Cream) - High-readability light text.
+- Accent (10%): #2d8b8b (Teal) - Dynamic focal points.
+
+#### Typography
+- Headers: DejaVu Sans Bold
+- Body Text: DejaVu Sans""",
+
+        "Sunset Boulevard": """### Theme: Sunset Boulevard
+Identity: Energetic and warm. Perfect for creative storytelling.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #e9c46a (Warm Sand) - Vibrant, sunny canvas.
+- Secondary (30%): #264653 (Deep Purple) - Strong contrast for text.
+- Accent (10%): #e76f51 (Burnt Orange) - Passionate highlights.
+
+#### Typography
+- Headers: DejaVu Serif Bold
+- Body Text: DejaVu Sans""",
+
+        "Tech Innovation": """### Theme: Tech Innovation
+Identity: Cutting-edge and high-contrast. Bold colors for modern tech.
+
+#### Color Palette (60-30-10 Rule)
+- Primary (60%): #F2F2F2 (Off-white) - Clean tech surface.
+- Secondary (30%): #028090 (Teal) - Core brand color.
+- Accent (10%): #02C39A (Mint) - Actionable elements.
+
+#### Typography
+- Headers: DejaVu Sans Bold
+- Body Text: DejaVu Sans"""
     }
     
-    # Returns the theme info if found, otherwise returns a default message
-    return themes.get(theme_name, themes["Arctic Frost"])
+    return themes.get(theme_name, themes["Modern Minimalist"])
