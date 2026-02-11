@@ -13,34 +13,37 @@ extra_css = CSS(string="""
     }
     
     html, body {
-        /* Hard limit: nothing exists outside these bounds */
         width: 1280px !important;
         height: 900px !important;
         overflow: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
         background-color: white !important;
+        /* Fix for merged text */
+        -webkit-font-smoothing: antialiased;
+        font-smooth: always;
+        text-rendering: optimizeLegibility;
     }
 
     .slide {
-        /* Force the slide to fit the page exactly */
         width: 1280px !important;
         height: 900px !important;
-  
-        /* Cut off anything that hangs over the edge */
         overflow: hidden !important;
-        
-        /* Remove things that bleed outside the box */
-        box-shadow: none !important; 
-        margin: 0 !important;
-        border: none !important;
-
-        /* Instruct the PDF engine not to jump to a new page */
-        page-break-inside: avoid !important;
-        page-break-after: avoid !important;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
     }
 
-  
+    /* Prevent text from overlapping vertically */
+    p, li, h1, h2, h3 {
+        line-height: 1.4 !important;
+        margin-bottom: 0.5em;
+    }
+
+    /* Prevent characters from squeezing together */
+    * {
+        letter-spacing: 0.01em !important;
+    }
 """)
 # 2. Generate the PDF
 HTML("slides.html").write_pdf("output.pdf", stylesheets=[extra_css])

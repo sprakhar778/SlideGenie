@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
-from prompts.designer_prompt import DESIGNER_PROMPT
-from prompts.slide_design_prompt import SLIDE_PROMPT
+from src.prompts.designer_prompt import DESIGNER_PROMPT
+from src.prompts.slide_design_prompt import SLIDE_PROMPT
 import re
 load_dotenv()
 
@@ -41,7 +41,15 @@ def clean_html_output(text: str) -> str:
 # -------- Chain 2: topic + manifesto + content → HTML --------
 slide_prompt = PromptTemplate(
     template=SLIDE_PROMPT,
-    input_variables=["topic",  "content"]
+    input_variables=[
+        "topic", 
+        "content", 
+
+        "slide_type", 
+        "heading_font", 
+        "palette", 
+        "body_font"
+    ]
 )
 
 agent = slide_prompt | model | StrOutputParser() | RunnableLambda(clean_html_output)
@@ -57,14 +65,36 @@ agent = slide_prompt | model | StrOutputParser() | RunnableLambda(clean_html_out
 #     """
 # })
 # Updated topic: Sustainable Energy Transition
+
+
+# 1. Fix the template by pre-filling the design variables
+slide_prompt_fixed = slide_prompt.partial(
+    
+    slide_type="Process Flow",
+    heading_font="Arial Bold",
+    body_font="Calibri",
+    palette="Corporate Blue/Grey"
+)
+
+# 2. Now the invoke only needs the variables that AREN'T partialed
 result = agent.invoke({
-    "topic": "Renewable Energy Infrastructure 2030",
+    "topic": "The Evolution of Artificial Intelligence",
     "content": """
-    - Smart grid integration
-    - Solid-state battery storage
-    - Green hydrogen production
-    - Carbon capture automation
-    """
+1. Foundation: Early Rule-Based Systems
+Defined by explicit programming and rigid logic, these initial systems operated on pre-defined 'if-then' rules to solve specific, structured problems.
+
+2. Progression: The Evolutionary Shift
+Tracing the development of intelligence involved moving away from static instructions toward dynamic adaptation.
+
+3. Current State: Modern Deep Learning Models
+Today's AI utilizes multi-layered neural networks to process vast amounts of unstructured information.
+    """,
+    # These must match the names in your PromptTemplate exactly
+    "components": "Numbered list with process arrows",
+    "slide_type": "Process/Timeline",
+    "heading_font": "Arial Bold",
+    "body_font": "Calibri",
+    "palette": "Corporate Blue and White"
 })
 # result = agent.invoke({
 #     "topic": "Renewable Energy Infrastructure 2030",

@@ -29,7 +29,7 @@ def get_slides_data_chain(topic: str, content: str):
     for s in slides_data:
         print(f"Slide Type: {s.slide_type}")
         print(f"Content: {s.content}")
-        print(f"Description: {s.description}\n")
+        print(f"Description: {s.description}")
     return slides_data
 
 if __name__ == "__main__":
