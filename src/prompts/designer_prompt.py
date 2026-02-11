@@ -52,6 +52,13 @@ genrate good html code check for layout errors and make sure it is visually appe
   - **H1:** 42px
   - **H2:** 26px
   - **H3:** 20px
+
+## CONSTRAINTS:
+1. No external CSS or JS files; all styles must be internal.
+2. Avoid "webpage" aesthetics; focus on "slide" aesthetics with ample padding
+3**Image Handling:** Images must be wrapped in a container with a defined height/width and use `object-fit: cover;` to prevent layout shifting.
+4. **No Margin Bleed:** Ensure no negative margins or absolute positioning pushes content beyond the 1280x900 boundary
+
 ### DESIGN REQUIREMENTS:
 1. Layout: Use a "Split-Screen" or "Two-Column" layout. 
    - Left Column: A chronological list or bullet points with icons.

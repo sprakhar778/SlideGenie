@@ -8,13 +8,13 @@ from weasyprint import HTML, CSS
 # - Remove margins
 extra_css = CSS(string="""
     @page { 
-        size: 1280px 900px; 
+        size: 1285px 718px; 
         margin: 0; 
     }
     
     html, body {
-        width: 1280px !important;
-        height: 900px !important;
+        width: 1285px !important;
+        height: 718px !important;
         overflow: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -26,8 +26,8 @@ extra_css = CSS(string="""
     }
 
     .slide {
-        width: 1280px !important;
-        height: 900px !important;
+        width: 1285px !important;
+        height: 718px !important;
         overflow: hidden !important;
         display: flex;
         flex-direction: column;
