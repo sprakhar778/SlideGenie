@@ -1,5 +1,3 @@
-
-
 DESIGNER_PROMPT = """
 Act as an Expert Presentation Designer. Create a single, high-fidelity HTML/CSS slide that mimics a professional PowerPoint layout.
 genrate good html code check for layout errors and make sure it is visually appealing and follows the design requirements.

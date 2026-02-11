@@ -37,7 +37,7 @@ def get_theme_chain(topic: str, content: Optional[str]):
     print(f"Selected Theme: {theme.theme}")
     print(f"Description: {theme_info}")
 
-    return theme
+    return theme_info
 
 
 if __name__ == "__main__":

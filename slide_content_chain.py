@@ -71,7 +71,7 @@ from langchain_core.runnables import RunnableLambda
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 from enum import Enum
-from prompts.slide_prompt import SLIDE_PROMPT
+from prompts.slide_data_prompt import SLIDE_DATA_PROMPT
 from typing import List, Optional, Literal
 import re
 from rich.console import Console
@@ -178,7 +178,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-3-pro-preview", temperature=0.3)
 llm = llm.with_structured_output(Slides)
 
 slide_prompt = PromptTemplate(
-    template=SLIDE_PROMPT,
+    template=SLIDE_DATA_PROMPT,
     input_variables=["topic", "content"]
 )
 

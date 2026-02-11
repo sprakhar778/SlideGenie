@@ -1,4 +1,4 @@
-SLIDE_PROMPT = """
+SLIDE_DATA_PROMPT = """
 You are an expert presentation designer and content strategist.
 
 Your task is to generate a professional slide deck using the structured schema below.
@@ -12,7 +12,7 @@ Slides {{
 Slide {{
   slide_type: SlideType
   content: string
-  description?: string
+  description: string
 }}
 
 SlideType enum values (use EXACTLY as written):
