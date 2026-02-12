@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evolution of AI Slide</title>
+    <title>Future of AI in Healthcare</title>
     <style>
-        /* Reset & Base Settings */
+        /* Reset and Base Settings */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #1a1a1a; /* Dark background for presentation view context */
+            background-color: #f0f0f0; /* Neutral background for viewing context */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,248 +22,186 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Slide Container - 1280x720 Fixed */
+        /* Slide Container - Fixed Dimensions */
         .slide {
             width: 1280px;
             height: 720px;
-            background-color: #ffffff;
+            background-color: #FFFFFF;
             position: relative;
             overflow: hidden;
             padding: 70px;
+            display: grid;
+            grid-template-columns: 450px 1fr; /* Image Left, Content Right */
+            gap: 60px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Subtle shadow for presentation feel */
+        }
+
+        /* Color Palette & Variables */
+        :root {
+            --corporate-blue: #003366;
+            --accent-blue: #0056b3;
+            --light-blue: #E6F0FA;
+            --text-dark: #333333;
+            --white: #FFFFFF;
+        }
+
+        /* Left Column: Image */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.15);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Right Column: Content */
+        .content-container {
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        /* Decorative Background Elements */
-        .slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
+            justify-content: flex-start;
             height: 100%;
-            background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
-            z-index: 0;
-            clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
         }
 
-        .slide::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 12px;
-            background-color: #003366; /* Corporate Blue */
-            z-index: 2;
-        }
-
-        /* Typography & Hierarchy */
+        /* Typography */
         h1 {
             font-family: 'Arial', sans-serif;
             font-weight: bold;
             font-size: 42px;
-            color: #003366;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            font-family: 'Calibri', sans-serif;
-            font-size: 24px;
-            color: #666;
+            color: var(--corporate-blue);
             margin-bottom: 50px;
-            position: relative;
-            z-index: 1;
-            font-weight: 300;
-        }
-
-        /* Process Container */
-        .process-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            padding-top: 20px;
-        }
-
-        /* Process Card */
-        .card {
-            flex: 1;
-            background: #fff;
-            border-radius: 8px;
-            padding: 0;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            max-width: 340px;
-            height: 420px;
-            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.08);
-            border-top: 4px solid #003366;
-        }
-
-        /* Card Image Area */
-        .card-image {
-            height: 160px;
-            width: 100%;
-            overflow: hidden;
-            border-radius: 4px 4px 0 0;
-            position: relative;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
-
-        .card-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 51, 102, 0.1); /* Blue tint overlay */
-        }
-
-        /* Number Badge */
-        .number-badge {
-            position: absolute;
-            top: 140px; /* Overlapping image and text */
-            left: 24px;
-            width: 40px;
-            height: 40px;
-            background-color: #003366;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            z-index: 2;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Card Content */
-        .card-content {
-            padding: 35px 24px 24px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .card h2 {
-            font-family: 'Arial', sans-serif;
-            font-size: 26px; /* 42 / 1.618 */
-            color: #003366;
             line-height: 1.2;
-            font-weight: bold;
+            letter-spacing: -0.5px;
+            border-bottom: 4px solid var(--accent-blue);
+            padding-bottom: 20px;
+            display: inline-block;
+            width: 100%;
         }
 
-        .card p {
-            font-family: 'Calibri', sans-serif;
-            font-size: 20px;
-            color: #444;
-            line-height: 1.4;
-        }
-
-        /* Arrow Connectors */
-        .arrow-container {
+        /* Timeline / Process List */
+        .timeline {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px; /* Align with top section of cards */
-            width: 60px;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
             position: relative;
+            padding-left: 20px; /* Space for the line */
         }
 
-        .arrow {
-            width: 40px;
-            height: 2px;
-            background-color: #ccc;
-            position: relative;
-        }
-
-        .arrow::after {
+        /* Vertical Line */
+        .timeline::before {
             content: '';
             position: absolute;
-            right: 0;
-            top: -5px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid #ccc;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
+            left: 0;
+            top: 15px;
+            bottom: 15px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--corporate-blue), rgba(0, 51, 102, 0.1));
         }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px; /* Fallback spacing */
+            flex: 1;
+        }
+
+        /* Timeline Node */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px; /* Center on the 2px line */
+            width: 20px;
+            height: 20px;
+            background-color: var(--white);
+            border: 4px solid var(--corporate-blue);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        /* Active/Highlight styling for visual interest */
+        .timeline-item:first-child::before {
+            background-color: var(--corporate-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .item-content {
+            font-size: 24px; /* Scaled slightly up from body for hierarchy */
+            color: var(--text-dark);
+            font-weight: bold;
+            background: var(--light-blue);
+            padding: 15px 25px;
+            border-radius: 0 12px 12px 0;
+            border-left: 4px solid var(--corporate-blue);
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+
+        .item-number {
+            font-family: 'Arial', sans-serif;
+            font-size: 20px; /* Body size parameter */
+            color: var(--accent-blue);
+            margin-right: 15px;
+            opacity: 0.7;
+        }
+
+        /* Cognitive Principle: Serial Position Effect 
+           Subtle emphasis on first and last items via opacity/weight adjustments handled visually
+        */
 
     </style>
 </head>
 <body>
 
     <div class="slide">
-        <!-- Header Section -->
-        <h1>The Evolution of Artificial Intelligence</h1>
-        <div class="subtitle">From static rules to dynamic neural networks</div>
+        <!-- Left: Visual Anchor -->
+        <div class="image-container">
+            <!-- Image representing AI/Medical Technology -->
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1280&auto=format&fit=crop" alt="Doctor analyzing digital medical data interface">
+        </div>
 
-        <!-- Process/Timeline Section -->
-        <div class="process-container">
-            
-            <!-- Step 1 -->
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1516110833967-0b5716ca1387?auto=format&fit=crop&w=600&q=80" alt="Code Logic">
-                </div>
-                <div class="number-badge">1</div>
-                <div class="card-content">
-                    <h2>Foundation:<br>Rule-Based Systems</h2>
-                    <p>Defined by explicit programming and rigid logic, operating on pre-defined 'if-then' rules to solve structured problems.</p>
-                </div>
-            </div>
+        <!-- Right: Process Content -->
+        <div class="content-container">
+            <h1>Future of AI in Healthcare</h1>
 
-            <!-- Connector -->
-            <div class="arrow-container">
-                <div class="arrow"></div>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=600&q=80" alt="Evolutionary Shift">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="item-content">
+                        <span class="item-number">01</span>
+                        AI-powered diagnostics
+                    </div>
                 </div>
-                <div class="number-badge">2</div>
-                <div class="card-content">
-                    <h2>Progression:<br>The Evolutionary Shift</h2>
-                    <p>Tracing the development of intelligence involved moving away from static instructions toward dynamic adaptation.</p>
-                </div>
-            </div>
 
-            <!-- Connector -->
-            <div class="arrow-container">
-                <div class="arrow"></div>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80" alt="Neural Networks">
+                <div class="timeline-item">
+                    <div class="item-content">
+                        <span class="item-number">02</span>
+                        Predictive patient risk models
+                    </div>
                 </div>
-                <div class="number-badge">3</div>
-                <div class="card-content">
-                    <h2>Current State:<br>Deep Learning</h2>
-                    <p>Today's AI utilizes multi-layered neural networks to process vast amounts of unstructured information.</p>
+
+                <div class="timeline-item">
+                    <div class="item-content">
+                        <span class="item-number">03</span>
+                        Personalized medicine
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-content">
+                        <span class="item-number">04</span>
+                        Hospital workflow automation
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 

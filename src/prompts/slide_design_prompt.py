@@ -1,4 +1,4 @@
-SLIDE_PROMPT = """
+SLIDE_DESIGN_PROMPT = """
 ## *Role*
 Expert Presentation Designer
 
@@ -16,6 +16,14 @@ Generate a high-fidelity, single-slide HTML/CSS component. Use relevant images v
 - Do not use external CSS or JS files or animationsall styles must be contained within an internal <style> block.
 - Do not mention any owner info ,name date,department  or personal info if  not provided in content
 - Strictly avoid any code that would cause overflow beyond the specified dimensions (1280x720px).]
+##Constraints
+-**Image Handling:** Images must be wrapped in a container with a defined height/width and use `object-fit: cover;` to prevent layout shifting.
+-**No Margin Bleed:** Ensure no negative margins or absolute positioning pushes content beyond the 1280x900 boundary
+-No overflow: All content must fit within the defined dimensions without scrollbars or hidden overflow.
+
+
+
+
 
 ## Prameters
 
@@ -47,6 +55,7 @@ Generate a high-fidelity, single-slide HTML/CSS component. Use relevant images v
 ### **Cognitive Principles Applied**
 - **Serial Position Effect** (Primacy & Recency)
 - **WCAG AA Contrast Compliance** (Minimum 4.5:1)
+
 
 ---
 

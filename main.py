@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
-from src.prompts.designer_prompt import DESIGNER_PROMPT
-from src.prompts.slide_design_prompt import SLIDE_PROMPT
+from prompts.extra.designer_prompt import DESIGNER_PROMPT
+from src.prompts.slide_design_prompt import SLIDE_DESIGN_PROMPT 
 import re
 load_dotenv()
 
@@ -40,7 +40,7 @@ def clean_html_output(text: str) -> str:
 
 # -------- Chain 2: topic + manifesto + content → HTML --------
 slide_prompt = PromptTemplate(
-    template=SLIDE_PROMPT,
+    template=SLIDE_DESIGN_PROMPT,
     input_variables=[
         "topic", 
         "content", 
