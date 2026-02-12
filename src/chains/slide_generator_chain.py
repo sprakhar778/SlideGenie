@@ -46,18 +46,19 @@ def get_slide_generator_chain():
 
     # 2. Now the invoke only needs the variables that AREN'T partialed
     result = agent.invoke({
-        "topic": "Future of AI in Healthcare ",
+        "topic": "Future of AI in Healthcare" ,
         "content": """
-        - AI-powered diagnostics
-        - Predictive patient risk models
-        - Personalized medicine
-        - Hospital workflow automation""",
+- AI-powered diagnostics
+- Predictive patient risk models
+- Personalized medicine
+- Hospital workflow automation
+       """,
         # These must match the names in your PromptTemplate exactly
-        "components": "Bullets points with icons on the left, high-quality visual on the right",
-        "slide_type": "Timeline/Process",
+        "components": "Image on right, text on left with arrows indicating flow",
+        "slide_type": "Process/Timeline",
         "heading_font": "Arial Bold",
         "body_font": "Calibri",
-        "palette": " **Hex:** `#F5F7FA, **Hex:** `#1F2933, **Hex:** `#2563EB"
+        "palette": "#FFFFFF, #111827, #7C3AED"
 
             })
 

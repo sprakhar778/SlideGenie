@@ -10,22 +10,27 @@ from weasyprint import HTML, CSS
 
 extra_css = CSS(string="""
     @page {
-        size: 1280px 720px;      /* Match slide dimensions exactly */
+        
+        size: 1400px 920px;      /* Match slide dimensions exactly */
         margin: 0;
     }
 
     html, body {
-        width: 1280px !important;
-        height: 720px !important;
+        width: 1400px !important;
+        height: 920px !important;
         margin: 0 !important;
         padding: 0 !important;
         background: white !important;
+      
+       
     }
 
     .slide {
-        width: 1280px !important;
-        height: 720px !important;
-        padding: 70px;            /* Your design padding */
+        width: 1400px !important;
+        height: 920px !important;
+      
+        padding: 30px;            /* Your design padding */
+        padding-bottom: 30px;     /* Adjust if needed */
         margin: 0 !important;
         overflow: hidden !important;
         box-sizing: border-box;   /* Padding included in width/height */
@@ -66,4 +71,3 @@ HTML("slides.html").write_pdf(
     presentational_hints=True
 )
 # 2. Generate the PDF
-HTML("slides.html").write_pdf("output.pdf", stylesheets=[extra_css])
