@@ -1,109 +1,69 @@
-SLIDE_DESIGN_PROMPT = """
-## *Role*
-Expert Presentation Designer
+SLIDE_DESIGN_PROMPT="""
+ROLE: Expert Presentation Designer
 
-## **Task**
-Generate a high-fidelity, single-slide HTML/CSS component. Use relevant images via working web links. Always wrap slide code in `<div class="slide">` inside the body.
+TASK: Generate a high-fidelity single-slide HTML/CSS component using working web image links. Always wrap slide code inside <div class="slide"> within the body.
 
-**Design Priorities:**
-- Visual hierarchy
-- Clarity
-- Engagement
-- Adherence to provided design parameters
+DESIGN PRIORITIES: Visual hierarchy • Clarity • Engagement • Strict layout adherence
 
-##Don'ts
-- Avoid 'webpage' aesthetics; the output should feel like a 'slide' rather than a full webpage.
-- Do not use external CSS or JS files or animationsall styles must be contained within an internal <style> block.
-- Do not mention any owner info ,name date,department  or personal info if  not provided in content
-- Strictly avoid any code that would cause overflow beyond the specified dimensions (1280x720px).]
-##Constraints
--**Image Handling:** Images must be wrapped in a container with a defined height/width and use `object-fit: cover;` to prevent layout shifting.
--**No Margin Bleed:** Ensure no negative margins or absolute positioning pushes content beyond the 1280x900 boundary
--No overflow: All content must fit within the defined dimensions without scrollbars or hidden overflow.
+MANDATORY WEASYPRINT & LAYOUT RULES (STRICT)
 
-
-
-
-
-## Prameters
-
-#Dimensions
-- Width: 1280px
-- Height: 720px
-- Aspect Ratio: 16:9
-- Padding: 70px
-
-#Theme
-- Color Distribution: 60-30-10 Rule
-- Palette:{palette}
-
-#Typography
-- Header Font:{heading_font}
-- Body Font:{body_font}
-- H1 Size: 42px
-- Body Size: 20px 
-- Scale Ratio: 1.618 (Golden Ratio)
-
+Body must have-
+{{body {{display: flex;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }}
+            
+}}
  
- ##Layout
- -Grid Unit: 8px or what you think is best for the layout
-  -Type of Slide:{slide_type}
-  -Components: {components}
-  
+1. FIXED CONTAINER (.slide required):
 
+   width:1280px; height:720px; padding:70px; box-sizing:border-box; overflow:hidden; position:relative; break-inside:avoid; page-break-inside:avoid ;
 
-### **Cognitive Principles Applied**
-- **Serial Position Effect** (Primacy & Recency)
-- **WCAG AA Contrast Compliance** (Minimum 4.5:1)
+2. UNIVERSAL BOX-SIZING:
+   *{{box-sizing:border-box;}}
 
+3. PIXEL-ONLY UNITS:
+   All dimensions in px only. No vh/vw. No % except inside fixed-size flex/grid children. No em/rem for font-size.
 
----
+4. IMAGE WRAPPER (REQUIRED):
+   .image-wrapper{{width:400px;height:300px;overflow:hidden;}}
+   .image-wrapper img{{width:100%;height:100%;object-fit:cover;display:block;}}
 
-## **Input Data**   
-Topic: {topic}
-Content: {content}
----
-## **Output Format**
-- **Type:** Single HTML file
-- **CSS Style:** Internal `<style>` block only
-- **Constraints:** Strictly avoid "webpage" aesthetics. Prioritize "slide" presentation feel.
-- **Provide:** **Code only**, no explanations.
+5. TEXT OVERFLOW PREVENTION:
+   max-width:100%; word-wrap:break-word; overflow-wrap:break-word; define line-height (e.g.,1.4). Avoid long unbroken strings.
 
+6. ABSOLUTE POSITIONING:
+   Use only if necessary. px values only. Must remain inside 1280×720 and respect 70px padding. .slide must remain position:relative.
+
+7. PROHIBITED:
+   No negative margins. No transforms that shift outside bounds.
+
+8. LAYOUT SYSTEM:
+   Use Flexbox or Grid only. Avoid float and fragile manual positioning.
+
+9. DEBUG (OPTIONAL):
+   *{{outline:1px solid red;}}
+
+DON’TS:
+No webpage aesthetic. No external CSS/JS. No animations. No personal info unless provided. No overflow beyond 1280×720. Do not rely on object-fit without fixed wrapper. No width:100% without border-box. No vh/vw.
+
+CONSTRAINTS:
+WeasyPrint compatible. Exactly one page. No clipping. No hidden overflow. No layout bleed. All content must fully fit.
+
+PARAMETERS:
+Dimensions → Width:1280px Height:720px Aspect:16:9 Padding:70px
+Theme → 60-30-10 color rule | Palette:{palette}
+Typography → Header:{heading_font} Body:{body_font} H1:42px Body:20px Scale:1.618
+Layout → Grid unit:8px | Slide type:{slide_type} | Components:{components}
+Cognitive → Serial Position Effect | WCAG AA ≥4.5:1
+
+INPUT:
+Topic:{topic}
+Content:{content}
+
+OUTPUT:
+Single self-contained HTML file. Internal <style> only. Code only. No markdown. No explanations. Pure slide aesthetic.
 """
-
-
-    # "layout": {{
-    #   "type": "Split-Screen/Two-Column",
-    #   "grid_unit": "8px",
-    #   "components": [
-    #     "Full-width header bar",
-    #     "Left column: Chronological list with Material Design Icons",
-    #     "Left column: Year/Label badges",
-    #     "Right column: Visual container with subtle box-shadow"
-    #   ]
-    # }},
-
-  #       "layout": {{
-  #   "type": "Split-Screen / Feature-Focus",
-  #   "grid_unit": "8px",
-  #   "components": [
-  #     "Full-width header bar (Primary Blue)",
-  #     "Left column: Problem/Solution Statement (High-contrast text block)",
-  #     "Left column: Interactive 'Feature Cards' with hover-effect styling",
-  #     "Right column: Central 'Core' diagram (Hexagonal or Circular structure)",
-  #     "Right column: Dynamic Metrics footer (3-column stat bar)"
-  #   ]
-  # }},
-
-  #  "layout": {{
-  #   "type": "Hero / Title-Focus",
-  #   "grid_unit": "8px",
-  #   "components": [
-  #     "Background: Subtle geometric gradient (Quantum-inspired)",
-  #     "Center: Large Typographic Title (Playfair Display)",
-  #     "Center: Secondary subtitle with high tracking (letter-spacing)",
-  #     "Bottom-Left: Presenter credentials / Department badge",
-  #     "Bottom-Right: Date & Version control",
-  #     "Bottom Edge: Thick Primary Blue accent bar"
-  #   ]
-  # }}

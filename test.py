@@ -6,44 +6,64 @@ from weasyprint import HTML, CSS
 # - Force page size to match CSS
 # - Hide the #333 body background that's causing overflow
 # - Remove margins
+
+
 extra_css = CSS(string="""
-    @page { 
-        size: 1285px 718px; 
-        margin: 0; 
+    @page {
+        size: 1280px 720px;      /* Match slide dimensions exactly */
+        margin: 0;
     }
-    
+
     html, body {
-        width: 1285px !important;
-        height: 718px !important;
-        overflow: hidden !important;
+        width: 1280px !important;
+        height: 720px !important;
         margin: 0 !important;
         padding: 0 !important;
-        background-color: white !important;
-        /* Fix for merged text */
-        -webkit-font-smoothing: antialiased;
-        font-smooth: always;
-        text-rendering: optimizeLegibility;
+        background: white !important;
     }
 
     .slide {
-        width: 1285px !important;
-        height: 718px !important;
+        width: 1280px !important;
+        height: 720px !important;
+        padding: 70px;            /* Your design padding */
+        margin: 0 !important;
         overflow: hidden !important;
-        display: flex;
-        flex-direction: column;
+        box-sizing: border-box;   /* Padding included in width/height */
+        position: relative;       /* Anchor for absolute children */
+        break-inside: avoid;     /* Prevent page break inside slide */
+        page-break-inside: avoid; /* Legacy support */
+    }
+
+    /* Ensure all content respects boundaries */
+    .slide * {
+        max-width: 100% !important;
+        max-height: 100% !important;
         box-sizing: border-box;
     }
 
-    /* Prevent text from overlapping vertically */
-    p, li, h1, h2, h3 {
-        line-height: 1.4 !important;
-        margin-bottom: 0.5em;
+    /* Images – use object-fit inside explicit containers */
+    .slide img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 
-    /* Prevent characters from squeezing together */
+    /* Font rendering – keep your existing improvements */
     * {
+        -webkit-font-smoothing: antialiased;
+        font-smooth: always;
+        text-rendering: optimizeLegibility;
         letter-spacing: 0.01em !important;
     }
 """)
+
+# IMPORTANT: Add presentational_hints=True to support HTML attributes like 'width'
+HTML("slides.html").write_pdf(
+    "output.pdf", 
+    stylesheets=[extra_css],
+    
+    presentational_hints=True
+)
 # 2. Generate the PDF
 HTML("slides.html").write_pdf("output.pdf", stylesheets=[extra_css])
