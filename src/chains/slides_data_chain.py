@@ -6,16 +6,17 @@ from langchain_core.prompts import PromptTemplate
 
 
 
-llm=get_llm().with_structured_output(Slides)
-
-
-slide_prompt = PromptTemplate(
-    template=SLIDE_DATA_PROMPT,
-    input_variables=["topic", "content"]
-)
 
 def get_slides_data_chain(topic: str, content: str):
     """Generate slide data based on the given topic and content."""
+    llm=get_llm().with_structured_output(Slides)
+
+
+    slide_prompt = PromptTemplate(
+        template=SLIDE_DATA_PROMPT,
+        input_variables=["topic", "content"]
+    )
+
    
     # Create chain
     slides_data_chain = slide_prompt | llm

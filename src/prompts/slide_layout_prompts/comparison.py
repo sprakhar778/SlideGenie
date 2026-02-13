@@ -1,4 +1,4 @@
-SLIDE_COMPARISON_LAYOUT_PROMPT = """
+COMPARISON_SLIDE_LAYOUT_PROMPT = """
 You are an expert presentation design assistant.
 
 Your task is to analyze the user's comparison Topic and Reference Content,

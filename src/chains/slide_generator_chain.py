@@ -30,7 +30,7 @@ def get_slide_generator_chain():
         ]
     )
 
-    agent = slide_prompt | llm | StrOutputParser() | RunnableLambda(clean_html_output)
+    chain = slide_prompt | llm | StrOutputParser() | RunnableLambda(clean_html_output)
 
 
 
@@ -45,7 +45,7 @@ def get_slide_generator_chain():
 
 
     # 2. Now the invoke only needs the variables that AREN'T partialed
-    result = agent.invoke({
+    result = chain.invoke({
         "topic": "Future of AI in Healthcare" ,
         "content": """
 - AI-powered diagnostics

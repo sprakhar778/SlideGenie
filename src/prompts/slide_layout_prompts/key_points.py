@@ -1,4 +1,4 @@
-KEY_POINTS_LAYOUT_PROMPT = """
+KEY_POINTS_SLIDE__LAYOUT_PROMPT = """
 You are an expert presentation design assistant.
 
 Your task is to analyze the user's Topic and Reference Content,

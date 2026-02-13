@@ -1,4 +1,4 @@
-SLIDE_AGENDA_LAYOUT_PROMPT = """
+AGENDA_SLIDE_LAYOUT_PROMPT = """
 You are an expert presentation design assistant.
 
 Your task is to:

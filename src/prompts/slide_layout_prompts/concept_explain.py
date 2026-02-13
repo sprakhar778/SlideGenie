@@ -1,4 +1,4 @@
-CONCEPT_EXPLAIN_LAYOUT_PROMPT = """
+CONCEPT_EXPLAIN_SLIDE_LAYOUT_PROMPT = """
 You are an expert presentation design assistant.
 
 Your task is to analyze the user's Concept Topic and Explanation Content,
