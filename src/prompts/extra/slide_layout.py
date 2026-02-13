@@ -1,15 +1,7 @@
-dict_layout = {
-    "Hero / Title-Focus",
-    "Agenda / Outline",
-    "Key Points / Bullet Focus",
-    "Concept Explanation",
-    "Process / Flow",
-    "Comparison / Contrast",
-    "Visual Emphasis / Image-Led",
-    "Data / Evidence",
-    "Summary / Key Takeaways",
-    "Thank You / Call to Action",
-}
+SLIDE_TYPE_TO_MODULE = { "Hero": "hero", "Agenda": "agenda", "Key Points": "key_points", 
+                        "Concept Explanation": "concept_explain", "Process": "flow", "Comparison": 
+                        "comparison", "Visual Emphasis": "visual_led",
+                         "Data": "evidence", "Summary": "summary", "Thank You": "thanks", }
 
 prompt="""
 # Presentation Slide Types Guide
