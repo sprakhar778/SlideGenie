@@ -1,29 +1,27 @@
-from src.chains.slide_content_chain import get_slide_content_chain
-from src.graph.state import PresentationState
+from src.chains.slide_layout_chain import select_slide_layout
 
-def generate_slide_content_node(state: PresentationState) -> PresentationState:
-    """Node to generate slide content based on the presentation state."""
+def generate_slide_layout_node(state):
+    """Node to select slide layout based on topic, content, and slide type."""
     
     if not state.get("content") or not state.get("topic"):
         raise ValueError("Both 'content' and 'topic' must be provided in the state.")
-    
-    # For simplicity, we will generate content for a single slide type (e.g., "Process")
+
     topic = state["topic"]
     content = state["content"]
-
-    slides = state.get("slides")
-    slide_type = slides[0]["slide_type"] if slides and len(slides) > 0 else "Process"
-
-    # Generate slide content using the chain
-    generated_content = get_slide_content_chain(
-        topic=state["topic"],
-        content=state["content"],
-        slide_type=slide_type,
-      
-       
-    )
     
-    # Update the state with the generated slide content
-    state["slide_content"] = [generated_content]
-    
+    slides = state.get("slides_data")
+
+    for i in range(len(slides)):
+        slide_type = slides[i]["slide_type"] 
+
+        # 🔹 Call layout selection chain
+        slide_layout = select_slide_layout(
+            topic=topic,
+            content=content,
+            slide_type=slide_type
+        )
+
+        # 🔹 Store structured layout inside state
+        state["slide_layout"].appende(slide_layout)
+
     return state

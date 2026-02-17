@@ -60,7 +60,7 @@ Theme
 
  H1:42px Body:20px Scale:1.618
 
-Layout → Grid unit:8px | Slide type:{slide_type} | Components:{components}
+Layout → Layout Name:{layout_name} Grid unit:8px | Slide type:{slide_type} | Components:{components}
 Cognitive → Serial Position Effect | WCAG AA ≥4.5:1
 
 INPUT:

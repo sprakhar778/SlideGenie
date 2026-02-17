@@ -1,8 +1,8 @@
 from src.chains.theme_chain import get_theme_chain
-from src.graph.state import PresentationState
 
 
-def generate_theme_node(state: PresentationState) -> PresentationState:
+
+def generate_theme_node(state):
     """Node to generate theme information based on the presentation state."""
     topic=state.get("topic")
     content=state.get("content")

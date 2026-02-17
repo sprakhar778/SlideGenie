@@ -1,8 +1,8 @@
 from src.chains.slides_data_chain import get_slides_data_chain
-from src.graph.state import PresentationState
 
 
-def generate_slides_data_node(state: PresentationState) -> PresentationState:
+
+def generate_slides_data_node(state):
     """Node to generate slides data based on the presentation state."""
     
     if not state.get("content") or not state.get("topic"):

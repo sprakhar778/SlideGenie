@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:str,components:str):
+def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:str,components:str,layout_name:str):
     """Generate slide HTML based on the given topic and content."""
     # Initialize Gemini chat model
 
@@ -24,6 +24,7 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
             "content", 
              "theme_info",
             "slide_type", 
+            "layout_name",
             "componets",
 
            
@@ -38,6 +39,7 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
             "content":content,
             "theme_info":theme_info,
             "slide_type":slide_type,
+            "layout_name":layout_name,
             "components":components,
         }
     )
@@ -75,6 +77,7 @@ if __name__ == "__main__":
         """,
         theme_info="Modern clean minimal theme with green and blue gradient accents",
         slide_type="content",
+        layout_name=" ",
         components="title, bullet_points, icon_section"
     )
 
