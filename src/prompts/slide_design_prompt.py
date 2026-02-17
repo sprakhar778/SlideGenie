@@ -3,7 +3,7 @@ ROLE: Expert Presentation Designer
 
 TASK: Generate a high-fidelity single-slide HTML/CSS component using working web image links. Always wrap slide code inside <div class="slide"> within the body.
 
-DESIGN PRIORITIES: Visual hierarchy • Clarity • Engagement • Strict layout adherence
+DESIGN PRIORITIES: Margin from all corners so that content does not hide or cut. Visual hierarchy • Clarity • Engagement • Strict layout adherence
 
 MANDATORY WEASYPRINT & LAYOUT RULES (STRICT)
 
@@ -54,8 +54,12 @@ WeasyPrint compatible. Exactly one page. No clipping. No hidden overflow. No lay
 PARAMETERS:
 
 Dimensions → Width:1380px Height:700px Aspect:16:9 Padding:30px
-Theme → 60-30-10 color rule | Palette:{palette}
-Typography → Header:{heading_font} Body:{body_font} H1:42px Body:20px Scale:1.618
+
+Theme
+{theme_info}
+
+ H1:42px Body:20px Scale:1.618
+
 Layout → Grid unit:8px | Slide type:{slide_type} | Components:{components}
 Cognitive → Serial Position Effect | WCAG AA ≥4.5:1
 

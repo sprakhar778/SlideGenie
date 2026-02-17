@@ -31,14 +31,14 @@ def select_slide_layout(topic: str, content: str,slide_type: str):
     return slide_layout
 
 
-if __name__ == "__main__":
-    topic = "The Future of Artificial Intelligence"
-    content = (
+# if __name__ == "__main__":
+#     topic = "The Future of Artificial Intelligence"
+#     content = (
   
-        "Finally, we will look ahead to long-term possibilities such as artificial general intelligence (AGI), superintelligence, and AI alignment challenges. "
-        "The presentation concludes by reflecting on how AI can be harnessed responsibly for positive societal impact, sustainability, scientific discovery, and global problem-solving."
-    )
-    select_slide_layout(topic=topic , content=content , slide_type="Summary")
+#         "Finally, we will look ahead to long-term possibilities such as artificial general intelligence (AGI), superintelligence, and AI alignment challenges. "
+#         "The presentation concludes by reflecting on how AI can be harnessed responsibly for positive societal impact, sustainability, scientific discovery, and global problem-solving."
+#     )
+#     select_slide_layout(topic=topic , content=content , slide_type="Summary")
 
 
 

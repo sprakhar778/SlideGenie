@@ -40,15 +40,15 @@ def get_theme_chain(topic: str, content: Optional[str]):
     return theme_info
 
 
-if __name__ == "__main__":
-    topic = "Sustainable Energy Solutions"
-    content = (
-        "This presentation will cover various sustainable energy solutions, "
-        "including solar, wind, and hydroelectric power. We will discuss the "
-        "benefits of each solution, their environmental impact, and how they "
-        "can be implemented in different regions around the world. The goal "
-        "is to provide a comprehensive overview of sustainable energy options "
-        "and encourage adoption for a greener future."
-    )
+# if __name__ == "__main__":
+#     topic = "Sustainable Energy Solutions"
+#     content = (
+#         "This presentation will cover various sustainable energy solutions, "
+#         "including solar, wind, and hydroelectric power. We will discuss the "
+#         "benefits of each solution, their environmental impact, and how they "
+#         "can be implemented in different regions around the world. The goal "
+#         "is to provide a comprehensive overview of sustainable energy options "
+#         "and encourage adoption for a greener future."
+#     )
 
-    selected_theme = get_theme_chain(topic, content)
+#     selected_theme = get_theme_chain(topic, content)

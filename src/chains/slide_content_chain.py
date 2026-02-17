@@ -30,21 +30,21 @@ def get_slide_content_chain(topic: str, content: str, slide_type: str,descriptio
     return slide_content.slide_content
 
 
-if __name__ == "__main__":
-    # Example usage matching your provided case
-    topic = "The Future of Artificial Intelligence"
-    raw_content = (
-        "We begin by examining the evolution of artificial intelligence, tracing its "
-        "development from early rule-based systems to modern deep learning models. "
-        "This historical context provides a framework for understanding the current state."
-    )
+# if __name__ == "__main__":
+#     # Example usage matching your provided case
+#     topic = "The Future of Artificial Intelligence"
+#     raw_content = (
+#         "We begin by examining the evolution of artificial intelligence, tracing its "
+#         "development from early rule-based systems to modern deep learning models. "
+#         "This historical context provides a framework for understanding the current state."
+#     )
     
-    # Example 1: Process Slide
-    res=get_slide_content_chain(
-        topic=topic, 
-        content=raw_content, 
-        slide_type="Process",
-        description="Chronological progression from rule-based systems to deep learning."
-    )
+#     # Example 1: Process Slide
+#     res=get_slide_content_chain(
+#         topic=topic, 
+#         content=raw_content, 
+#         slide_type="Process",
+#         description="Chronological progression from rule-based systems to deep learning."
+#     )
 
    

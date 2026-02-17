@@ -2,163 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Future of AI in Healthcare</title>
+    <title>Sustainable Energy Transition</title>
     <style>
-        /* MANDATORY RESET & BODY */
-        * {
-            box-sizing: border-box;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
+        /* MANDATORY BODY STYLE */
         body {
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #e5e5e5; /* Neutral background for viewing */
-            font-family: 'Calibri', sans-serif;
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* SLIDE CONTAINER - STRICT DIMENSIONS */
+        /* UNIVERSAL BOX-SIZING */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* FIXED SLIDE CONTAINER */
         .slide {
             width: 1380px;
             height: 700px;
-            padding: 70px;
-          
-           
-            background-color: #FFFFFF;
-            position: relative;
+            padding: 50px;
+            padding-bottom: 40px;
+            background-color: #ffffff;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            border-left: 12px solid #00b09b; /* Green accent */
         }
 
-        /* TYPOGRAPHY */
+        /* HEADER SECTION */
+        header {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
         h1 {
-            font-family: 'Arial', sans-serif;
-            font-weight: 700;
-            font-size: 56px;
-            color: #111827;
+            font-size: 48px; /* Scaled for 1380px width based on H1:42px input + hierarchy */
+            line-height: 1.2;
             margin: 0;
-            line-height: 1.1;
-            letter-spacing: -1px;
+            color: #1a2b3c;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        .subhead {
-            font-family: 'Arial', sans-serif;
-            font-size: 24px;
-            color: #7C3AED;
-            font-weight: 600;
-            margin-top: 16px;
-            margin-bottom: 50px;
+        .subtitle {
+            font-size: 20px;
+            color: #00b09b;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        /* LAYOUT GRID */
-        .content-grid {
+        /* MAIN CONTENT GRID */
+        .content {
             display: grid;
-            grid-template-columns: 1fr 500px;
+            grid-template-columns: 1fr 550px;
             gap: 60px;
-            flex-grow: 1;
-            height: 100%;
+            align-items: center;
         }
 
-        /* LEFT COLUMN: PROCESS TIMELINE */
-        .timeline-container {
+        /* TEXT CONTENT */
+        .text-section {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            height: 460px; /* Fixed height to distribute items */
-            position: relative;
-        }
-
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .icon-box {
-            width: 64px;
-            height: 64px;
-            background-color: #7C3AED;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
         }
 
-        .icon-box span {
-            color: #FFFFFF;
-            font-size: 28px;
-            font-weight: bold;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .text-content {
-            margin-left: 30px;
-        }
-
-        .text-content h2 {
-            font-family: 'Arial', sans-serif;
-            font-size: 28px;
-            color: #111827;
+        ul {
+            list-style: none;
+            padding: 0;
             margin: 0;
-            font-weight: 700;
         }
 
-        .text-content p {
-            font-size: 20px;
-            color: #4B5563;
-            margin: 5px 0 0 0;
-            line-height: 1.4;
-        }
-
-        /* CONNECTING LINE & ARROWS */
-        .connector-line {
-            position: absolute;
-            left: 32px; /* Center of icon-box (64/2) */
-            top: 32px;
-            bottom: 32px;
-            width: 4px;
-            background: #E5E7EB;
-            z-index: 1;
-        }
-
-        .arrow-down {
-            width: 0; 
-            height: 0; 
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 12px solid #7C3AED;
-            margin-left: -6px; /* Center align with line width 4px */
-            position: absolute;
-            left: 50%;
-        }
-
-        /* RIGHT COLUMN: IMAGE */
-        .image-column {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        li {
+            font-size: 24px; /* Body: 20px scaled up for presentation visibility */
+            line-height: 1.5;
+            color: #444;
+            margin-bottom: 24px;
+            padding-left: 40px;
             position: relative;
         }
 
+        /* Custom Gradient Bullets */
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+        }
+
+        li strong {
+            color: #005f6b;
+            font-weight: 600;
+        }
+
+        /* REQUIRED IMAGE WRAPPER (Dimensions adjusted for layout balance) */
         .image-wrapper {
-            width: 500px;
-            height: 460px;
+            width: 550px;
+            height: 400px;
             overflow: hidden;
-            border-radius: 24px;
-            box-shadow: 20px 20px 0px #F3F4F6;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             position: relative;
-            z-index: 2;
         }
 
         .image-wrapper img {
@@ -168,37 +128,45 @@
             display: block;
         }
 
-        /* DECORATIVE ELEMENTS */
-        .bg-shape {
+        /* DECORATIVE OVERLAY ON IMAGE */
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            z-index: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 16px;
+            color: #888;
+            padding-top: 20px;
+        }
+
+        .footer-accent {
+            height: 4px;
+            width: 100px;
+            background: linear-gradient(90deg, #00b09b, #96c93d);
+            border-radius: 2px;
+        }
+
+        /* BACKGROUND DECORATION */
+        .bg-blob {
             position: absolute;
             top: -100px;
-            right: -100px;
-            width: 400px;
-            height: 400px;
-            background: rgba(124, 58, 237, 0.05);
+            right: -50px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(150, 201, 61, 0.05) 0%, rgba(255,255,255,0) 70%);
             border-radius: 50%;
             z-index: 0;
-        }
-
-        .bg-shape-2 {
-            position: absolute;
-            bottom: 50px;
-            left: -50px;
-            width: 300px;
-            height: 300px;
-            background: rgba(124, 58, 237, 0.03);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        /* UTILITY FOR ARROWS BETWEEN ITEMS */
-        .flow-arrow {
-            position: absolute;
-            left: 24px; /* Center of icon box minus half svg width */
-            width: 16px;
-            height: 24px;
-            fill: #7C3AED;
-            z-index: 3;
+            pointer-events: none;
         }
 
     </style>
@@ -206,92 +174,39 @@
 <body>
 
     <div class="slide">
-        <!-- Background Decor -->
-        <div class="bg-shape"></div>
-        <div class="bg-shape-2"></div>
+        <!-- Decorative Background -->
+        <div class="bg-blob"></div>
 
         <!-- Header -->
         <header>
-            <h1>Future of AI in Healthcare</h1>
-            <div class="subhead">Transforming Patient Outcomes</div>
+            <span class="subtitle">Strategic Overview</span>
+            <h1>Sustainable Energy Transition</h1>
         </header>
 
         <!-- Main Content -->
-        <div class="content-grid">
-            
-            <!-- Left: Process Timeline -->
-            <div class="timeline-container">
-                <!-- Vertical Line -->
-                <div class="connector-line"></div>
-
-                <!-- Item 1 -->
-                <div class="timeline-item">
-                    <div class="icon-box">
-                        <span>1</span>
-                    </div>
-                    <div class="text-content">
-                        <h2>AI-Powered Diagnostics</h2>
-                        <p>Enhanced imaging accuracy and speed.</p>
-                    </div>
-                </div>
-
-                <!-- Arrow 1-2 -->
-                <svg class="flow-arrow" style="top: 95px;" viewBox="0 0 24 24">
-                    <path d="M12 21l-12-18h24z" />
-                </svg>
-
-                <!-- Item 2 -->
-                <div class="timeline-item">
-                    <div class="icon-box">
-                        <span>2</span>
-                    </div>
-                    <div class="text-content">
-                        <h2>Predictive Risk Models</h2>
-                        <p>Early identification of high-risk patients.</p>
-                    </div>
-                </div>
-
-                <!-- Arrow 2-3 -->
-                <svg class="flow-arrow" style="top: 225px;" viewBox="0 0 24 24">
-                    <path d="M12 21l-12-18h24z" />
-                </svg>
-
-                <!-- Item 3 -->
-                <div class="timeline-item">
-                    <div class="icon-box">
-                        <span>3</span>
-                    </div>
-                    <div class="text-content">
-                        <h2>Personalized Medicine</h2>
-                        <p>Tailored treatments based on genetic data.</p>
-                    </div>
-                </div>
-
-                <!-- Arrow 3-4 -->
-                <svg class="flow-arrow" style="top: 355px;" viewBox="0 0 24 24">
-                    <path d="M12 21l-12-18h24z" />
-                </svg>
-
-                <!-- Item 4 -->
-                <div class="timeline-item">
-                    <div class="icon-box">
-                        <span>4</span>
-                    </div>
-                    <div class="text-content">
-                        <h2>Workflow Automation</h2>
-                        <p>Streamlining hospital operations efficiently.</p>
-                    </div>
-                </div>
+        <div class="content">
+            <div class="text-section">
+                <ul>
+                    <li><strong>Shift from fossil fuels</strong> to renewable sources</li>
+                    <li>Accelerated <strong>solar and wind power</strong> growth</li>
+                    <li>Comprehensive <strong>grid modernization</strong></li>
+                    <li>Advanced <strong>energy storage</strong> technologies</li>
+                    <li>Alignment with <strong>policy and climate goals</strong></li>
+                </ul>
             </div>
 
-            <!-- Right: Image -->
-            <div class="image-column">
-                <div class="image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="AI Healthcare Technology Interface">
-                </div>
+            <div class="image-wrapper">
+                <div class="image-overlay"></div>
+                <!-- Unsplash Source: Solar Panels / Clean Energy -->
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Solar panels and wind turbines landscape">
             </div>
-
         </div>
+
+        <!-- Footer -->
+        <footer>
+            <div>Clean Energy Initiative 2024</div>
+            <div class="footer-accent"></div>
+        </footer>
     </div>
 
 </body>
