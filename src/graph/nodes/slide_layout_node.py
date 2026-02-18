@@ -1,4 +1,5 @@
-from src.chains.slide_layout_chain import select_slide_layout
+
+from src.helpers.get_layout import get_layout
 
 def generate_slide_layout_node(state):
     """Node to select slide layout based on topic, content, and slide type."""
@@ -12,16 +13,49 @@ def generate_slide_layout_node(state):
     slides = state.get("slides_data")
 
     for i in range(len(slides)):
-        slide_type = slides[i]["slide_type"] 
+        slide=slides[i]
+        slide_type = slide["slide_type"] 
 
         # 🔹 Call layout selection chain
-        slide_layout = select_slide_layout(
-            topic=topic,
-            content=content,
-            slide_type=slide_type
-        )
+        slide_layout = get_layout(slide_type)
 
         # 🔹 Store structured layout inside state
-        state["slide_layout"].appende(slide_layout)
+        slide["layout"]=slide_layout
+    
+   
 
     return state
+
+# if __name__ == "__main__":
+
+#     # Dummy state
+#     test_state = {
+#         "topic": "Artificial Intelligence",
+#         "content": "This presentation explores AI trends and future impact.",
+#         "slides_data": [
+#             {
+#                 "slide_type": "Hero",
+#                 "content": "The Future of AI",
+#                 "description": "Introduction slide"
+#             },
+#             {
+#                 "slide_type": "Comparison",
+#                 "content": "AI vs Human Intelligence",
+#                 "description": "Comparison slide"
+#             },
+#             {
+#                 "slide_type": "Summary",
+#                 "content": "Key Takeaways",
+#                 "description": "Closing summary"
+#             }
+#         ],
+#         "slides": []
+#     }
+
+#     # Run node
+#     updated_state = generate_slide_layout_node(test_state)
+
+#     print("\n---- FINAL OUTPUT ----")
+#     for slide in updated_state["slides_data"]:
+#         print(slide)
+

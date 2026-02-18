@@ -1,130 +1,47 @@
-HERO_SLIDE_LAYOUT_PROMPT = """
-You are an expert presentation design assistant.
-
-Your task is to analyze the user's Topic and Reference Content,
-then select the most appropriate HERO slide layout.
-
-You must return structured output that matches this schema exactly:
-
-SlideLayout(
-    layout_name: str,
-    rationale: str,   # 50–100 words
-    components: List[str]
-)
-
---------------------------------------
-INSTRUCTIONS
---------------------------------------
-
-1. Analyze the Topic and Reference Content carefully.
-2. Identify the intent of the hero slide:
-   - inspirational opener
-   - product introduction
-   - strategic announcement
-   - problem framing
-   - metric-driven impact
-   - minimal formal introduction
-   - time-based narrative
-   - feature highlight
-3. Select the single most appropriate hero layout.
-4. Return:
-   - layout_name → exact layout name string
-   - rationale → 50–100 word explanation of why this layout best fits the topic and presentation intent
-   - components → list of structural elements that define the selected layout
-
-Do NOT:
-- Generate formatted slide content
-- Produce markdown layouts
-- Restate instructions
-- Explain multiple layout options
-- Add commentary outside the structured response
-
-Return only structured data matching the SlideLayout schema.
-
---------------------------------------
-AVAILABLE HERO LAYOUT OPTIONS
---------------------------------------
-
-1. Centered Hero  
-Purpose: Bold, high-impact opening with strong emotional or visual presence  
-Key Components:
-- Full-width background (image or gradient)
-- Centered large title
-- Optional subtitle or tagline
-- Primary call-to-action button
-
-2. Split-Screen Text-Visual  
-Purpose: Balanced introduction combining explanation and imagery  
-Key Components:
-- Left column: Title and subtitle
-- Left column: Short value proposition
-- Right column: Hero image or illustration
-- Optional background accents
-
-3. Minimal Title-Only  
-Purpose: Formal, clean, restrained opening  
-Key Components:
-- Neutral background
-- Large title text
-- Small subtitle or date label
-- Subtle divider element
-
-4. Banner with Supporting Points  
-Purpose: Mission-driven or theme-led introductions  
-Key Components:
-- Full-width header banner
-- Primary title
-- Subtitle or mission statement
-- Horizontal row of 2–3 supporting keywords or icons
-
-5. Problem-Solution Hero  
-Purpose: Framing a challenge and positioning a solution  
-Key Components:
-- Full-width title bar
-- Left column: Problem statement
-- Right column: Solution headline
-- Visual separator or contrast background
-
-6. Icon-Centric Hero  
-Purpose: Symbolic, brand-focused, or conceptual introduction  
-Key Components:
-- Centered or left-aligned title
-- Large central icon or symbol
-- Short descriptive subtitle
-- Soft highlight or radial background
-
-7. Metric-Driven Hero  
-Purpose: Data-first or impact-focused presentations  
-Key Components:
-- Primary title
-- Context-setting subtitle
-- Highlighted key metric/statistic
-- Supporting micro-labels or captions
-
-8. Timeline Introduction Hero  
-Purpose: Time-based narrative or phased journey introduction  
-Key Components:
-- Title introducing timeline narrative
-- Subtitle with date range or phase
-- Horizontal timeline preview
-- Introductory visual or icon
-
-9. Feature-Focus Split Hero  
-Purpose: Product launch or capability-focused opening  
-Key Components:
-- Full-width header bar
-- Left column: Title and short description
-- Left column: 2–3 feature highlights
-- Right column: Central illustrative graphic
-
---------------------------------------
-USER INPUT FORMAT
---------------------------------------
-
-Topic:{topic}
-Reference Content:{content}
-
---------------------------------------
-
-Select the single best hero layout and return only structured output.
-"""
+HERO_SLIDE_LAYOUT = {
+  "1": {
+    "name": "Centered Hero",
+    "purpose": "Bold, high-impact opening with strong emotional or visual presence",
+    "structure": "Full-width background (image or gradient) with centered large title, optional subtitle or tagline, and primary call-to-action button"
+  },
+  "2": {
+    "name": "Split-Screen Text-Visual",
+    "purpose": "Balanced introduction combining explanation and imagery",
+    "structure": "Left column containing title, subtitle, and short value proposition; right column featuring hero image or illustration; optional background accents"
+  },
+  "3": {
+    "name": "Minimal Title-Only",
+    "purpose": "Formal, clean, restrained opening",
+    "structure": "Neutral background with large title text, small subtitle or date label, and subtle divider element"
+  },
+  "4": {
+    "name": "Banner with Supporting Points",
+    "purpose": "Mission-driven or theme-led introductions",
+    "structure": "Full-width header banner containing primary title, subtitle or mission statement, and horizontal row of 2-3 supporting keywords or icons"
+  },
+  "5": {
+    "name": "Problem-Solution Hero",
+    "purpose": "Framing a challenge and positioning a solution",
+    "structure": "Full-width title bar with left column containing problem statement, right column containing solution headline, and visual separator or contrast background"
+  },
+  "6": {
+    "name": "Icon-Centric Hero",
+    "purpose": "Symbolic, brand-focused, or conceptual introduction",
+    "structure": "Centered or left-aligned title with large central icon or symbol, short descriptive subtitle, and soft highlight or radial background"
+  },
+  "7": {
+    "name": "Metric-Driven Hero",
+    "purpose": "Data-first or impact-focused presentations",
+    "structure": "Primary title with context-setting subtitle, highlighted key metric or statistic, and supporting micro-labels or captions"
+  },
+  "8": {
+    "name": "Timeline Introduction Hero",
+    "purpose": "Time-based narrative or phased journey introduction",
+    "structure": "Title introducing timeline narrative, subtitle with date range or phase, horizontal timeline preview, and introductory visual or icon"
+  },
+  "9": {
+    "name": "Feature-Focus Split Hero",
+    "purpose": "Product launch or capability-focused opening",
+    "structure": "Full-width header bar with left column containing title, short description, and 2-3 feature highlights; right column featuring central illustrative graphic"
+  }
+}

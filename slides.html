@@ -2,163 +2,166 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sustainable Energy Transition</title>
+    <title>Future of AI in Healthcare</title>
     <style>
         /* RESET & BASE */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
         body {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             background: #f0f0f0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #1e293b;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* WRAPPER (1380x900) */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* WRAPPER & SLIDE (STRICT DIMENSIONS) */
         .wrapper {
             width: 1380px;
             height: 900px;
             position: relative;
             overflow: hidden;
-            background: #e2e8f0;
+            background: #fff;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* SLIDE (1360x880) */
         .slide {
             width: 1360px;
             height: 880px;
             margin: 10px auto;
-            padding: 60px 60px 40px 60px;
-            background: white;
-            position: relative;
+            padding: 60px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
             overflow: hidden;
+            position: relative;
+            background: white;
             display: flex;
             flex-direction: column;
         }
 
         /* DECORATIVE ELEMENTS */
-        .bg-gradient-blob {
+        .bg-accent {
             position: absolute;
-            top: -100px;
-            right: -100px;
+            top: 0;
+            right: 0;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 70%);
-            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.05), rgba(52, 152, 219, 0.05));
+            border-bottom-left-radius: 100%;
             z-index: 0;
         }
 
-        /* HEADER */
-        header {
-            margin-bottom: 50px;
+        .slide-content {
             position: relative;
             z-index: 1;
-        }
-
-        .eyebrow {
-            font-size: 18px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #0ea5e9; /* Sky Blue */
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        h1 {
-            font-size: 56px;
-            line-height: 1.1;
-            font-weight: 800;
-            color: #0f172a; /* Slate 900 */
-            margin-bottom: 24px;
-            max-width: 900px;
-        }
-
-        .title-accent {
-            width: 120px;
-            height: 6px;
-            background: linear-gradient(90deg, #10b981, #0ea5e9);
-            border-radius: 3px;
-        }
-
-        /* MAIN CONTENT GRID */
-        .content-grid {
+            height: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
-            flex-grow: 1;
-            position: relative;
-            z-index: 1;
         }
 
-        /* LEFT COLUMN: LIST */
-        .list-container {
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 56px;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        p.subtitle {
+            font-size: 24px;
+            color: #7f8c8d;
+            margin: 0 0 50px 0;
+            font-weight: 300;
+            max-width: 90%;
+            line-height: 1.4;
+        }
+
+        /* LEFT COLUMN: CONTENT */
+        .left-col {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 32px;
         }
 
-        .list-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-        }
-
-        .icon-box {
-            width: 56px;
-            height: 56px;
-            background: #f1f5f9;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: #10b981; /* Emerald */
-        }
-
-        .icon-box svg {
-            width: 28px;
-            height: 28px;
-            fill: currentColor;
-        }
-
-        .text-content h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #334155;
-            margin-bottom: 8px;
-        }
-
-        .text-content p {
-            font-size: 20px;
-            line-height: 1.5;
-            color: #64748b;
-        }
-
-        /* RIGHT COLUMN: VISUALS */
-        .visual-container {
+        .feature-list {
             display: flex;
             flex-direction: column;
             gap: 30px;
         }
 
+        .feature-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border-left: 6px solid #3498db;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:nth-child(1) { border-left-color: #2ecc71; }
+        .feature-card:nth-child(2) { border-left-color: #27ae60; }
+        .feature-card:nth-child(3) { border-left-color: #2980b9; }
+        .feature-card:nth-child(4) { border-left-color: #3498db; }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            background: #f4fbf7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+        }
+
+        .icon-box svg {
+            width: 30px;
+            height: 30px;
+            fill: #2c3e50;
+        }
+
+        .feature-text {
+            font-size: 24px;
+            color: #34495e;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* RIGHT COLUMN: IMAGERY */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
         .image-wrapper {
             width: 100%;
-            height: 380px;
+            height: 500px;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             position: relative;
         }
 
@@ -169,88 +172,54 @@
             display: block;
         }
 
-        .image-overlay {
+        .stat-overlay {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 24px;
-            background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
-            color: white;
-        }
-
-        .overlay-text {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        /* CARDS GRID */
-        .cards-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            height: 100%;
-        }
-
-        .stat-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 30px;
+            bottom: -30px;
+            left: 40px;
+            background: white;
+            padding: 25px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            max-width: 80%;
         }
 
-        .stat-card.highlight {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
-            border: none;
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #3498db;
+            line-height: 1;
         }
 
-        .stat-card h4 {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .stat-card.highlight h4 {
-            color: #38bdf8;
-        }
-
-        .stat-card p {
-            font-size: 18px;
+        .stat-label {
+            font-size: 16px;
+            color: #7f8c8d;
             line-height: 1.4;
-            color: #64748b;
-        }
-
-        .stat-card.highlight p {
-            color: #cbd5e1;
+            font-weight: 500;
         }
 
         /* FOOTER */
-        footer {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            right: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 16px;
-            color: #94a3b8;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #bdc3c7;
         }
 
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
+        .footer-brand {
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
     </style>
@@ -259,106 +228,78 @@
 
 <div class="wrapper">
     <div class="slide">
-        <div class="bg-gradient-blob"></div>
-
-        <header>
-            <span class="eyebrow">Strategic Overview</span>
-            <h1>Sustainable Energy Transition</h1>
-            <div class="title-accent"></div>
-        </header>
-
-        <div class="content-grid">
-            <!-- Left Column: Content Points -->
-            <div class="list-container">
+        <div class="bg-accent"></div>
+        
+        <div class="slide-content">
+            <!-- Left Column: Text & List -->
+            <div class="left-col">
+                <h1>The Future of <br><span>AI in Healthcare</span></h1>
+                <p class="subtitle">Transforming patient outcomes through intelligent automation and data-driven precision.</p>
                 
-                <!-- Item 1 -->
-                <div class="list-item">
-                    <div class="icon-box">
-                        <!-- Leaf Icon -->
-                        <svg viewBox="0 0 24 24">
-                            <path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C7,13,11,9,17,8Z"/>
-                        </svg>
+                <div class="feature-list">
+                    <!-- Item 1 -->
+                    <div class="feature-card">
+                        <div class="icon-box" style="background: rgba(46, 204, 113, 0.1);">
+                            <!-- Diagnostic Icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#2ecc71"/>
+                            </svg>
+                        </div>
+                        <div class="feature-text">AI-Powered Diagnostics</div>
                     </div>
-                    <div class="text-content">
-                        <h3>Shift to Renewables</h3>
-                        <p>Decoupling energy production from fossil fuels to reduce carbon emissions significantly.</p>
+
+                    <!-- Item 2 -->
+                    <div class="feature-card">
+                        <div class="icon-box" style="background: rgba(39, 174, 96, 0.1);">
+                            <!-- Predictive Icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="#27ae60"/>
+                            </svg>
+                        </div>
+                        <div class="feature-text">Predictive Patient Risk Models</div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="feature-card">
+                        <div class="icon-box" style="background: rgba(41, 128, 185, 0.1);">
+                            <!-- DNA/Personalized Icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="#2980b9"/> <!-- Simplified generic medical symbol -->
+                                <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25z" fill="#2980b9"/>
+                            </svg>
+                        </div>
+                        <div class="feature-text">Personalized Medicine</div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="feature-card">
+                        <div class="icon-box" style="background: rgba(52, 152, 219, 0.1);">
+                            <!-- Workflow/Cogs Icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" fill="#3498db"/>
+                            </svg>
+                        </div>
+                        <div class="feature-text">Hospital Workflow Automation</div>
                     </div>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="list-item">
-                    <div class="icon-box">
-                        <!-- Sun/Wind Icon -->
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12,7A5,5,0,1,0,17,12,5,5,0,0,0,12,7Zm0,8a3,3,0,1,1,3-3A3,3,0,0,1,12,15ZM2,13H6v2H2Zm16,0h4v2H18Zm-5,5h2v4H13Zm-2,0H9v4h2ZM7.66,6.42l1.41,1.41,1.41-1.41L9.07,5ZM16.34,19l-1.41-1.41,1.41-1.41L17.76,17.59ZM5,9.07,6.42,7.66,5,6.24,3.59,7.66ZM19,9.07l1.41-1.41L19,6.24,17.59,7.66Z"/>
-                        </svg>
-                    </div>
-                    <div class="text-content">
-                        <h3>Solar & Wind Growth</h3>
-                        <p>Rapid expansion of photovoltaic and turbine infrastructure globally.</p>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="list-item">
-                    <div class="icon-box">
-                        <!-- Grid Icon -->
-                        <svg viewBox="0 0 24 24">
-                            <path d="M20,2H4A2,2,0,0,0,2,4V20a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V4A2,2,0,0,0,20,2ZM8,20H4V16H8Zm0-6H4V10H8Zm0-6H4V4H8Zm6,12H10V16h4Zm0-6H10V10h4Zm0-6H10V4h4Zm6,12H16V16h4Zm0-6H16V10h4Zm0-6H16V4h4Z"/>
-                        </svg>
-                    </div>
-                    <div class="text-content">
-                        <h3>Grid Modernization</h3>
-                        <p>Upgrading transmission networks for smart distribution and reliability.</p>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="list-item">
-                    <div class="icon-box">
-                        <!-- Battery Icon -->
-                        <svg viewBox="0 0 24 24">
-                            <path d="M16,20H8a3,3,0,0,1-3-3V7A3,3,0,0,1,8,4h8a3,3,0,0,1,3,3V17A3,3,0,0,1,16,20ZM8,6A1,1,0,0,0,7,7V17a1,1,0,0,0,1,1h8a1,1,0,0,0,1-1V7a1,1,0,0,0-1-1Z M11,2h2V4h-2Z"/>
-                            <rect x="7" y="9" width="10" height="6" rx="1" fill="#10b981" opacity="0.3"/>
-                        </svg>
-                    </div>
-                    <div class="text-content">
-                        <h3>Energy Storage</h3>
-                        <p>Advanced battery technologies to balance intermittent supply and demand.</p>
-                    </div>
-                </div>
-
             </div>
 
             <!-- Right Column: Visuals -->
-            <div class="visual-container">
+            <div class="right-col">
                 <div class="image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1000&auto=format&fit=crop" alt="Wind Turbines in Green Field">
-                    <div class="image-overlay">
-                        <div class="overlay-text">Renewable Capacity +120%</div>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="AI in Healthcare Technology">
                 </div>
-
-                <div class="cards-row">
-                    <div class="stat-card highlight">
-                        <h4>Policy Goals</h4>
-                        <p>International mandates driving net-zero commitments by 2050.</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>Climate Impact</h4>
-                        <p>Direct reduction in greenhouse gases and pollution levels.</p>
-                    </div>
+                <div class="stat-overlay">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Improvement in diagnostic accuracy with AI assistance</div>
                 </div>
             </div>
         </div>
 
-        <footer>
-            <div class="footer-left">
-                <div class="dot"></div>
-                <span>Global Energy Outlook 2024</span>
-            </div>
-            <span>Page 01</span>
-        </footer>
+        <div class="footer">
+            <div class="footer-brand">HealthTech Summit 2024</div>
+            <div>Page 04</div>
+        </div>
     </div>
 </div>
 

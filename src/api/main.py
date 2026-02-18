@@ -85,9 +85,8 @@ def initial_state():
         "content": "",
         "theme_info": "",
         "slides_data": [],
-        "slides_layout": [],
-        "slides_content": [],
-        "slide_content": [],  # for frontend compatibility
+       
+   
         "slides": []
     }
 

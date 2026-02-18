@@ -73,13 +73,12 @@ if __name__ == "__main__":
 
     async def main():
         result = await get_slide_generator_chain(
-            topic="Sustainable Energy Transition",
+            topic="Future of AI in Healthcare",
             content="""
-            - Shift from fossil fuels to renewables
-            - Solar and wind power growth
-            - Grid modernization
-            - Energy storage technologies
-            - Policy and climate goals
+            - AI-powered diagnostics
+            - Predictive patient risk models
+            - Personalized medicine
+            - Hospital workflow automation
             """,
             theme_info="Modern clean minimal theme with green and blue gradient accents",
             slide_type="content",

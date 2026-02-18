@@ -1,139 +1,47 @@
-FLOW_SLIDE_LAYOUT_PROMPT = """
-You are an expert presentation design assistant specializing in process and flow visualization.
-
-Your task is to analyze the user's Topic and Reference Content,
-then select the most appropriate flow-based slide layout.
-
-You must return structured output that matches this schema exactly:
-
-SlideLayout(
-    layout_name: str,
-    rationale: str,   # 50–100 words
-    components: List[str]
-)
-
---------------------------------------
-INSTRUCTIONS
---------------------------------------
-
-1. Carefully analyze the Topic and Reference Content.
-2. Determine the structural flow type:
-   - linear sequence
-   - vertical progression
-   - chronological evolution
-   - feature-driven process
-   - circular or iterative loop
-   - cross-functional workflow
-   - modular step flow
-   - problem-to-solution journey
-   - data-driven process explanation
-3. Select the single most appropriate layout from the list below.
-4. Provide:
-   - layout_name → exact layout name string
-   - rationale → 50–100 word explanation of why this layout best represents the process structure
-   - components → list of key structural components that define the chosen layout
-
-Do NOT:
-- Generate formatted slides
-- Add markdown layouts
-- Restate instructions
-- Compare multiple layouts
-- Add extra commentary
-
-Return only valid structured data matching the SlideLayout schema.
-
---------------------------------------
-AVAILABLE FLOW LAYOUT OPTIONS
---------------------------------------
-
-1. Linear Timeline  
-Best for clearly sequential, start-to-finish processes.
-Components:
-- Full-width header bar
-- Horizontal timeline with step nodes
-- Step labels with icons
-- Optional progress indicator
-- Footer notes or CTA
-
-2. Vertical Stepper  
-Best for guided walkthroughs or instructional processes.
-Components:
-- Full-width header bar
-- Left-aligned vertical stepper
-- Numbered or icon-based steps
-- Expandable description panels
-- Right-side supporting visuals
-
-3. Split-Screen Chronological  
-Best for historical progression or staged evolution.
-Components:
-- Full-width header bar
-- Left column: Chronological list with icons
-- Left column: Year/Stage badges
-- Right column: Visual container with subtle box-shadow
-
-4. Split-Screen Feature Flow  
-Best for explaining feature-driven workflows or product flows.
-Components:
-- Full-width header bar
-- Left column: Process explanation blocks
-- Left column: Interactive feature cards
-- Right column: Central flow diagram
-- Right column: Key metrics or outcomes bar
-
-5. Circular Process Loop  
-Best for iterative cycles, feedback systems, or continuous improvement.
-Components:
-- Full-width header bar
-- Central circular or radial diagram
-- Step nodes arranged in a loop
-- Hover or callout descriptions
-- Legend or key below diagram
-
-6. Swimlane Flow  
-Best for cross-functional processes involving multiple roles or systems.
-Components:
-- Full-width header bar
-- Horizontal swimlanes by role or system
-- Sequential process steps per lane
-- Connecting arrows between lanes
-- Footer with assumptions or constraints
-
-7. Card-Based Flow  
-Best for modular step-based flows with equal emphasis.
-Components:
-- Full-width header bar
-- Grid of step cards
-- Each card: icon, title, short description
-- Directional arrows between cards
-- Highlight card for current/active step
-
-8. Problem-to-Outcome Flow  
-Best for storytelling from challenge to result.
-Components:
-- Full-width header bar
-- Left section: Problem statement
-- Middle section: Process stages
-- Right section: Outcomes or benefits
-- Directional flow arrows across sections
-
-9. Data-Driven Process  
-Best for analytics-heavy workflows or KPI-based processes.
-Components:
-- Full-width header bar
-- Left column: Process steps list
-- Right column: Charts or metrics per step
-- Inline annotations for insights
-- Bottom summary or KPI strip
-
---------------------------------------
-USER INPUT FORMAT
---------------------------------------
-
-Topic:{topic}
-Reference Content:{content}
-
---------------------------------------
-
-Select the single best layout and return only structured output.
-"""
+FLOW_SLIDE_LAYOUT = {
+  "1": {
+    "name": "Linear Timeline",
+    "purpose": "Best for clearly sequential, start-to-finish processes.",
+    "structure": "Full-width header bar with horizontal timeline featuring step nodes, step labels with icons, optional progress indicator, and footer notes or CTA"
+  },
+  "2": {
+    "name": "Vertical Stepper",
+    "purpose": "Best for guided walkthroughs or instructional processes.",
+    "structure": "Full-width header bar with left-aligned vertical stepper containing numbered or icon-based steps, expandable description panels, and right-side supporting visuals"
+  },
+  "3": {
+    "name": "Split-Screen Chronological",
+    "purpose": "Best for historical progression or staged evolution.",
+    "structure": "Full-width header bar with left column featuring chronological list with icons and year/stage badges; right column featuring visual container with subtle box-shadow"
+  },
+  "4": {
+    "name": "Split-Screen Feature Flow",
+    "purpose": "Best for explaining feature-driven workflows or product flows.",
+    "structure": "Full-width header bar with left column containing process explanation blocks and interactive feature cards; right column featuring central flow diagram and key metrics or outcomes bar"
+  },
+  "5": {
+    "name": "Circular Process Loop",
+    "purpose": "Best for iterative cycles, feedback systems, or continuous improvement.",
+    "structure": "Full-width header bar with central circular or radial diagram, step nodes arranged in a loop, hover or callout descriptions, and legend or key below diagram"
+  },
+  "6": {
+    "name": "Swimlane Flow",
+    "purpose": "Best for cross-functional processes involving multiple roles or systems.",
+    "structure": "Full-width header bar with horizontal swimlanes organized by role or system, sequential process steps per lane, connecting arrows between lanes, and footer with assumptions or constraints"
+  },
+  "7": {
+    "name": "Card-Based Flow",
+    "purpose": "Best for modular step-based flows with equal emphasis.",
+    "structure": "Full-width header bar with grid of step cards, each containing icon, title, and short description; directional arrows between cards; highlight card for current or active step"
+  },
+  "8": {
+    "name": "Problem-to-Outcome Flow",
+    "purpose": "Best for storytelling from challenge to result.",
+    "structure": "Full-width header bar with left section featuring problem statement, middle section featuring process stages, right section featuring outcomes or benefits, and directional flow arrows across sections"
+  },
+  "9": {
+    "name": "Data-Driven Process",
+    "purpose": "Best for analytics-heavy workflows or KPI-based processes.",
+    "structure": "Full-width header bar with left column featuring process steps list, right column featuring charts or metrics per step, inline annotations for insights, and bottom summary or KPI strip"
+  }
+}

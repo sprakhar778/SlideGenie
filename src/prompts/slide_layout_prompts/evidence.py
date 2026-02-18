@@ -1,140 +1,47 @@
-EVIDENCE_SLIDE_LAYOUT_PROMPT = """
-You are an expert presentation design assistant specializing in evidence-based slides.
-
-Your task is to analyze the user's Topic and Reference Content,
-then select the most appropriate evidence slide layout.
-
-You must return structured output matching this schema exactly:
-
-SlideLayout(
-    layout_name: str,
-    rationale: str,   # 50–100 words
-    components: List[str]
-)
-
---------------------------------------
-INSTRUCTIONS
---------------------------------------
-
-1. Analyze the Topic and Reference Content carefully.
-2. Determine the evidence structure type:
-   - chronological proof
-   - metric comparison
-   - before-after validation
-   - multi-point supporting evidence
-   - claim-to-proof mapping
-   - narrative data story
-   - visual-first impact
-   - source credibility focus
-   - KPI dashboard snapshot
-3. Select the single most appropriate layout from the list below.
-4. Return:
-   - layout_name → exact key name from the layout list
-   - rationale → 50–100 word explanation of structural fit
-   - components → list of layout components exactly as defined
-
-Do NOT:
-- Generate slide content
-- Format in markdown
-- Output multiple layouts
-- Add commentary
-- Modify component wording
-
-Return only valid structured data matching the SlideLayout schema.
-
---------------------------------------
-AVAILABLE EVIDENCE LAYOUTS
---------------------------------------
-
-1. Chronological Evidence Split
-Type: Split-Screen / Timeline Focus
-Components:
-- Full-width header bar
-- Vertical timeline with icons
-- Year / phase badges
-- Evidence detail cards
-- Supporting visuals or charts
-
-2. Metric-Driven Comparison
-Type: Two-Column / Quantitative Comparison
-Components:
-- Full-width header bar
-- Key metric list with icons
-- Highlighted benchmark values
-- Bar / line / area charts
-- Insight callout box
-
-3. Before-After Proof
-Type: Split-Screen / Before-After
-Components:
-- Full-width header bar
-- 'Before' state data
-- Baseline metrics
-- 'After' state data
-- Improvement indicators (arrows, deltas)
-
-4. Evidence Card Grid
-Type: Grid-Based / Evidence Tiles
-Components:
-- Full-width header bar
-- 2x2 or 3x2 grid of evidence cards
-- Metric + short explanation
-- Optional icon or micro-chart per card
-- Footer: Summary insight strip
-
-5. Claim-to-Evidence Mapping
-Type: Split-Screen / Argument Mapping
-Components:
-- Full-width header bar
-- Core claims or hypotheses
-- Claim badges
-- Evidence blocks mapped per claim
-- Confidence or strength indicators
-
-6. Data Story Flow
-Type: Vertical Flow / Narrative Data
-Components:
-- Full-width header bar
-- Sequential data sections
-- Chart + explanation
-- Progress indicators between sections
-- Conclusion insight panel
-
-7. Visual-First Evidence
-Type: Split-Screen / Visual Emphasis
-Components:
-- Full-width header bar
-- Minimal text evidence summary
-- Key takeaway highlights
-- Large primary chart or visualization
-- Annotation overlays
-
-8. Source & Validation Layout
-Type: Two-Column / Credibility Focus
-Components:
-- Full-width header bar
-- Data findings
-- Key statistics
-- Sources list
-- Methodology or validation notes
-
-9. Evidence Dashboard Snapshot
-Type: Dashboard / KPI Snapshot
-Components:
-- Full-width header bar
-- KPI stat cards (3–4)
-- Primary chart
-- Secondary charts or tables
-- Insight or recommendation strip
-
---------------------------------------
-USER INPUT FORMAT
---------------------------------------
-
-Topic:{topic}
-Reference Content:{content}
-
---------------------------------------
-
-Select the single best layout and return only structured output.
-"""
+EVIDENCE_SLIDE_LAYOUT = {
+  "1": {
+    "name": "Chronological Evidence Split",
+    "purpose": "Split-Screen / Timeline Focus",
+    "structure": "Full-width header bar with vertical timeline icons, year/phase badges, evidence detail cards, and supporting visuals or charts"
+  },
+  "2": {
+    "name": "Metric-Driven Comparison",
+    "purpose": "Two-Column / Quantitative Comparison",
+    "structure": "Full-width header bar with key metric list and icons, highlighted benchmark values, bar/line/area charts, and insight callout box"
+  },
+  "3": {
+    "name": "Before-After Proof",
+    "purpose": "Split-Screen / Before-After",
+    "structure": "Full-width header bar with 'Before' state data and baseline metrics on left, 'After' state data on right, and improvement indicators including arrows and deltas"
+  },
+  "4": {
+    "name": "Evidence Card Grid",
+    "purpose": "Grid-Based / Evidence Tiles",
+    "structure": "Full-width header bar with 2x2 or 3x2 grid of evidence cards, each containing metric + short explanation, optional icon or micro-chart per card, and footer with summary insight strip"
+  },
+  "5": {
+    "name": "Claim-to-Evidence Mapping",
+    "purpose": "Split-Screen / Argument Mapping",
+    "structure": "Full-width header bar with core claims or hypotheses, claim badges, evidence blocks mapped per claim, and confidence or strength indicators"
+  },
+  "6": {
+    "name": "Data Story Flow",
+    "purpose": "Vertical Flow / Narrative Data",
+    "structure": "Full-width header bar with sequential data sections containing chart + explanation, progress indicators between sections, and conclusion insight panel"
+  },
+  "7": {
+    "name": "Visual-First Evidence",
+    "purpose": "Split-Screen / Visual Emphasis",
+    "structure": "Full-width header bar with minimal text evidence summary, key takeaway highlights, large primary chart or visualization, and annotation overlays"
+  },
+  "8": {
+    "name": "Source & Validation Layout",
+    "purpose": "Two-Column / Credibility Focus",
+    "structure": "Full-width header bar with data findings and key statistics, accompanied by sources list and methodology or validation notes"
+  },
+  "9": {
+    "name": "Evidence Dashboard Snapshot",
+    "purpose": "Dashboard / KPI Snapshot",
+    "structure": "Full-width header bar with KPI stat cards (3–4), primary chart, secondary charts or tables, and insight or recommendation strip"
+  }
+}
