@@ -42,7 +42,7 @@ def initial_state():
         "slides_data": [],
        
    
-        "slides_code": []
+    
     }
 
 
