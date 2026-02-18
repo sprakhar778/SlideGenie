@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artificial Intelligence Concept Breakdown</title>
+    <style>
+        /* MANDATORY RESET & BODY SETUP */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0; /* Neutral background for viewing context */
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* FIXED SLIDE CONTAINER */
+        .slide {
+            width: 1380px;
+            height: 900px;
+            padding: 50px 60px;
+            background-color: #F2F2F2; /* Primary Theme Color */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* HEADER SECTION */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            border-bottom: 4px solid #028090; /* Secondary Theme Color */
+            padding-bottom: 20px;
+        }
+
+        .header-title h1 {
+            font-family: 'DejaVu Sans Bold', sans-serif;
+            font-size: 52px;
+            color: #028090;
+            margin: 0;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-meta {
+            font-size: 18px;
+            color: #02C39A; /* Accent Theme Color */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* INTRO SECTION */
+        .intro-section {
+            margin-bottom: 50px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .intro-bar {
+            width: 8px;
+            height: 80px;
+            background-color: #02C39A;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+
+        .intro-text {
+            font-size: 24px;
+            line-height: 1.5;
+            color: #333333;
+            max-width: 1100px;
+        }
+
+        .intro-text strong {
+            color: #028090;
+            font-family: 'DejaVu Sans Bold', sans-serif;
+        }
+
+        /* CARD GRID SYSTEM */
+        .card-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        .card {
+            flex: 1;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-top: 8px solid #028090;
+        }
+
+        /* IMAGE WRAPPER (REQUIRED) */
+        .image-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-family: 'DejaVu Sans Bold', sans-serif;
+            font-size: 22px;
+            color: #028090;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F2F2F2;
+        }
+
+        .card-body {
+            font-size: 18px;
+            line-height: 1.45;
+            color: #555555;
+            margin: 0;
+        }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dcdcdc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #888888;
+        }
+
+        .footer-tag {
+            background-color: #028090;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <h1>Artificial Intelligence</h1>
+            </div>
+            <div class="header-meta">
+                Tech Innovation Series
+            </div>
+        </div>
+
+        <!-- Intro Block -->
+        <div class="intro-section">
+            <div class="intro-bar"></div>
+            <div class="intro-text">
+                <strong>Core Definition:</strong> AI refers to the engineering of computer systems capable of performing tasks that traditionally require human intelligence, such as understanding natural language and solving complex problems.
+            </div>
+        </div>
+
+        <!-- Card Grid -->
+        <div class="card-grid">
+            
+            <!-- Card 1: Foundations -->
+            <div class="card">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Neural Networks and Data">
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Technological Foundations</h2>
+                    <p class="card-body">
+                        Utilizes sophisticated techniques—including machine learning, deep learning, and neural networks—to enable systems to learn from data and iteratively improve performance.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Applications -->
+            <div class="card">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Robotics and Automation">
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Diverse Applications</h2>
+                    <p class="card-body">
+                        Deployed across critical sectors, ranging from advanced diagnostics in healthcare and fraud detection in finance to autonomous vehicles and virtual assistants.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Implications -->
+            <div class="card">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1558494949-efc0257bb3af?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Global Network and Ethics">
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Strategic Implications</h2>
+                    <p class="card-body">
+                        Transforms industries by maximizing efficiency while highlighting the urgent need for ethical governance regarding data privacy, algorithmic bias, and responsible usage.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>Concept Breakdown: 01</span>
+            <span class="footer-tag">FUTURE TECH</span>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -2,10 +2,10 @@ from src.prompts.slide_content_prompt import SLIDE_CONTENT_PROMPT
 from src.llm.llm_provider import get_llm
 from langchain_core.prompts import PromptTemplate
 from src.models.slide_content_models import SlideContent
+import asyncio
 
 
-
-def get_slide_content_chain(topic: str, content: str, slide_type: str,description: str):
+async def get_slide_content_chain(topic: str, content: str, slide_type: str,description: str):
     """Generate slide content based on the given topic, content, and slide type."""
    
     # Initialize LLM with structured output

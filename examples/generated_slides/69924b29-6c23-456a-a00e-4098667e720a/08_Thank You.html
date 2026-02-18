@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artificial Intelligence Slide</title>
+    <style>
+        /* MANDATORY RESET & BODY */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: #e0e0e0; /* Neutral background for viewing context */
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* SLIDE CONTAINER */
+        .slide {
+            width: 1380px;
+            height: 900px;
+            padding: 0; /* Reset padding to handle split layout manually */
+            overflow: hidden;
+            position: relative;
+            background-color: #F2F2F2; /* Primary 60% */
+            display: grid;
+            grid-template-columns: 780px 600px; /* Split Screen: Left Content, Right Visual */
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        /* LEFT COLUMN */
+        .content-column {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-weight: bold;
+            font-size: 56px;
+            line-height: 1.1;
+            color: #028090; /* Secondary 30% */
+            margin: 0 0 16px 0;
+        }
+
+        h2 {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-weight: normal;
+            font-size: 28px;
+            color: #444;
+            margin: 0 0 40px 0;
+            border-left: 6px solid #02C39A; /* Accent 10% */
+            padding-left: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #333;
+            margin: 0 0 24px 0;
+        }
+
+        strong {
+            color: #028090;
+        }
+
+        /* ACTION AREA / COMPETENCIES (Simulating CTA Buttons) */
+        .action-area {
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 16px;
+            display: block;
+            font-weight: bold;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card {
+            flex: 1;
+            background: #FFFFFF;
+            padding: 24px;
+            border-radius: 8px;
+            border-top: 4px solid #02C39A; /* Accent */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            color: #028090;
+            margin: 0 0 10px 0;
+        }
+
+        .card p {
+            font-size: 16px;
+            margin: 0;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* FOOTER NOTE */
+        .strategic-outlook {
+            font-size: 16px;
+            color: #666;
+            background: rgba(2, 128, 144, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #028090;
+        }
+
+        /* RIGHT COLUMN */
+        .visual-column {
+            position: relative;
+            height: 100%;
+            background-color: #028090;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+            mix-blend-mode: overlay;
+        }
+
+        /* OVERLAY CARD ON IMAGE */
+        .overlay-card {
+            position: absolute;
+            bottom: 60px;
+            left: -40px; /* Overlap effect */
+            width: 540px;
+            background: #FFFFFF;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-right: 8px solid #02C39A;
+            z-index: 10;
+        }
+
+        .overlay-card h3 {
+            font-size: 22px;
+            color: #028090;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .overlay-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overlay-list li {
+            font-size: 18px;
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            color: #444;
+        }
+
+        .overlay-list li::before {
+            content: "•";
+            color: #02C39A;
+            font-weight: bold;
+            font-size: 24px;
+            position: absolute;
+            left: 0;
+            top: -4px;
+        }
+
+        /* DECORATIVE ELEMENTS */
+        .tech-grid {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <!-- Left Column: Message & Action -->
+        <div class="content-column">
+            <h1>Artificial Intelligence</h1>
+            <h2>Systems, Applications, and Impact</h2>
+            
+            <p>
+                AI represents the development of computer systems capable of performing tasks requiring human intelligence. Leveraging machine learning and neural networks, these systems continuously improve performance over time.
+            </p>
+
+            <div class="action-area">
+                <span class="section-label">Core Competencies</span>
+                <div class="cards-container">
+                    <!-- Primary "Action" Block -->
+                    <div class="card">
+                        <h3>Cognitive Processing</h3>
+                        <p>Learning from data, recognizing complex patterns, and understanding natural language.</p>
+                    </div>
+                    <!-- Secondary "Action" Block -->
+                    <div class="card">
+                        <h3>Operational Execution</h3>
+                        <p>Solving intricate problems and executing autonomous decisions via advanced algorithms.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="strategic-outlook">
+                <strong>Strategic Outlook:</strong> As AI evolves, it transforms industries and increases efficiency, necessitating a focus on ethics, privacy, and responsible use.
+            </div>
+        </div>
+
+        <!-- Right Column: Visual -->
+        <div class="visual-column">
+            <div class="tech-grid"></div>
+            <div class="image-wrapper">
+                <!-- Abstract Tech Image -->
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop" alt="Artificial Intelligence Abstract Visualization">
+            </div>
+
+            <!-- Overlay Content -->
+            <div class="overlay-card">
+                <h3>Industry Applications</h3>
+                <ul class="overlay-list">
+                    <li><strong>Critical Sectors:</strong> Diagnostics in healthcare, fraud detection in finance, and autonomous transport.</li>
+                    <li><strong>Everyday Utility:</strong> Virtual assistants and personalized recommendation engines.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

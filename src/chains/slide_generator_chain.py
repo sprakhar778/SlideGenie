@@ -6,10 +6,11 @@ from src.prompts.slide_design_prompt import SLIDE_DESIGN_PROMPT
 from src.llm.llm_provider import get_llm
 from src.helpers.clean_text import clean_html_output
 from dotenv import load_dotenv
+import asyncio
 load_dotenv()
 
 
-def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:str,components:str,layout_name:str):
+async def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:str,components:str,layout_name:str):
     """Generate slide HTML based on the given topic and content."""
     # Initialize Gemini chat model
 
@@ -25,7 +26,7 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
              "theme_info",
             "slide_type", 
             "layout_name",
-            "componets",
+            "components",
 
            
         ]
@@ -43,6 +44,7 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
             "components":components,
         }
     )
+    return result
 
 
 
@@ -52,7 +54,7 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
     # 2. Now the invoke only needs the variables that AREN'T partialed
   
 
-    return result
+
 
 # -------- Run --------
 # result = agent.invoke({
@@ -65,24 +67,30 @@ def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:st
 #     """
 # })
 # Updated topic: Sustainable Energy Transition
+import asyncio
+
 if __name__ == "__main__":
-    result = get_slide_generator_chain(
-        topic="Sustainable Energy Transition",
-        content="""
-        - Shift from fossil fuels to renewables
-        - Solar and wind power growth
-        - Grid modernization
-        - Energy storage technologies
-        - Policy and climate goals
-        """,
-        theme_info="Modern clean minimal theme with green and blue gradient accents",
-        slide_type="content",
-        layout_name=" ",
-        components="title, bullet_points, icon_section"
-    )
 
-    # -------- Save HTML --------
-    with open("slides.html", "w", encoding="utf-8") as f:
-        f.write(result)
+    async def main():
+        result = await get_slide_generator_chain(
+            topic="Sustainable Energy Transition",
+            content="""
+            - Shift from fossil fuels to renewables
+            - Solar and wind power growth
+            - Grid modernization
+            - Energy storage technologies
+            - Policy and climate goals
+            """,
+            theme_info="Modern clean minimal theme with green and blue gradient accents",
+            slide_type="content",
+            layout_name=" ",
+            components="title, bullet_points, icon_section"
+        )
 
-    print("✅ slides.html generated successfully")
+        # Save HTML
+        with open("slides.html", "w", encoding="utf-8") as f:
+            f.write(result)
+
+        print("✅ slides.html generated successfully")
+
+    asyncio.run(main())

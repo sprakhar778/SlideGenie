@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artificial Intelligence Slide</title>
+    <style>
+        /* MANDATORY RESET & BODY */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: #333; /* Dark background for browser view to pop the slide */
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
+        /* UNIVERSAL BOX-SIZING */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* FIXED CONTAINER (.slide) */
+        .slide {
+            width: 1380px;
+            height: 900px;
+            padding: 30px;
+            padding-bottom: 40px;
+            background-color: #F2F2F2; /* Primary: Off-white */
+            overflow: hidden;
+            position: relative;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* THEME COLORS & TYPOGRAPHY */
+        /* 
+           Primary: #F2F2F2 
+           Secondary: #028090 (Teal)
+           Accent: #02C39A (Mint)
+        */
+
+        h1 {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-weight: bold;
+            font-size: 42px;
+            color: #028090;
+            margin: 0 0 20px 0;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-weight: bold;
+            font-size: 24px;
+            color: #028090;
+            margin: 0 0 10px 0;
+        }
+
+        p, li {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 20px;
+            color: #333333;
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+
+        strong {
+            color: #028090;
+        }
+
+        /* LAYOUT COMPONENTS */
+        
+        /* Full-width header bar (relative to content area) */
+        .header-bar {
+            width: 100%;
+            height: 60px;
+            border-bottom: 4px solid #028090;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 18px;
+            font-weight: bold;
+            color: #028090;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .topic-tag {
+            font-size: 16px;
+            color: #666;
+            background: #e0e0e0;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        /* Split Screen Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 550px 1fr;
+            gap: 60px;
+            flex-grow: 1;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Left Column: Image */
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .image-wrapper {
+            width: 550px;
+            height: 700px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Overlay on image for tech feel */
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(2, 128, 144, 0.4), transparent);
+            z-index: 1;
+        }
+
+        /* Right Column: Content */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 20px;
+        }
+
+        .intro-text {
+            font-size: 22px;
+            margin-bottom: 30px;
+            border-left: 5px solid #02C39A;
+            padding-left: 20px;
+            color: #222;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #028090;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-title::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #02C39A;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .feature-desc {
+            font-size: 18px;
+            color: #444;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        /* CTA Button */
+        .cta-container {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #02C39A; /* Accent */
+            color: #004d57; /* Darker shade of teal for contrast on Mint */
+            font-size: 20px;
+            font-weight: bold;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(2, 195, 154, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <!-- Header Bar -->
+        <div class="header-bar">
+            <div class="brand">Tech Innovation Series</div>
+            <div class="topic-tag">Future Tech</div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            
+            <!-- Left Column: Hero Image -->
+            <div class="left-col">
+                <div class="image-wrapper">
+                    <div class="image-overlay"></div>
+                    <!-- Tech/AI Abstract Image -->
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop" alt="Artificial Intelligence Neural Network Visualization">
+                </div>
+            </div>
+
+            <!-- Right Column: Narrative & CTA -->
+            <div class="right-col">
+                <h1>Artificial Intelligence</h1>
+                
+                <div class="intro-text">
+                    AI refers to the creation of computer systems designed to execute tasks typically requiring human cognition, such as understanding natural language and solving complex problems.
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-title">Core Mechanisms</div>
+                        <p class="feature-desc">Systems leverage machine learning, deep learning, and neural networks to analyze data and recognize patterns.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-title">Cross-Industry Utility</div>
+                        <p class="feature-desc">Applications span medical diagnostics, autonomous vehicles, financial fraud detection, and virtual assistants.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-title">Strategic Implications</div>
+                        <p class="feature-desc">Organizations must address ethical challenges regarding data privacy, bias mitigation, and responsible usage.</p>
+                    </div>
+                </div>
+
+                <div class="cta-container">
+                    <a href="#" class="cta-button">Explore AI Strategy</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

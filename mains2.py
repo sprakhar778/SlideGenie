@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
-from prompts.extra.designer_prompt import DESIGNER_PROMPT
+
 from src.prompts.slide_design_prompt import SLIDE_DESIGN_PROMPT 
 import re
 load_dotenv()
@@ -106,7 +106,7 @@ Today's AI utilizes multi-layered neural networks to process vast amounts of uns
 # • Quantum Key Distribution (QKD) for theoretically secure key exchange  
 # • Real-time AI threat hunting for continuous anomaly detection  
 # • Biometric blockchain authentication for decentralized identity trust  
-# • Automated incident response loops to reduce mean-time-to-contain  
+# • Automated incident response loops tofind . -name "__pycache__" -type d -exec rm -r {} + reduce mean-time-to-contain  
 # • Cloud-native micro-segmentation enforcing Zero Trust principles  
 # • Hardware-level security modules (HSMs/TPMs) for root-of-trust enforcement  
 
