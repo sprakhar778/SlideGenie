@@ -7,9 +7,6 @@ def generate_slide_layout_node(state):
     if not state.get("content") or not state.get("topic"):
         raise ValueError("Both 'content' and 'topic' must be provided in the state.")
 
-    topic = state["topic"]
-    content = state["content"]
-    
     slides = state.get("slides_data")
 
     for i in range(len(slides)):
@@ -17,7 +14,7 @@ def generate_slide_layout_node(state):
         slide_type = slide["slide_type"] 
 
         # 🔹 Call layout selection chain
-        slide_layout = get_layout(slide_type)
+        slide_layout = get_layout(slide_type,k=1)
 
         # 🔹 Store structured layout inside state
         slide["layout"]=slide_layout
@@ -59,3 +56,4 @@ def generate_slide_layout_node(state):
 #     for slide in updated_state["slides_data"]:
 #         print(slide)
 
+# python -m src.graph.nodes.slide_layout_node

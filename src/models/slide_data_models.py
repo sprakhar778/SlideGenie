@@ -9,13 +9,14 @@ class Slide(BaseModel):
         ...,
         description="Type of the slide, selected from predefined slide categories"
     )
+   
+    description: str | None = Field(
+        None,
+        description="Optional explanation or intent of the slide on 50-60 words"
+    )
     content: str = Field(
         ...,
         description="Main textual content of the slide"
-    )
-    description: str | None = Field(
-        None,
-        description="Optional explanation or intent of the slide on 100-150 words"
     )
 
 

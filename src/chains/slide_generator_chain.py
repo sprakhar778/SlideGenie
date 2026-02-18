@@ -10,9 +10,13 @@ import asyncio
 load_dotenv()
 
 
-async def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_type:str,components:str,layout_name:str):
+async def get_slide_generator_chain(topic:str,theme_info:str,slide_data):
     """Generate slide HTML based on the given topic and content."""
     # Initialize Gemini chat model
+    slide_type=slide_data["slide_type"]
+    slide_content=slide_data["content"]
+    slide_description=slide_data["description"]
+    slide_layout=slide_data["layout"]
 
     llm=get_llm()
 
@@ -22,11 +26,13 @@ async def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_t
         template=SLIDE_DESIGN_PROMPT,
         input_variables=[
             "topic", 
-            "content", 
-             "theme_info",
-            "slide_type", 
-            "layout_name",
-            "components",
+            "slide_content",
+            "theme_info",
+            "slide_type",
+            "slide_layout",
+
+           
+
 
            
         ]
@@ -37,11 +43,11 @@ async def get_slide_generator_chain(topic:str,content:str,theme_info:str,slide_t
     result=chain.invoke(
         {
             "topic":topic,
-            "content":content,
+            "content":slide_content,
             "theme_info":theme_info,
             "slide_type":slide_type,
-            "layout_name":layout_name,
-            "components":components,
+            "slide_layout":slide_layout
+           
         }
     )
     return result

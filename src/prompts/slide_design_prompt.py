@@ -86,12 +86,12 @@ Dimensions → Outer wrapper: 1380×900 | Inner slide: 1360×880 | Padding: 30px
 Theme: {theme_info}
 Typography → H1: 42px | Body: 20px | Scale: 1.618
 
-Layout → Layout Name: {layout_name} | Grid unit: 8px | Slide type: {slide_type} | Components: {components}
+Layout → {slide_layout} | Grid unit: 8px | Slide type: {slide_type} | 
 Cognitive → Serial Position Effect | WCAG AA ≥4.5:1
 
 INPUT:
-Topic: {topic}
-Content: {content}
+Topic of overall presentaion: {topic}
+Content for current slide: {slide_content}
 
 OUTPUT:
 Single self-contained HTML file. Internal <style> only. Code only. No markdown. No explanations. Pure slide aesthetic with wrapper containing the slide.

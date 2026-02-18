@@ -23,7 +23,7 @@ SLIDE_TYPE_TO_LAYOUT = {
 }
 
 
-def get_layout(slide_type):
+def get_layout(slide_type,k=None):
     """
     Get the layout json for a given slide type.
     
@@ -34,7 +34,10 @@ def get_layout(slide_type):
     if not layout:
         raise ValueError(f"Invalid slide type: {slide_type}")
     
-    random_key = random.choice(list(layout.keys()))
+    if k and 1<=k<=len(list(layout.keys())):
+        random_key=str(k)
+    else:
+        random_key = random.choice(list(layout.keys()))
 
     selected_layout=layout[random_key]
 
