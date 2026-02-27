@@ -9,7 +9,9 @@ import asyncio
 async def generate_slides_node(state):
     topic = state["topic"]
     theme = state["theme_info"]
-    slides_data = state["slides_data"]
+    # FIX: Assuming slides_data is a list of slide dicts based on your JSON
+    slides_data = state.get("slides_data", [])
+    slides_data =[slides_data[0]]  # --- TEST MODE: Only generate first slide safely ---
 
     queue = asyncio.Queue()
 
@@ -39,6 +41,7 @@ async def generate_slides_node(state):
 
             if "done" in item:
                 finished += 1
+                yield item # Optional: let the UI know this specific slide is done
             else:
                 yield item  # STREAM TO CLIENT HERE
 

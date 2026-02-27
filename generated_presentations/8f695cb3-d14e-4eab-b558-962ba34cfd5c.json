@@ -1,0 +1,55 @@
+{
+    "topic": "ai",
+    "content": "Section 1: Foundations: What AI Really Is\n- What Artificial Intelligence actually means\n- Types of AI (Narrow, General, Super)\n- AI vs Machine Learning vs Deep Learning\n\nSection 2: How AI Works\n- Data: the fuel of AI\n- Models: how machines learn patterns\n- Training: how AI improves\n- Overfitting & generalization\n\nSection 3: Major AI Approaches\n- Supervised learning\n- Unsupervised learning\n- Reinforcement learning\n\nSection 4: Deep Learning & Neural Networks\n- What neural networks are",
+    "theme_info": "### Theme: Tech Innovation\nIdentity: Cutting-edge and high-contrast. Bold colors for modern tech.\n\n#### Color Palette (60-30-10 Rule)\n- Primary (60%): #F2F2F2 (Off-white) - Clean tech surface.\n- Secondary (30%): #028090 (Teal) - Core brand color.\n- Accent (10%): #02C39A (Mint) - Actionable elements.\n\n#### Typography\n- Headers: DejaVu Sans Bold\n- Body Text: DejaVu Sans",
+    "slides_data": [
+        {
+            "slide_type": "Hero",
+            "description": "This hero slide introduces the main topic of the presentation, which is AI. It serves as the title slide to grab the audience's attention and clearly state the subject matter before diving into the detailed sections.",
+            "content": "Topic: ai",
+            "layout": "Name: Centered Hero\nPurpose: Bold, high-impact opening with strong emotional or visual presence\nStructure: Full-width background (image or gradient) with centered large title, optional subtitle or tagline, and primary call-to-action button"
+        },
+        {
+            "slide_type": "Agenda",
+            "description": "This agenda slide outlines the four main sections of the presentation. It extracts the high-level section titles from the source content to provide a clear roadmap, setting expectations for the audience regarding the flow of information.",
+            "content": "Section 1: Foundations: What AI Really Is. Section 2: How AI Works. Section 3: Major AI Approaches. Section 4: Deep Learning & Neural Networks.",
+            "layout": "Name: Split-Screen / Timeline\nPurpose: Chronological, step-based, workshop or process-driven content.\nStructure: Header | Left vertical timeline (steps/time) | Right description cards with subpoints"
+        },
+        {
+            "slide_type": "Concept Explanation",
+            "description": "This concept explanation slide extracts the entirety of Section 1. It groups the foundational definitions, the three types of AI, and the distinctions between AI, machine learning, and deep learning to establish a solid baseline understanding.",
+            "content": "Section 1: Foundations: What AI Really Is - What Artificial Intelligence actually means - Types of AI (Narrow, General, Super) - AI vs Machine Learning vs Deep Learning",
+            "layout": "Name: Split-Screen / Timeline Explanation\nPurpose: Explaining historical development, evolution, or phased growth\nStructure: Full-width header bar | Left column: Chronological steps with icons and year/phase badges | Right column: Visual explanation panel with box-shadow"
+        },
+        {
+            "slide_type": "Process",
+            "description": "This process slide captures Section 2, detailing the operational mechanics of AI. It logically groups the sequential elements of how AI functions, from utilizing data as fuel to model pattern recognition, training improvements, and generalization.",
+            "content": "Section 2: How AI Works - Data: the fuel of AI - Models: how machines learn patterns - Training: how AI improves - Overfitting & generalization",
+            "layout": "Name: Linear Timeline\nPurpose: Best for clearly sequential, start-to-finish processes.\nStructure: Full-width header bar with horizontal timeline featuring step nodes, step labels with icons, optional progress indicator, and footer notes or CTA"
+        },
+        {
+            "slide_type": "Key Points",
+            "description": "This key points slide extracts Section 3, highlighting the major methodologies used in AI. Grouping supervised, unsupervised, and reinforcement learning together makes sense as it directly compares the primary approaches to machine learning.",
+            "content": "Section 3: Major AI Approaches - Supervised learning - Unsupervised learning - Reinforcement learning",
+            "layout": "Name: Split-Screen / Bullet Emphasis\nPurpose: When key points need strong visual reinforcement\nStructure: Full-width header bar with left column containing primary icon-led bullet list and right column featuring supporting visual or illustration container"
+        },
+        {
+            "slide_type": "Concept Explanation",
+            "description": "This concept explanation slide focuses on Section 4, specifically introducing deep learning and neural networks. It isolates this advanced topic to ensure the audience can focus on the specific definition and function of neural networks.",
+            "content": "Section 4: Deep Learning & Neural Networks - What neural networks are",
+            "layout": "Name: Split-Screen / Timeline Explanation\nPurpose: Explaining historical development, evolution, or phased growth\nStructure: Full-width header bar | Left column: Chronological steps with icons and year/phase badges | Right column: Visual explanation panel with box-shadow"
+        },
+        {
+            "slide_type": "Summary",
+            "description": "This summary slide recaps the core themes extracted from the source content. It brings together the foundational concepts, operational processes, major learning approaches, and deep learning topics to reinforce the key takeaways for the audience.",
+            "content": "Summary: Foundations: What AI Really Is. How AI Works. Major AI Approaches. Deep Learning & Neural Networks.",
+            "layout": "Name: Split-Screen / Bullet-to-Visual\nPurpose: Clear takeaway list supported by visual reinforcement\nStructure: Full-width header bar with left column containing key takeaway bullet list with icons and emphasized keywords; right column featuring supporting illustration or abstract visual with soft background panel and shadow"
+        },
+        {
+            "slide_type": "Thank You",
+            "description": "This thank you slide concludes the presentation. It provides a polite and professional closing, signaling the end of the extracted AI content and opening the floor for any potential questions from the audience.",
+            "content": "Thank You",
+            "layout": "Name: Centered_Hero_CTA\nPurpose: Clean, focused closing with clear call-to-action and brand presence\nStructure: Full-width background (solid color or subtle gradient) with centered headline (Thank You message), centered subtext (short appreciation or closing note), primary Call-to-Action button, optional secondary CTA link, and minimal footer with brand/logo"
+        }
+    ]
+}
