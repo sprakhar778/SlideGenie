@@ -15,7 +15,7 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
     slide_content = slide_data["content"]
     slide_layout = slide_data["layout"]
 
-    llm = get_llm(streaming=True)  # IMPORTANT
+    llm = get_llm(streaming=True)
 
     slide_prompt = PromptTemplate(
         template=SLIDE_DESIGN_PROMPT,
@@ -43,22 +43,21 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
 
 
 
- 
+if __name__ == "__main__":
+    # 1. You can test the slide generator chain in isolation with hardcoded values
+    topic = "Sustainable Energy Solutions"
 
+    theme_info = "A modern, clean design with green and blue accents to reflect the sustainability theme."
+    slide_data = {
+        "slide_type": "Title Slide",
+        "content": "Introduction to Sustainable Energy Solutions",
+        "layout": "Title and Subtitle"
+    }
 
-    # 2. Now the invoke only needs the variables that AREN'T partialed
-  
+    async def test_slide_generator():
+        async for chunk in stream_slide_generator_chain(topic, theme_info, slide_data):
+            print(chunk, end="", flush=True)
 
+    asyncio.run(test_slide_generator())
 
-
-# -------- Run --------
-# result = agent.invoke({
-#     "topic": "Future of AI in Healthcare",
-#     "content": """
-#     - AI-powered diagnostics
-#     - Predictive patient risk models
-#     - Personalized medicine
-#     - Hospital workflow automation
-#     """
-# })
-# Updated topic: Sustainable Energy Transition
+#python -m src.chains.slide_generator_chain

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sustainable Energy Solutions</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.wrapper {
+    width: 1380px;
+    height: 900px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.slide {
+    width: 1360px;
+    height: 880px;
+    margin: 10px auto;
+    padding: 30px;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.bg-shape {
+    position: absolute;
+    z-index: 1;
+}
+
+.bg-shape-1 {
+    width: 500px;
+    height: 500px;
+    background: #F1F8E9;
+    border-radius: 0 0 0 500px;
+    top: 0;
+    right: 0;
+}
+
+.bg-shape-2 {
+    width: 400px;
+    height: 400px;
+    background: #E3F2FD;
+    border-radius: 0 400px 0 0;
+    bottom: 0;
+    left: 0;
+}
+
+.header {
+    width: 1300px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0D47A1;
+    letter-spacing: 0.5px;
+}
+
+.logo-mark {
+    width: 24px;
+    height: 24px;
+    background: #2E7D32;
+    border-radius: 4px;
+}
+
+.date {
+    font-size: 16px;
+    color: #546E7A;
+    font-weight: 600;
+}
+
+.main-content {
+    width: 1300px;
+    height: 690px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.left-col {
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-col {
+    width: 824px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+h1 {
+    font-size: 42px;
+    color: #0D47A1;
+    margin: 0 0 24px 0;
+    line-height: 1.3;
+    font-weight: 800;
+    max-width: 440px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.divider {
+    width: 64px;
+    height: 8px;
+    background: #2E7D32;
+    margin-bottom: 24px;
+    border-radius: 4px;
+}
+
+.subtitle {
+    font-size: 26px;
+    color: #1565C0;
+    margin: 0 0 24px 0;
+    line-height: 1.4;
+    font-weight: 600;
+    max-width: 440px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.body-text {
+    font-size: 20px;
+    color: #455A64;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 440px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: 400px 400px;
+    grid-template-rows: 300px 300px;
+    gap: 24px;
+}
+
+.image-wrapper {
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    background: #E0E0E0;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.footer {
+    width: 1300px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    border-top: 2px solid #ECEFF1;
+    padding-top: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #78909C;
+    font-weight: 500;
+}
+
+.page-num {
+    font-size: 14px;
+    color: #78909C;
+    font-weight: 700;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="slide">
+        <div class="bg-shape bg-shape-1"></div>
+        <div class="bg-shape bg-shape-2"></div>
+        
+        <div class="header">
+            <div class="logo">
+                <div class="logo-mark"></div>
+                <span>EcoEnergy</span>
+            </div>
+            <div class="date">Strategic Overview</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-col">
+                <h1>Sustainable Energy Solutions</h1>
+                <div class="divider"></div>
+                <p class="subtitle">Introduction to Sustainable Energy Solutions</p>
+                <p class="body-text">A comprehensive overview of renewable technologies and strategic implementations driving the global transition toward a sustainable, low-carbon future.</p>
+            </div>
+            <div class="right-col">
+                <div class="image-grid">
+                    <div class="image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800&auto=format&fit=crop" alt="Solar panels in a field">
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=800&auto=format&fit=crop" alt="Wind turbines at sunset">
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=800&auto=format&fit=crop" alt="Hydroelectric dam and water">
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=800&auto=format&fit=crop" alt="Green city integration">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-text">Confidential & Proprietary</div>
+            <div class="page-num">01</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
