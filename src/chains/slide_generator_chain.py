@@ -43,21 +43,21 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
 
 
 
-if __name__ == "__main__":
-    # 1. You can test the slide generator chain in isolation with hardcoded values
-    topic = "Sustainable Energy Solutions"
+# if __name__ == "__main__":
+#     # 1. You can test the slide generator chain in isolation with hardcoded values
+#     topic = "Sustainable Energy Solutions"
 
-    theme_info = "A modern, clean design with green and blue accents to reflect the sustainability theme."
-    slide_data = {
-        "slide_type": "Title Slide",
-        "content": "Introduction to Sustainable Energy Solutions",
-        "layout": "Title and Subtitle"
-    }
+#     theme_info = "A modern, clean design with green and blue accents to reflect the sustainability theme."
+#     slide_data = {
+#         "slide_type": "Title Slide",
+#         "content": "Introduction to Sustainable Energy Solutions",
+#         "layout": "Title and Subtitle"
+#     }
 
-    async def test_slide_generator():
-        async for chunk in stream_slide_generator_chain(topic, theme_info, slide_data):
-            print(chunk, end="", flush=True)
+#     async def test_slide_generator():
+#         async for chunk in stream_slide_generator_chain(topic, theme_info, slide_data):
+#             print(chunk, end="", flush=True)
 
-    asyncio.run(test_slide_generator())
+#     asyncio.run(test_slide_generator())
 
 #python -m src.chains.slide_generator_chain

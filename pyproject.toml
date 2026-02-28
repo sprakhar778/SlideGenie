@@ -10,6 +10,7 @@ dependencies = [
     "google-genai>=1.62.0",
     "langchain>=1.2.9",
     "langchain-google-genai>=4.2.0",
+    "langchain-groq>=1.1.2",
     "langchain-openai>=1.1.7",
     "langsmith>=0.6.9",
     "pdfkit>=1.0.0",

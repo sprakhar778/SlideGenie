@@ -46,6 +46,23 @@ def initial_state():
     }
 import json
 
+async def clean_html_stream(gemini_stream):
+    """Intercepts chunks from Gemini and removes Markdown backticks on the fly."""
+    
+    async for chunk in gemini_stream:
+        # Extract the text from the Gemini chunk
+        text = chunk.text
+        if not text:
+            continue
+            
+        # Strip out the opening and closing markdown tags.
+        # This handles the tags no matter which chunk they appear in.
+        cleaned_chunk = text.replace("```html\n", "").replace("```html", "").replace("```", "")
+        
+        # Only yield if there's still text left after cleaning
+        if cleaned_chunk:
+            yield cleaned_chunk
+
 def save_presentation(state, presentation_id):
     output_dir = "generated_presentations"
     os.makedirs(output_dir, exist_ok=True)
@@ -194,7 +211,7 @@ async def get_presentation_slides(presentation_id: str):
 
         yield f"data: {json.dumps({'status': 'completed'})}\n\n"
 
-    return StreamingResponse(stream_generator(), media_type="text/event-stream")
+    return StreamingResponse(clean_html_stream(slide_stream), media_type="text/event-stream")
 
 if __name__ == "__main__":
     import uvicorn

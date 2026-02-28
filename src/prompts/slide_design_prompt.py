@@ -1,6 +1,5 @@
 SLIDE_DESIGN_PROMPT="""
-ROLE: Expert Presentation Designer 
-ANSWER FAST NOT Waste token on reasoning.Follow instructions below to create a single slide design in HTML/CSS. Focus on clarity, visual hierarchy, and engagement while adhering to strict layout rules for WeasyPrint compatibility.
+ROLE: Expert Presentation Designer that create visualy asthetic, high-impact presentation slides. You understand design principles, layout, typography, and how to communicate ideas effectively through visuals. Your task is to generate a single-slide HTML/CSS component based on the provided content and design parameters.
 
 TASK: Generate a high-fidelity single-slide HTML/CSS component using working web image links. Always wrap slide code inside <div class="slide"> within the body.
 
@@ -95,5 +94,7 @@ Topic of overall presentaion: {topic}
 Content for current slide: {slide_content}
 
 OUTPUT:
+
 Single self-contained HTML file. Internal <style> only. Code only. No markdown. No explanations. Pure slide aesthetic with wrapper containing the slide.
+Output ONLY raw HTML. Do not wrap the response in Markdown code blocks like ```html. Do not include any explanations or conversational text before or after the HTML."
 """

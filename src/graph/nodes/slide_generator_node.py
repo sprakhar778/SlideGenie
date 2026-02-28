@@ -32,17 +32,42 @@ async def generate_slides_node(state):
         for i, slide in enumerate(slides_data)
     ]
 
-    async def stream_results():
-        finished = 0
-        total = len(tasks)
+    finished = 0
+    total = len(tasks)
 
+    try:
         while finished < total:
             item = await queue.get()
 
             if "done" in item:
                 finished += 1
-                yield item # Optional: let the UI know this specific slide is done
+                yield item
             else:
-                yield item  # STREAM TO CLIENT HERE
+                yield item
+    finally:
+        await asyncio.gather(*tasks, return_exceptions=True)
 
-    return stream_results()
+
+if __name__ == "__main__":
+    # Example state for testing
+    state = {
+        "topic": "Sustainable Energy Solutions",
+        "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
+        "slides_data": [
+            {
+                "slide_type": "Title Slide",
+                "content": "Introduction to Sustainable Energy Solutions",
+                "layout": "Title and Subtitle"
+            },
+            # Add more slides as needed for testing
+        ]
+    }
+
+    async def test_generate_slides():
+        async for item in generate_slides_node(state):
+            print(item)
+
+    asyncio.run(test_generate_slides())
+
+#python -m src.graph.nodes.slide_generator_node
+
