@@ -48,22 +48,39 @@ def initial_state():
     }
 import json
 
+
+
 async def clean_html_stream(gemini_stream):
-    """Intercepts chunks from Gemini and removes Markdown backticks on the fly."""
-    
+    """Cleans markdown but preserves slide structure."""
+
     async for chunk in gemini_stream:
-        # Extract the text from the Gemini chunk
-        text = chunk.content if hasattr(chunk, "content") else str(chunk)
-        if not text:
+
+        # Expecting structured chunk like:
+        # { "slide_index": 0, "token": "```html" }
+
+        if not isinstance(chunk, dict):
             continue
-            
-        # Strip out the opening and closing markdown tags.
-        # This handles the tags no matter which chunk they appear in.
-        cleaned_chunk = text.replace("```html\n", "").replace("```html", "").replace("```", "")
-        
-        # Only yield if there's still text left after cleaning
-        if cleaned_chunk:
-            yield cleaned_chunk
+
+        slide_index = chunk.get("slide_index")
+        token = chunk.get("token", "")
+
+        if not token:
+            continue
+
+        # Remove markdown
+        cleaned_token = (
+            token
+            .replace("```html\n", "")
+            .replace("```html", "")
+            .replace("```", "")
+        )
+
+        if cleaned_token:
+
+            yield json.dumps({
+                "slide_index": slide_index,
+                "token": cleaned_token
+            }) + "\n"
 
 def save_presentation(state, presentation_id):
     output_dir = "generated_presentations"

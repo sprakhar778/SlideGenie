@@ -11,7 +11,7 @@ async def generate_slides_node(state):
     theme = state["theme_info"]
     # FIX: Assuming slides_data is a list of slide dicts based on your JSON
     slides_data = state.get("slides_data", [])
-    slides_data =[slides_data[0]]  # --- TEST MODE: Only generate first slide safely ---
+    slides_data =[slides_data[0],slides_data[1]]  # --- TEST MODE: Only generate first slide safely ---
 
     queue = asyncio.Queue()
 
@@ -48,26 +48,30 @@ async def generate_slides_node(state):
         await asyncio.gather(*tasks, return_exceptions=True)
 
 
-# if __name__ == "__main__":
-#     # Example state for testing
-#     state = {
-#         "topic": "Sustainable Energy Solutions",
-#         "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
-#         "slides_data": [
-#             {
-#                 "slide_type": "Title Slide",
-#                 "content": "Introduction to Sustainable Energy Solutions",
-#                 "layout": "Title and Subtitle"
-#             },
-#             # Add more slides as needed for testing
-#         ]
-#     }
+if __name__ == "__main__":
+    # Example state for testing
+    state = {
+        "topic": "Sustainable Energy Solutions",
+        "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
+        "slides_data": [
+            {
+                "slide_type": "Title Slide",
+                "content": "Introduction to Sustainable Energy Solutions",
+                "layout": "Title and Subtitle"
+            },
+            {
+                "slide_type": "Content Slide",
+                "content": "Overview of different sustainable energy solutions including solar, wind, and hydro power.",
+                "layout": "Title and Bullet Points"
+            }
+        ]
+    }
 
-#     async def test_generate_slides():
-#         async for item in generate_slides_node(state):
-#             print(item)
+    async def test_generate_slides():
+        async for item in generate_slides_node(state):
+            print(item)
 
-#     asyncio.run(test_generate_slides())
+    asyncio.run(test_generate_slides())
 
-#python -m src.graph.nodes.slide_generator_node
+# python -m src.graph.nodes.slide_generator_node
 
