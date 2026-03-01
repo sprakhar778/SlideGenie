@@ -51,7 +51,7 @@ async def clean_html_stream(gemini_stream):
     
     async for chunk in gemini_stream:
         # Extract the text from the Gemini chunk
-        text = chunk.text
+        text = chunk.content if hasattr(chunk, "content") else str(chunk)
         if not text:
             continue
             
@@ -169,49 +169,22 @@ import json
 
 @app.get("/presentation-slides/{presentation_id}")
 async def get_presentation_slides(presentation_id: str):
-
+    # Load the presentation state
     output_path = os.path.join("generated_presentations", f"{presentation_id}.json")
-
+    
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
-
+    
     with open(output_path, "r") as f:
         state = json.load(f)
+    
+    # Step 5: Stream generated slides
+    slide_stream = generate_slides_node(state)
+    cleaned_stream = clean_html_stream(slide_stream)
+    print(f"Streaming slides for presentation {presentation_id}...{cleaned_stream}")
+    return StreamingResponse(cleaned_stream, media_type="text/html")
 
-    # --- TEST MODE: Only stream first slide ---
-    slides = state.get("slides_data", [])
-    if slides:
-        slides = [slides[0]]
-
-    test_state = {**state, "slides_data": slides}
-
-    slide_stream = await generate_slides_node(test_state)
-
-    async def stream_generator():
-
-        # 🔹 Start SSE immediately (prevents browser hanging)
-        yield "data: {}\n\n"
-
-        accumulated_code = {i: "" for i in range(len(slides))}
-
-        async for item in slide_stream:
-
-            if "token" in item:
-                slide_idx = item["slide_index"]
-                accumulated_code[slide_idx] += item["token"]
-
-            yield f"data: {json.dumps(item)}\n\n"
-
-        # --- Save final generated code ---
-        for idx, code in accumulated_code.items():
-            if idx < len(state["slides_data"]):
-                state["slides_data"][idx]["slide_code"] = code
-
-        save_presentation(state, presentation_id)
-
-        yield f"data: {json.dumps({'status': 'completed'})}\n\n"
-
-    return StreamingResponse(clean_html_stream(slide_stream), media_type="text/event-stream")
+#test curl -N http://localhost:8000/presentation-slides/presentation_id
 
 if __name__ == "__main__":
     import uvicorn

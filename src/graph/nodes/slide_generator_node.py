@@ -48,26 +48,26 @@ async def generate_slides_node(state):
         await asyncio.gather(*tasks, return_exceptions=True)
 
 
-if __name__ == "__main__":
-    # Example state for testing
-    state = {
-        "topic": "Sustainable Energy Solutions",
-        "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
-        "slides_data": [
-            {
-                "slide_type": "Title Slide",
-                "content": "Introduction to Sustainable Energy Solutions",
-                "layout": "Title and Subtitle"
-            },
-            # Add more slides as needed for testing
-        ]
-    }
+# if __name__ == "__main__":
+#     # Example state for testing
+#     state = {
+#         "topic": "Sustainable Energy Solutions",
+#         "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
+#         "slides_data": [
+#             {
+#                 "slide_type": "Title Slide",
+#                 "content": "Introduction to Sustainable Energy Solutions",
+#                 "layout": "Title and Subtitle"
+#             },
+#             # Add more slides as needed for testing
+#         ]
+#     }
 
-    async def test_generate_slides():
-        async for item in generate_slides_node(state):
-            print(item)
+#     async def test_generate_slides():
+#         async for item in generate_slides_node(state):
+#             print(item)
 
-    asyncio.run(test_generate_slides())
+#     asyncio.run(test_generate_slides())
 
 #python -m src.graph.nodes.slide_generator_node
 
