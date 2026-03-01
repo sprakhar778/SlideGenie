@@ -1,53 +1,33 @@
 import asyncio
-from src.chains.slide_generator_chain import stream_slide_generator_chain
+from src.chains.slides_data_chain import get_slides_data_chain
 
-async def generate_slides_data_node(state):
-    topic = state["topic"]
-    theme = state["theme_info"]
+def generate_slides_data_node(state):
+    """Node to generate slide data for each slide based on the presentation state."""
+    topic = state.get("topic")
+    content=state.get("content")
+   
+    if not topic:
+        raise ValueError("The 'topic' must be provided in the state.")
+    if not content:
+        raise ValueError("The 'content' must be provided in the state.")
+    
+    # Generate slides data using the chain
+    generated_slides_data =  get_slides_data_chain(topic=topic, content=content)
+    
+    
+    # Update the state with the generated slides data
 
-    slides_data = state.get("slides_data", [])
+    state["slides_data"] = generated_slides_data
+    return state
 
-    # --- TEST MODE: Only generate first slide safely ---
-    if slides_data:
-        slides_data = [slides_data[0]]
+if __name__ == "__main__":
+    # Example state for testing
+    state = {
+        "topic": "Sustainable Energy Solutions",
+        "content": "A presentation about various sustainable energy solutions and their benefits."
+    }
 
-    queue = asyncio.Queue()
+    updated_state = generate_slides_data_node(state)
+    print(updated_state["slides_data"])
 
-    async def stream_single_slide(index, slide_data):
-        try:
-            async for token in stream_slide_generator_chain(
-                topic, theme, slide_data
-            ):
-                await queue.put({
-                    "slide_index": index,
-                    "token": token,
-                })
-        except Exception as e:
-            await queue.put({
-                "slide_index": index,
-                "error": str(e)
-            })
-        finally:
-            await queue.put({
-                "slide_index": index,
-                "done": True
-            })
-
-    tasks = [
-        asyncio.create_task(stream_single_slide(i, slide))
-        for i, slide in enumerate(slides_data)
-    ]
-
-    async def stream_results():
-        finished = 0
-        total = len(tasks)
-
-        while finished < total:
-            item = await queue.get()
-
-            if "done" in item:
-                finished += 1
-
-            yield item
-
-    return stream_results()
+#python -m src.graph.nodes.slides_data_node

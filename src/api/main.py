@@ -66,10 +66,38 @@ async def clean_html_stream(gemini_stream):
 def save_presentation(state, presentation_id):
     output_dir = "generated_presentations"
     os.makedirs(output_dir, exist_ok=True)
+
     output_path = os.path.join(output_dir, f"{presentation_id}.json")
-    
-    with open(output_path, "w") as f:
+    temp_path = output_path + ".tmp"
+
+    # Write to temp file first
+    with open(temp_path, "w") as f:
         json.dump(state, f, indent=4)
+
+    # Atomically replace
+    os.replace(temp_path, output_path)
+
+def load_presentation(presentation_id):
+    output_path = os.path.join("generated_presentations", f"{presentation_id}.json")
+
+    if not os.path.exists(output_path):
+        raise HTTPException(status_code=404, detail="Presentation not found.")
+
+    try:
+        with open(output_path, "r") as f:
+            content = f.read().strip()
+            if not content:
+                raise ValueError("Empty file")
+
+            return json.loads(content)
+
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Presentation state corrupted. Please recreate."
+        )
+    
+
 class PresentationRequest(BaseModel):
     topic: str
     content: str
@@ -96,8 +124,9 @@ def get_presentation_theme(presentation_id: str):
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
     
-    with open(output_path, "r") as f:
-        state = json.load(f)
+    state = load_presentation(presentation_id)
+    if state.get("theme_info"):
+        return {"message": "Theme already generated.", "presentation_id": presentation_id, "theme_info": state["theme_info"]}
     
     # Step 2: Generate theme
     updated_state = generate_theme_node(state)
@@ -105,7 +134,7 @@ def get_presentation_theme(presentation_id: str):
     # Save updated state
     save_presentation(updated_state, presentation_id)
     
-    return {"message": "Theme generated successfully.", "presentation_id": presentation_id}
+    return {"message": "Theme generated successfully.", "presentation_id": presentation_id,"theme_info": updated_state["theme_info"]}
 
 @app.post("/presentation-theme/{presentation_id}")
 def update_presentation_theme(presentation_id: str, request:str):
@@ -115,8 +144,7 @@ def update_presentation_theme(presentation_id: str, request:str):
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
     
-    with open(output_path, "r") as f:
-        state = json.load(f)
+    state = load_presentation(presentation_id)
     
     # Update theme info in state
     state["theme_info"] = request
@@ -124,26 +152,29 @@ def update_presentation_theme(presentation_id: str, request:str):
     # Save updated state
     save_presentation(state, presentation_id)
     
-    return {"message": "Theme updated successfully.", "presentation_id": presentation_id}
+    return {"message": "Theme updated successfully.", "presentation_id": presentation_id, "theme_info": state["theme_info"]}
 
 @app.get("/presentation-layout/{presentation_id}")
-def get_presentation_layout(presentation_id: str):
+def get_presentation_layout(presentation_id: str,presentation_index:int=0):
     # Load the presentation state
     output_path = os.path.join("generated_presentations", f"{presentation_id}.json")
     
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
+
     
-    with open(output_path, "r") as f:
-        state = json.load(f)
-    
+    state = load_presentation(presentation_id)
+
+    if state.get("slides_data")[presentation_index].get("layout"):
+        return {"message": "Slide layout already generated.", "presentation_id": presentation_id, "slides_data": state["slides_data"]}
+ 
     # Step 3: Generate slide layout
     updated_state = generate_slide_layout_node(state)
     
     # Save updated state
     save_presentation(updated_state, presentation_id)
     
-    return {"message": "Slide layout generated successfully.", "presentation_id": presentation_id}
+    return {"message": "Slide layout generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"]}
    
 @app.get("/presentation-data/{presentation_id}")
 def get_presentation_data(presentation_id: str):
@@ -153,8 +184,10 @@ def get_presentation_data(presentation_id: str):
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
     
-    with open(output_path, "r") as f:
-        state = json.load(f)
+    state = load_presentation(presentation_id)
+
+    if state.get("slides_data").get("content"):
+        return {"message": "Slides data already generated.", "presentation_id": presentation_id, "slides_data": state["slides_data"]}
     
     # Step 4: Generate slides data
     updated_state = generate_slides_data_node(state)
@@ -162,26 +195,22 @@ def get_presentation_data(presentation_id: str):
     # Save updated state
     save_presentation(updated_state, presentation_id)
     
-    return {"message": "Slides data generated successfully.", "presentation_id": presentation_id}
+    return {"message": "Slides data generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"]}
 
 from fastapi.responses import StreamingResponse
 import json
 
 @app.get("/presentation-slides/{presentation_id}")
 async def get_presentation_slides(presentation_id: str):
-    # Load the presentation state
-    output_path = os.path.join("generated_presentations", f"{presentation_id}.json")
-    
-    if not os.path.exists(output_path):
+
+    if not os.path.exists(os.path.join("generated_presentations", f"{presentation_id}.json")):
         raise HTTPException(status_code=404, detail="Presentation not found.")
-    
-    with open(output_path, "r") as f:
-        state = json.load(f)
-    
-    # Step 5: Stream generated slides
-    slide_stream = generate_slides_node(state)
+
+    state = load_presentation(presentation_id)
+
+    slide_stream = generate_slides_node(state)   # ❗ no await
     cleaned_stream = clean_html_stream(slide_stream)
-    print(f"Streaming slides for presentation {presentation_id}...{cleaned_stream}")
+
     return StreamingResponse(cleaned_stream, media_type="text/html")
 
 #test curl -N http://localhost:8000/presentation-slides/presentation_id

@@ -1,523 +1,752 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 Presentation API Tester (Tailwind)</title>
-    <!-- Tailwind via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .transition-all { transition: all 0.2s ease; }
-        .slide-json { max-height: 300px; overflow: auto; }
-        .card-hover { transition: box-shadow 0.2s; }
-        .card-hover:hover { box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.02); }
-        .loading-spinner {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #4f46e5;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slide Generator · Debug Console</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --acid: #c8ff00;
+      --acid-dim: #8fb800;
+      --bg: #0a0a0a;
+      --panel: #111111;
+      --border: #1e1e1e;
+      --text: #e8e8e8;
+      --muted: #555;
+      --red: #ff4545;
+      --blue: #4fa3ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0;
+      min-height: 100vh;
+    }
+    h1, h2, .label { font-family: 'Syne', sans-serif; }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.04) 2px,
+        rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+    .acid-border { border-color: var(--acid); }
+
+    input, textarea, select {
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: var(--acid);
+      box-shadow: 0 0 0 2px rgba(200,255,0,0.08);
+    }
+
+    .btn {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      outline: none;
+    }
+    .btn-acid {
+      background: var(--acid);
+      color: #000;
+      padding: 0.55rem 1.2rem;
+    }
+    .btn-acid:hover { background: #d9ff33; transform: translateY(-1px); }
+    .btn-acid:active { transform: translateY(0); }
+    .btn-acid:disabled { background: #3a3a00; color: #666; cursor: not-allowed; transform: none; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--acid);
+      border: 1px solid var(--acid);
+      padding: 0.5rem 1rem;
+    }
+    .btn-ghost:hover { background: rgba(200,255,0,0.08); }
+    .btn-ghost.active { background: rgba(200,255,0,0.15); }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.5rem 1rem;
+    }
+    .btn-danger:hover { background: rgba(255,69,69,0.1); }
+
+    .log-entry {
+      padding: 0.3rem 0.5rem;
+      border-left: 2px solid transparent;
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+    .log-info { border-color: var(--blue); color: #aaa; }
+    .log-success { border-color: var(--acid); color: var(--acid); }
+    .log-error { border-color: var(--red); color: var(--red); }
+    .log-stream { border-color: #444; color: #888; font-size: 0.68rem; }
+
+    .tab { cursor: pointer; padding: 0.5rem 1rem; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 2px solid transparent; transition: all 0.15s; color: var(--muted); font-family: 'Syne', sans-serif; font-weight: 700; }
+    .tab.active { color: var(--acid); border-color: var(--acid); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .badge-get { background: rgba(79,163,255,0.2); color: var(--blue); border: 1px solid rgba(79,163,255,0.3); }
+    .badge-post { background: rgba(200,255,0,0.15); color: var(--acid); border: 1px solid rgba(200,255,0,0.3); }
+    .badge-stream { background: rgba(255,165,0,0.15); color: #ffa500; border: 1px solid rgba(255,165,0,0.3); }
+
+    /* Pulsing dot for streaming */
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--acid); animation: pulse 1s infinite; display: inline-block; }
+
+    /* iframe preview */
+    #slide-preview-frame {
+      background: #fff;
+      border: none;
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+    }
+
+    /* Code preview */
+    #code-preview {
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 0.72rem;
+      line-height: 1.7;
+      color: #aaffaa;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    #log-panel { max-height: 220px; overflow-y: auto; }
+    #log-panel::-webkit-scrollbar { width: 4px; }
+    #log-panel::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .step-row:hover { background: #141414; }
+    .step-num { font-size: 0.65rem; color: var(--muted); min-width: 1.5rem; }
+    .step-name { flex: 1; font-size: 0.78rem; color: var(--text); }
+    .step-status { font-size: 0.65rem; min-width: 60px; text-align: right; }
+    .status-idle { color: var(--muted); }
+    .status-running { color: #ffa500; }
+    .status-done { color: var(--acid); }
+    .status-error { color: var(--red); }
+
+    /* Glitch animation for header */
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 var(--acid); }
+      25% { text-shadow: -2px 0 #ff0099; }
+      50% { text-shadow: 2px 0 var(--blue); }
+      75% { text-shadow: -2px 0 var(--acid); }
+      100% { text-shadow: 2px 0 var(--acid); }
+    }
+    .glitch:hover { animation: glitch 0.3s steps(1) infinite; }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+<body>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- header -->
-        <div class="flex items-center justify-between mb-8">
-            <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 text-white p-3 rounded-2xl shadow-md">
-                    <i class="fas fa-diagram-project text-xl"></i>
-                </div>
-                <h1 class="text-3xl font-bold text-slate-800">Pipeline API <span class="text-indigo-600">/playground</span></h1>
-            </div>
-            <div class="bg-white px-4 py-2 rounded-full shadow text-sm font-medium text-slate-600 border border-slate-200">
-                <i class="far fa-check-circle text-green-500 mr-1"></i> <span id="apiStatus">Checking connection...</span>
-            </div>
-        </div>
+<!-- Header -->
+<header class="border-b" style="border-color: var(--border);">
+  <div class="max-w-screen-2xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="pulse-dot"></div>
+      <h1 class="glitch text-base font-bold tracking-widest" style="color: var(--acid); letter-spacing: 0.2em;">SLIDE·GEN·DEBUG</h1>
+      <span class="badge badge-stream">STREAMING</span>
+    </div>
+    <div class="flex items-center gap-4 text-xs" style="color: var(--muted);">
+      <span id="base-url-display">localhost:8000</span>
+      <span id="session-id-display">no session</span>
+    </div>
+  </div>
+</header>
 
-        <!-- main grid: left project controls, right output -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- left column: forms & actions -->
-            <div class="lg:col-span-1 space-y-6">
-                <!-- current project context -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 card-hover">
-                    <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-lg font-semibold flex items-center gap-2"><i class="fas fa-folder-open text-indigo-500"></i> Project context</h2>
-                        <span id="projectIdBadge" class="text-xs bg-slate-100 px-3 py-1 rounded-full font-mono truncate max-w-[150px]">—</span>
-                    </div>
-                    <div class="text-sm space-y-2">
-                        <div><span class="text-slate-500">Session:</span> <span id="sessionIdDisplay" class="font-mono bg-slate-50 px-2 py-0.5 rounded">—</span></div>
-                        <div><span class="text-slate-500">Topic:</span> <span id="topicDisplay" class="font-medium">—</span></div>
-                        <div><span class="text-slate-500">Content:</span> <span id="contentDisplay" class="font-medium line-clamp-2">—</span></div>
-                    </div>
-                </div>
+<div class="max-w-screen-2xl mx-auto px-6 py-5 grid gap-5" style="grid-template-columns: 340px 1fr;">
 
-                <!-- create project card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 card-hover">
-                    <h2 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fas fa-plus-circle text-indigo-500"></i> 1. Create project</h2>
-                    <div class="flex gap-2">
-                        <input type="text" id="projectNameInput" placeholder="e.g. My sales deck" value="Test deck" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 outline-none">
-                        <button id="createProjectBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-xl text-sm transition flex items-center gap-1">
-                            <i class="fas fa-rocket"></i> Create
-                        </button>
-                    </div>
-                </div>
+  <!-- LEFT COLUMN: Controls -->
+  <div class="flex flex-col gap-4">
 
-                <!-- set topic/content (only if project exists) -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 card-hover">
-                    <h2 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fas fa-pen-to-square text-indigo-500"></i> 2. Topic & content</h2>
-                    <div class="space-y-3">
-                        <input type="text" id="topicInput" placeholder="Topic (e.g. AI in healthcare)" value="Renewable energy trends" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm">
-                        <textarea id="contentInput" placeholder="Content / research notes" rows="3" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm">Solar and wind growth 20% year-over-year. Battery storage costs dropped 40%.</textarea>
-                        <button id="setTopicBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-xl text-sm transition flex items-center justify-center gap-1">
-                            <i class="fas fa-save"></i> Set topic/content
-                        </button>
-                    </div>
-                </div>
-
-                <!-- nodes execution -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 card-hover">
-                    <h2 class="text-lg font-semibold mb-3 flex items-center gap-2"><i class="fas fa-cogs text-indigo-500"></i> 3. Execute nodes</h2>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button id="themeNodeBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-medium py-2 rounded-xl text-sm transition flex items-center justify-center gap-1">
-                            <i class="fas fa-palette"></i> Theme
-                        </button>
-                        <button id="slidesDataNodeBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-medium py-2 rounded-xl text-sm transition flex items-center justify-center gap-1">
-                            <i class="fas fa-table"></i> Slides data
-                        </button>
-                    </div>
-                    <div class="mt-3">
-                        <button id="fullPipelineBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-md">
-                            <i class="fas fa-bolt"></i> RUN FULL PIPELINE
-                        </button>
-                    </div>
-                </div>
-
-                <!-- helper: get state -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 card-hover">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-sm font-semibold text-slate-500"><i class="fas fa-redo-alt mr-1"></i> Refresh state</h2>
-                        <button id="refreshStateBtn" class="text-indigo-600 hover:bg-indigo-50 p-2 rounded-full">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- error / info alert container -->
-                <div id="globalAlert" class="rounded-xl px-4 py-3 hidden transition-all"></div>
-            </div>
-
-            <!-- right column: output / state panels -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- live state json card -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden card-hover">
-                    <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
-                        <h3 class="font-semibold flex items-center gap-2"><i class="fas fa-code-branch text-indigo-500"></i> Full project state <span class="text-xs bg-slate-200 rounded-full px-2 py-0.5">JSON</span></h3>
-                        <button id="copyStateBtn" class="text-xs bg-white border border-slate-300 hover:bg-slate-100 px-3 py-1 rounded-full flex items-center gap-1">
-                            <i class="far fa-copy"></i> Copy
-                        </button>
-                    </div>
-                    <div class="p-4 bg-slate-900 text-slate-200 font-mono text-xs slide-json" id="stateJsonDisplay">
-                        { "state": "click 'Create' to start" }
-                    </div>
-                </div>
-
-                <!-- pipeline results: layouts / content / slides -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card-hover">
-                        <div class="text-sm font-semibold text-indigo-600 mb-2 flex items-center gap-1"><i class="fas fa-layer-group"></i> layouts</div>
-                        <div class="max-h-40 overflow-auto text-xs bg-slate-50 p-2 rounded" id="layoutsPreview">—</div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card-hover">
-                        <div class="text-sm font-semibold text-emerald-600 mb-2 flex items-center gap-1"><i class="fas fa-paragraph"></i> slide_content</div>
-                        <div class="max-h-40 overflow-auto text-xs bg-slate-50 p-2 rounded" id="contentsPreview">—</div>
-                    </div>
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card-hover">
-                        <div class="text-sm font-semibold text-purple-600 mb-2 flex items-center gap-1"><i class="fas fa-file-powerpoint"></i> slides (html)</div>
-                        <div class="max-h-40 overflow-auto text-xs bg-slate-50 p-2 rounded" id="slidesPreview">—</div>
-                    </div>
-                </div>
-
-                <!-- theme info block -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card-hover">
-                    <div class="text-sm font-semibold text-amber-600 mb-1 flex items-center gap-1"><i class="fas fa-info-circle"></i> theme_info</div>
-                    <div class="text-sm bg-amber-50 p-3 rounded-lg italic" id="themeInfoPreview">—</div>
-                </div>
-
-                <!-- slides_data (raw) -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card-hover">
-                    <details>
-                        <summary class="text-sm font-semibold text-slate-700 cursor-pointer"><i class="fas fa-chevron-right mr-1"></i> slides_data (raw)</summary>
-                        <div class="mt-2 text-xs bg-slate-50 p-2 rounded max-h-32 overflow-auto" id="slidesDataPreview">—</div>
-                    </details>
-                </div>
-            </div>
-        </div>
+    <!-- Config -->
+    <div class="panel p-4 rounded">
+      <p class="label text-xs font-bold tracking-widest mb-3" style="color: var(--muted);">API CONFIG</p>
+      <label class="block text-xs mb-1" style="color: var(--muted);">Base URL</label>
+      <input id="base-url" class="w-full rounded px-3 py-2 mb-3" value="http://localhost:8000" />
+      <label class="block text-xs mb-1" style="color: var(--muted);">Presentation ID <span style="color:#444">(auto-filled)</span></label>
+      <input id="presentation-id" class="w-full rounded px-3 py-2" placeholder="uuid..." />
     </div>
 
-    <footer class="text-center text-xs text-slate-400 mt-10 border-t pt-5">
-        <i class="fas fa-plug mr-1"></i> FastAPI backend at <code class="bg-slate-100 px-2 py-1 rounded">http://localhost:8000</code>
-    </footer>
+    <!-- Input -->
+    <div class="panel p-4 rounded">
+      <p class="label text-xs font-bold tracking-widest mb-3" style="color: var(--muted);">PRESENTATION INPUT</p>
+      <label class="block text-xs mb-1" style="color: var(--muted);">Topic</label>
+      <input id="topic" class="w-full rounded px-3 py-2 mb-3" value="Sustainable Energy Solutions" />
+      <label class="block text-xs mb-1" style="color: var(--muted);">Content</label>
+      <textarea id="content" class="w-full rounded px-3 py-2" rows="4">An overview of renewable energy technologies including solar, wind, hydro, and their impact on global climate change mitigation.</textarea>
+    </div>
 
-    <script>
-        (function() {
-            // ----- state -----
-            const BASE_URL = 'http://localhost:8000';
-            let currentProjectId = null;
-            let currentSessionId = null;
-            let currentState = null;
-            let activeRequests = 0;
+    <!-- Pipeline Steps -->
+    <div class="panel rounded overflow-hidden">
+      <div class="px-4 py-3 flex items-center justify-between border-b" style="border-color: var(--border);">
+        <p class="label text-xs font-bold tracking-widest" style="color: var(--muted);">PIPELINE STEPS</p>
+        <button class="btn btn-danger text-xs px-2 py-1" onclick="resetAll()">RESET</button>
+      </div>
 
-            // ----- DOM elements -----
-            const projectIdBadge = document.getElementById('projectIdBadge');
-            const sessionIdDisplay = document.getElementById('sessionIdDisplay');
-            const topicDisplay = document.getElementById('topicDisplay');
-            const contentDisplay = document.getElementById('contentDisplay');
-            const stateJsonDisplay = document.getElementById('stateJsonDisplay');
-            const layoutsPreview = document.getElementById('layoutsPreview');
-            const contentsPreview = document.getElementById('contentsPreview');
-            const slidesPreview = document.getElementById('slidesPreview');
-            const themeInfoPreview = document.getElementById('themeInfoPreview');
-            const slidesDataPreview = document.getElementById('slidesDataPreview');
-            const globalAlert = document.getElementById('globalAlert');
-            const apiStatus = document.getElementById('apiStatus');
+      <div id="steps-list">
+        <div class="step-row" data-step="create">
+          <span class="step-num">01</span>
+          <div>
+            <div class="step-name">Create Presentation</div>
+            <div class="flex items-center gap-2 mt-0.5"><span class="badge badge-post">POST</span><span class="text-xs" style="color:var(--muted)">/create-presentation</span></div>
+          </div>
+          <span class="step-status status-idle" id="status-create">IDLE</span>
+        </div>
+        <div class="step-row" data-step="theme">
+          <span class="step-num">02</span>
+          <div>
+            <div class="step-name">Generate Theme</div>
+            <div class="flex items-center gap-2 mt-0.5"><span class="badge badge-get">GET</span><span class="text-xs" style="color:var(--muted)">/presentation-theme/:id</span></div>
+          </div>
+          <span class="step-status status-idle" id="status-theme">IDLE</span>
+        </div>
+        <div class="step-row" data-step="layout">
+          <span class="step-num">03</span>
+          <div>
+            <div class="step-name">Generate Layout</div>
+            <div class="flex items-center gap-2 mt-0.5"><span class="badge badge-get">GET</span><span class="text-xs" style="color:var(--muted)">/presentation-layout/:id</span></div>
+          </div>
+          <span class="step-status status-idle" id="status-layout">IDLE</span>
+        </div>
+        <div class="step-row" data-step="data">
+          <span class="step-num">04</span>
+          <div>
+            <div class="step-name">Generate Slides Data</div>
+            <div class="flex items-center gap-2 mt-0.5"><span class="badge badge-get">GET</span><span class="text-xs" style="color:var(--muted)">/presentation-data/:id</span></div>
+          </div>
+          <span class="step-status status-idle" id="status-data">IDLE</span>
+        </div>
+        <div class="step-row" data-step="slides">
+          <span class="step-num">05</span>
+          <div>
+            <div class="step-name">Stream Slides HTML</div>
+            <div class="flex items-center gap-2 mt-0.5"><span class="badge badge-stream">STREAM</span><span class="text-xs" style="color:var(--muted)">/presentation-slides/:id</span></div>
+          </div>
+          <span class="step-status status-idle" id="status-slides">IDLE</span>
+        </div>
+      </div>
 
-            // inputs
-            const projectNameInput = document.getElementById('projectNameInput');
-            const topicInput = document.getElementById('topicInput');
-            const contentInput = document.getElementById('contentInput');
+      <div class="p-4 flex flex-col gap-2">
+        <button class="btn btn-acid w-full py-3" id="run-all-btn" onclick="runAllSteps()">▶ RUN FULL PIPELINE</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button class="btn btn-ghost text-xs py-2" onclick="runStep('slides')">⚡ STREAM ONLY</button>
+          <button class="btn btn-ghost text-xs py-2" onclick="copyPresentationId()">⎘ COPY ID</button>
+        </div>
+      </div>
+    </div>
 
-            // buttons
-            const createBtn = document.getElementById('createProjectBtn');
-            const setTopicBtn = document.getElementById('setTopicBtn');
-            const themeNodeBtn = document.getElementById('themeNodeBtn');
-            const slidesDataNodeBtn = document.getElementById('slidesDataNodeBtn');
-            const fullPipelineBtn = document.getElementById('fullPipelineBtn');
-            const refreshStateBtn = document.getElementById('refreshStateBtn');
-            const copyStateBtn = document.getElementById('copyStateBtn');
+    <!-- Stream Stats -->
+    <div class="panel p-4 rounded">
+      <p class="label text-xs font-bold tracking-widest mb-3" style="color: var(--muted);">STREAM STATS</p>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <div class="text-xs" style="color: var(--muted);">Tokens received</div>
+          <div class="text-xl font-bold mt-0.5" style="color: var(--acid);" id="stat-tokens">0</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color: var(--muted);">Bytes total</div>
+          <div class="text-xl font-bold mt-0.5" style="color: var(--acid);" id="stat-bytes">0</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color: var(--muted);">Think stripped</div>
+          <div class="text-xl font-bold mt-0.5" style="color: var(--red);" id="stat-stripped">0</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color: var(--muted);">Duration</div>
+          <div class="text-xl font-bold mt-0.5" style="color: var(--blue);" id="stat-time">0ms</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color: var(--muted);">Status</div>
+          <div class="text-xl font-bold mt-0.5" id="stat-status" style="color: var(--muted);">IDLE</div>
+        </div>
+      </div>
+    </div>
 
-            // ----- helpers -----
-            function updateLoadingState(button, isLoading) {
-                if (isLoading) {
-                    button.disabled = true;
-                    const originalHtml = button.innerHTML;
-                    button.setAttribute('data-original-html', originalHtml);
-                    button.innerHTML = '<span class="loading-spinner mr-2"></span> Loading...';
-                } else {
-                    button.disabled = false;
-                    const originalHtml = button.getAttribute('data-original-html');
-                    if (originalHtml) {
-                        button.innerHTML = originalHtml;
-                    }
-                }
-            }
+    <!-- Backend Fix -->
+    <div class="panel p-4 rounded">
+      <p class="label text-xs font-bold tracking-widest mb-2" style="color: var(--muted);">BACKEND FIX · clean_html_stream</p>
+      <p class="text-xs mb-2" style="color:#666; line-height:1.6;">If your LLM streams thinking text before HTML, add this filter in <code style="color:var(--acid)">main.py</code>:</p>
+      <pre style="font-size:0.65rem; line-height:1.6; color:#aaffaa; background:#0a0a0a; padding:0.75rem; border-radius:4px; overflow-x:auto; white-space:pre-wrap;">async def clean_html_stream(gemini_stream):
+    import re
+    html_started = False
+    buffer = ""
+    HTML_RE = re.compile(
+        r'&lt;!doctype\s+html|&lt;html[\s&gt;]',
+        re.IGNORECASE
+    )
+    async for chunk in gemini_stream:
+        text = chunk.content if hasattr(chunk,"content") else str(chunk)
+        if not text:
+            continue
+        # Strip markdown fences
+        text = text.replace("```html\n","").replace("```html","").replace("```","")
+        if html_started:
+            yield text
+            continue
+        buffer += text
+        m = HTML_RE.search(buffer)
+        if m:
+            html_started = True
+            yield buffer[m.start():]  # discard preamble, yield from HTML
+            buffer = ""</pre>
+      <button class="btn btn-ghost text-xs px-2 py-1 mt-2" onclick="copyBackendFix()">⎘ COPY CODE</button>
+    </div>
 
-            function showAlert(message, type = 'error', duration = 8000) {
-                globalAlert.classList.remove('hidden', 'bg-red-50', 'text-red-800', 'border-red-200', 'bg-green-50', 'text-green-800', 'border-green-200', 'bg-blue-50', 'text-blue-800', 'border-blue-200');
-                
-                const icon = type === 'error' ? 'fa-exclamation-triangle' : (type === 'success' ? 'fa-check-circle' : 'fa-info-circle');
-                
-                globalAlert.classList.add(
-                    type === 'error' ? 'bg-red-50 text-red-800 border-red-200' :
-                    type === 'success' ? 'bg-green-50 text-green-800 border-green-200' :
-                    'bg-blue-50 text-blue-800 border-blue-200',
-                    'border'
-                );
-                
-                globalAlert.innerHTML = `<i class="fas ${icon} mr-2"></i>${message}`;
-                globalAlert.style.display = 'block';
-                
-                setTimeout(() => {
-                    globalAlert.style.display = 'none';
-                }, duration);
-            }
+  <div class="flex flex-col gap-4">
 
-            function setStateLoading(isLoading) {
-                if (isLoading) {
-                    stateJsonDisplay.innerHTML = '<span class="loading-spinner mr-2"></span> <span class="text-indigo-500">Waiting for backend...</span>';
-                }
-            }
+    <!-- Preview Tabs -->
+    <div class="panel rounded overflow-hidden flex flex-col" style="min-height: 520px;">
+      <div class="flex items-center border-b px-4" style="border-color: var(--border);">
+        <button class="tab active" id="tab-render" onclick="switchTab('render')">Rendered Slide</button>
+        <button class="tab" id="tab-code" onclick="switchTab('code')">Code Preview</button>
+        <button class="tab" id="tab-raw" onclick="switchTab('raw')">Raw Stream</button>
+        <div class="ml-auto flex gap-2 py-2">
+          <button class="btn btn-ghost text-xs px-3 py-1" onclick="clearPreview()">CLEAR</button>
+          <button class="btn btn-acid text-xs px-3 py-1" onclick="reloadPreview()">⟳ RELOAD</button>
+        </div>
+      </div>
 
-            function updateUIFromState() {
-                if (!currentState) {
-                    stateJsonDisplay.innerHTML = '<span class="text-slate-400">{ "state": null }</span>';
-                    return;
-                }
-                if (Object.keys(currentState).length === 0) {
-                    stateJsonDisplay.innerHTML = '<span class="text-slate-400">{ "state": empty }</span>';
-                    return;
-                }
-                try {
-                    stateJsonDisplay.innerText = JSON.stringify(currentState, null, 2);
+      <!-- Rendered iframe -->
+      <div id="panel-render" class="flex-1 relative" style="min-height: 460px;">
+        <div id="render-placeholder" class="absolute inset-0 flex flex-col items-center justify-center gap-3" style="color: var(--muted);">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="text-sm">No slide rendered yet</span>
+          <span class="text-xs">Run the pipeline to see output</span>
+        </div>
+        <iframe id="slide-preview-frame" class="absolute inset-0" style="display:none; background:#fff;"></iframe>
+        <!-- streaming indicator -->
+        <div id="stream-indicator" class="absolute top-3 right-3 items-center gap-2 text-xs hidden" style="color: var(--acid);">
+          <span class="pulse-dot"></span> STREAMING...
+        </div>
+      </div>
 
-                    topicDisplay.innerText = currentState.topic || '—';
-                    contentDisplay.innerText = currentState.content || '—';
-                    themeInfoPreview.innerText = currentState.theme_info || '—';
+      <!-- Code view -->
+      <div id="panel-code" class="hidden flex-1 p-4 overflow-auto" style="background: #0a0a0a;">
+        <pre id="code-preview">// HTML will appear here as it streams...</pre>
+      </div>
 
-                    if (currentState.slides_data && Array.isArray(currentState.slides_data)) {
-                        slidesDataPreview.innerText = JSON.stringify(currentState.slides_data, null, 2);
-                    } else {
-                        slidesDataPreview.innerText = '—';
-                    }
+      <!-- Raw stream view -->
+      <div id="panel-raw" class="hidden flex-1 p-4 overflow-auto" style="background: #0a0a0a;">
+        <pre id="raw-preview" style="white-space: pre-wrap; word-break: break-all; font-size: 0.7rem; color: #666; line-height: 1.6;">// Raw chunk data will appear here...</pre>
+      </div>
+    </div>
 
-                    if (currentState.slides_layout && Array.isArray(currentState.slides_layout)) {
-                        layoutsPreview.innerText = JSON.stringify(currentState.slides_layout.map(l => {
-                            if (typeof l === 'object' && l !== null) return l.layout_name || 'layout';
-                            return l;
-                        }), null, 2);
-                    } else {
-                        layoutsPreview.innerText = '—';
-                    }
+    <!-- Log Console -->
+    <div class="panel rounded overflow-hidden">
+      <div class="px-4 py-2 border-b flex items-center justify-between" style="border-color: var(--border);">
+        <p class="label text-xs font-bold tracking-widest" style="color: var(--muted);">CONSOLE LOG</p>
+        <button class="btn btn-ghost text-xs px-2 py-1" onclick="clearLog()">CLEAR</button>
+      </div>
+      <div id="log-panel" class="p-2"></div>
+    </div>
 
-                    if (currentState.slide_content && Array.isArray(currentState.slide_content)) {
-                        contentsPreview.innerText = JSON.stringify(currentState.slide_content.slice(0,2), null, 2) + (currentState.slide_content.length > 2 ? ' ...' : '');
-                    } else if (currentState.slides_content && Array.isArray(currentState.slides_content)) {
-                        contentsPreview.innerText = JSON.stringify(currentState.slides_content.slice(0,2), null, 2);
-                    } else {
-                        contentsPreview.innerText = '—';
-                    }
+  </div>
+</div>
 
-                    if (currentState.slides && Array.isArray(currentState.slides)) {
-                        slidesPreview.innerText = currentState.slides.map(s => {
-                            if (typeof s === 'string') return s.substring(0,60) + '…';
-                            return 'slide';
-                        }).join(' | ');
-                    } else {
-                        slidesPreview.innerText = '—';
-                    }
+<script>
+// ── State ──────────────────────────────────────────────────────
+let presentationId = null;
+let streamBuffer = '';      // only clean HTML
+let thinkBuffer = '';       // LLM thinking/preamble text (discarded from render)
+let htmlStarted = false;    // have we seen the first HTML tag yet?
+let streamStartTime = null;
+let tokenCount = 0;
+let byteCount = 0;
+let thinkBytes = 0;         // bytes of preamble stripped
+let currentTab = 'render';
+let streamController = null;
 
-                    if (currentSessionId) {
-                        sessionIdDisplay.innerText = currentSessionId.substring(0,8) + '…';
-                    }
-                } catch (e) {
-                    console.error('Error updating UI:', e);
-                }
-            }
+// HTML detection: starts at <!DOCTYPE, <html, or first < of a tag
+const HTML_START_RE = /<!doctype\s+html|<html[\s>]/i;
 
-            async function checkApiConnection() {
-                try {
-                    const response = await fetch(`${BASE_URL}/docs`, { method: 'HEAD' });
-                    apiStatus.innerText = '✅ Connected';
-                    apiStatus.classList.add('text-green-600');
-                } catch (err) {
-                    apiStatus.innerText = '❌ Cannot connect to API';
-                    apiStatus.classList.add('text-red-600');
-                    showAlert('Cannot connect to backend at ' + BASE_URL + '. Make sure it\'s running.', 'error');
-                }
-            }
+/**
+ * Feed a raw chunk through the filter.
+ * Returns { think: string, html: string }
+ * - think = text before HTML starts (preamble/thinking tokens)
+ * - html  = everything from first HTML tag onward
+ */
+function splitThinkHtml(chunk) {
+  if (htmlStarted) return { think: '', html: chunk };
 
-            async function apiCall(url, options, successMessage) {
-                activeRequests++;
-                setStateLoading(true);
-                try {
-                    const response = await fetch(url, {
-                        ...options,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            ...options.headers,
-                        },
-                    });
-                    let data = null;
-                    try {
-                        data = await response.json();
-                    } catch (jsonErr) {
-                        showAlert('Invalid JSON response from backend', 'error');
-                        setStateLoading(false);
-                        return null;
-                    }
-                    if (!response.ok) {
-                        const detail = data && data.detail ? data.detail : JSON.stringify(data);
-                        showAlert(`Error ${response.status}: ${detail}`, 'error');
-                        setStateLoading(false);
-                        return null;
-                    }
-                    if (!data) {
-                        showAlert('No response from backend', 'error');
-                        setStateLoading(false);
-                        return null;
-                    }
-                    if (successMessage) {
-                        showAlert(successMessage, 'success');
-                    }
-                    setStateLoading(false);
-                    return data;
-                } catch (err) {
-                    showAlert(`Network error: ${err.message}. Is the backend running?`, 'error');
-                    setStateLoading(false);
-                    return null;
-                } finally {
-                    activeRequests--;
-                }
-            }
+  // Build a candidate: thinkBuffer so far + new chunk, check for HTML start
+  const candidate = thinkBuffer + chunk;
+  const match = HTML_START_RE.exec(candidate);
 
-            async function refreshState() {
-                if (!currentProjectId) {
-                    showAlert('No active project. Create one first.', 'info');
-                    return;
-                }
-                
-                const data = await apiCall(`${BASE_URL}/projects/${currentProjectId}`, { method: 'GET' });
-                
-                if (data && data.state) {
-                    currentState = data.state;
-                    updateUIFromState();
-                }
-            }
+  if (match) {
+    htmlStarted = true;
+    const think = candidate.slice(0, match.index);
+    const html  = candidate.slice(match.index);
+    thinkBuffer = '';
+    return { think, html };
+  } else {
+    // Haven't found HTML yet — buffer everything as think text
+    thinkBuffer = candidate;
+    return { think: chunk, html: '' };
+  }
+}
 
-            // ---- event listeners ----
-            createBtn.addEventListener('click', async () => {
-                const name = projectNameInput.value.trim() || 'API test';
-                const payload = { project_name: name };
-                
-                updateLoadingState(createBtn, true);
-                
-                const data = await apiCall(`${BASE_URL}/projects`, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                }, `Project "${name}" created`);
-                
-                updateLoadingState(createBtn, false);
-                
-                if (data) {
-                    currentProjectId = data.project_id;
-                    currentSessionId = data.session_id;
-                    projectIdBadge.innerText = currentProjectId.substring(0,8) + '…';
-                    sessionIdDisplay.innerText = currentSessionId.substring(0,8) + '…';
-                    currentState = data.state || {};
-                    updateUIFromState();
-                }
-            });
+// ── Helpers ────────────────────────────────────────────────────
+function base() { return document.getElementById('base-url').value.replace(/\/$/, ''); }
 
-            setTopicBtn.addEventListener('click', async () => {
-                if (!currentProjectId) {
-                    showAlert('Please create a project first', 'info');
-                    return;
-                }
-                
-                const topic = topicInput.value.trim() || 'Default topic';
-                const content = contentInput.value.trim() || 'Default content';
-                const payload = { topic, content };
-                
-                updateLoadingState(setTopicBtn, true);
-                
-                const data = await apiCall(`${BASE_URL}/projects/${currentProjectId}/input`, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                }, 'Topic/content updated');
-                
-                updateLoadingState(setTopicBtn, false);
-                
-                if (data) {
-                    if (currentState) {
-                        currentState.topic = data.topic;
-                        currentState.content = data.content;
-                    }
-                    await refreshState();
-                }
-            });
+function log(msg, type = 'info') {
+  const el = document.getElementById('log-panel');
+  const d = document.createElement('div');
+  d.className = `log-entry log-${type}`;
+  const ts = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  d.textContent = `[${ts}] ${msg}`;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
 
-            themeNodeBtn.addEventListener('click', async () => {
-                if (!currentProjectId) {
-                    showAlert('Please create a project first', 'info');
-                    return;
-                }
-                
-                updateLoadingState(themeNodeBtn, true);
-                
-                const data = await apiCall(`${BASE_URL}/projects/${currentProjectId}/theme`, {
-                    method: 'POST'
-                }, 'Theme node executed');
-                
-                updateLoadingState(themeNodeBtn, false);
-                
-                if (data && data.state) {
-                    currentState = data.state;
-                    updateUIFromState();
-                }
-            });
+function setStatus(step, s) {
+  const el = document.getElementById(`status-${step}`);
+  el.className = `step-status status-${s}`;
+  const map = { idle: 'IDLE', running: '● RUN', done: '✓ DONE', error: '✗ ERR' };
+  el.textContent = map[s] || s;
+}
 
-            slidesDataNodeBtn.addEventListener('click', async () => {
-                if (!currentProjectId) {
-                    showAlert('Please create a project first', 'info');
-                    return;
-                }
-                
-                updateLoadingState(slidesDataNodeBtn, true);
-                
-                const data = await apiCall(`${BASE_URL}/projects/${currentProjectId}/slides-data`, {
-                    method: 'POST'
-                }, 'Slides-data node executed');
-                
-                updateLoadingState(slidesDataNodeBtn, false);
-                
-                if (data && data.state) {
-                    currentState = data.state;
-                    updateUIFromState();
-                }
-            });
+function updateStats() {
+  document.getElementById('stat-tokens').textContent = tokenCount;
+  document.getElementById('stat-bytes').textContent = byteCount > 1024 ? (byteCount / 1024).toFixed(1) + 'kb' : byteCount + 'b';
+  if (streamStartTime) {
+    document.getElementById('stat-time').textContent = (Date.now() - streamStartTime) + 'ms';
+  }
+}
 
-            fullPipelineBtn.addEventListener('click', async () => {
-                if (!currentProjectId) {
-                    showAlert('Please create a project first', 'info');
-                    return;
-                }
-                
-                updateLoadingState(fullPipelineBtn, true);
-                
-                const data = await apiCall(`${BASE_URL}/projects/${currentProjectId}/generate-all`, {
-                    method: 'POST'
-                }, 'Full pipeline completed!');
-                
-                updateLoadingState(fullPipelineBtn, false);
-                
-                if (data && data.state) {
-                    currentState = data.state;
-                    updateUIFromState();
-                    
-                    // Show summary
-                    const layoutCount = data.slides_layout?.length || 0;
-                    showAlert(`Generated ${layoutCount} slides with layouts and content`, 'success');
-                }
-            });
+function setStat(key, val) {
+  document.getElementById('stat-' + key).textContent = val;
+}
 
-            refreshStateBtn.addEventListener('click', async () => {
-                if (!currentProjectId) {
-                    showAlert('No active project', 'info');
-                    return;
-                }
-                
-                updateLoadingState(refreshStateBtn, true);
-                await refreshState();
-                updateLoadingState(refreshStateBtn, false);
-                showAlert('State refreshed', 'info');
-            });
+// ── Tabs ───────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  ['render','code','raw'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+    document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== tab);
+  });
+}
 
-            copyStateBtn.addEventListener('click', () => {
-                if (!currentState) return;
-                navigator.clipboard.writeText(JSON.stringify(currentState, null, 2));
-                showAlert('State copied to clipboard', 'success');
-            });
+// ── Preview ────────────────────────────────────────────────────
+function updatePreview(html) {
+  if (!html.trim()) return;
+  const frame = document.getElementById('slide-preview-frame');
+  document.getElementById('render-placeholder').style.display = 'none';
+  frame.style.display = 'block';
+  const doc = frame.contentDocument || frame.contentWindow.document;
+  doc.open();
+  doc.write(html);
+  doc.close();
+  document.getElementById('code-preview').textContent = html;
+}
 
-            // Check API connection on load
-            checkApiConnection();
-            
-            // Auto-refresh every 30 seconds if project exists
-            setInterval(() => {
-                if (currentProjectId) {
-                    refreshState();
-                }
-            }, 30000);
-        })();
-    </script>
+function reloadPreview() {
+  if (streamBuffer) updatePreview(streamBuffer);
+}
+
+function clearPreview() {
+  streamBuffer = '';
+  thinkBuffer = '';
+  htmlStarted = false;
+  thinkBytes = 0;
+  document.getElementById('slide-preview-frame').style.display = 'none';
+  document.getElementById('render-placeholder').style.display = '';
+  document.getElementById('code-preview').textContent = '// HTML output will appear here...';
+  document.getElementById('raw-preview').innerHTML = '';
+}
+
+function clearLog() { document.getElementById('log-panel').innerHTML = ''; }
+
+// ── Pipeline Steps ─────────────────────────────────────────────
+async function apiCall(method, url, body) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  log(`${method} ${url}`, 'info');
+  const res = await fetch(url, opts);
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`HTTP ${res.status}: ${err}`);
+  }
+  return res.json();
+}
+
+async function stepCreate() {
+  setStatus('create', 'running');
+  const topic = document.getElementById('topic').value;
+  const content = document.getElementById('content').value;
+  const data = await apiCall('POST', `${base()}/create-presentation`, { topic, content });
+  presentationId = data.presentation_id;
+  document.getElementById('presentation-id').value = presentationId;
+  document.getElementById('session-id-display').textContent = presentationId.slice(0,8) + '...';
+  document.getElementById('base-url-display').textContent = base().replace('http://','');
+  log(`Created: ${presentationId}`, 'success');
+  setStatus('create', 'done');
+}
+
+async function stepTheme() {
+  const id = document.getElementById('presentation-id').value;
+  setStatus('theme', 'running');
+  log(`Generating theme for ${id}...`, 'info');
+  await apiCall('GET', `${base()}/presentation-theme/${id}`);
+  log('Theme generated', 'success');
+  setStatus('theme', 'done');
+}
+
+async function stepLayout() {
+  const id = document.getElementById('presentation-id').value;
+  setStatus('layout', 'running');
+  log(`Generating layout for ${id}...`, 'info');
+  await apiCall('GET', `${base()}/presentation-layout/${id}`);
+  log('Layout generated', 'success');
+  setStatus('layout', 'done');
+}
+
+async function stepData() {
+  const id = document.getElementById('presentation-id').value;
+  setStatus('data', 'running');
+  log(`Generating slides data for ${id}...`, 'info');
+  await apiCall('GET', `${base()}/presentation-data/${id}`);
+  log('Slides data generated', 'success');
+  setStatus('data', 'done');
+}
+
+async function stepSlides() {
+  const id = document.getElementById('presentation-id').value;
+  if (!id) { log('No presentation ID!', 'error'); return; }
+
+  setStatus('slides', 'running');
+  setStat('status', 'STREAMING');
+  tokenCount = 0; byteCount = 0; thinkBytes = 0;
+  streamBuffer = ''; thinkBuffer = ''; htmlStarted = false;
+  streamStartTime = Date.now();
+
+  document.getElementById('stream-indicator').classList.remove('hidden');
+  document.getElementById('stream-indicator').style.display = 'flex';
+
+  // Clear raw tab
+  document.getElementById('raw-preview').innerHTML =
+    `<div style="color:#555; margin-bottom:8px; font-size:0.7rem;">── RAW STREAM (think tokens = <span style="color:#ff4545">red</span>, html tokens = <span style="color:#aaffaa">green</span>) ──</div>`;
+
+  log(`Starting stream from /presentation-slides/${id}`, 'stream');
+
+  try {
+    if (streamController) streamController.abort();
+    streamController = new AbortController();
+
+    const res = await fetch(`${base()}/presentation-slides/${id}`, { signal: streamController.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let rafPending = false;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const raw = decoder.decode(value, { stream: true });
+      byteCount += value.byteLength;
+      updateStats();
+
+      const { think, html } = splitThinkHtml(raw);
+
+      // Track think bytes
+      if (think) {
+        thinkBytes += new TextEncoder().encode(think).length;
+        document.getElementById('stat-stripped').textContent = thinkBytes + 'b';
+        // Show in raw tab as red
+        appendRaw(think, 'think');
+        log(`[THINK] stripped ${think.length} chars`, 'stream');
+      }
+
+      if (html) {
+        streamBuffer += html;
+        tokenCount += html.split(/\s+/).filter(Boolean).length;
+        updateStats();
+        appendRaw(html, 'html');
+
+        // Throttled live render
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(() => {
+            rafPending = false;
+            if (currentTab === 'render') updatePreview(streamBuffer);
+            if (currentTab === 'code') document.getElementById('code-preview').textContent = streamBuffer;
+          });
+        }
+      }
+    }
+
+    // Final render no matter what tab
+    if (streamBuffer) {
+      updatePreview(streamBuffer);
+    } else {
+      log('⚠ No HTML found in stream — entire output was think/preamble text!', 'error');
+      log('Fix: add "Output ONLY raw HTML, no explanation" to your prompt.', 'error');
+    }
+
+    log(`Stream complete — HTML: ${byteCount - thinkBytes}b | Stripped think: ${thinkBytes}b | Total: ${byteCount}b | ${Date.now() - streamStartTime}ms`, 'success');
+    setStatus('slides', 'done');
+    setStat('status', 'DONE');
+    document.getElementById('stat-time').textContent = (Date.now() - streamStartTime) + 'ms';
+
+  } catch (e) {
+    if (e.name !== 'AbortError') {
+      log(`Stream error: ${e.message}`, 'error');
+      setStatus('slides', 'error');
+      setStat('status', 'ERR');
+    }
+  } finally {
+    document.getElementById('stream-indicator').style.display = 'none';
+  }
+}
+
+function appendRaw(text, type) {
+  const el = document.getElementById('raw-preview');
+  const span = document.createElement('span');
+  span.style.color = type === 'think' ? '#ff6666' : '#aaffaa';
+  span.textContent = text;
+  el.appendChild(span);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── Run specific step or all ───────────────────────────────────
+async function runStep(step) {
+  try {
+    if (step === 'create') await stepCreate();
+    else if (step === 'theme') await stepTheme();
+    else if (step === 'layout') await stepLayout();
+    else if (step === 'data') await stepData();
+    else if (step === 'slides') await stepSlides();
+  } catch(e) {
+    log(`Error in step ${step}: ${e.message}`, 'error');
+    setStatus(step, 'error');
+  }
+}
+
+async function runAllSteps() {
+  const btn = document.getElementById('run-all-btn');
+  btn.disabled = true;
+  btn.textContent = '● RUNNING...';
+  try {
+    await runStep('create');
+    await runStep('theme');
+    await runStep('layout');
+    await runStep('data');
+    await runStep('slides');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▶ RUN FULL PIPELINE';
+  }
+}
+
+function resetAll() {
+  presentationId = null;
+  streamBuffer = ''; thinkBuffer = ''; htmlStarted = false; thinkBytes = 0;
+  tokenCount = 0; byteCount = 0;
+  document.getElementById('presentation-id').value = '';
+  document.getElementById('session-id-display').textContent = 'no session';
+  ['create','theme','layout','data','slides'].forEach(s => setStatus(s, 'idle'));
+  setStat('status', 'IDLE');
+  setStat('tokens', '0');
+  setStat('bytes', '0');
+  setStat('time', '0ms');
+  setStat('stripped', '0');
+  clearPreview();
+  if (streamController) streamController.abort();
+  log('Pipeline reset', 'info');
+}
+
+function copyPresentationId() {
+  const id = document.getElementById('presentation-id').value;
+  if (!id) { log('No ID to copy', 'error'); return; }
+  navigator.clipboard.writeText(id).then(() => log(`Copied: ${id}`, 'success'));
+}
+
+// Click-to-run individual step rows
+document.querySelectorAll('.step-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const step = row.dataset.step;
+    runStep(step).catch(e => log(`${step}: ${e.message}`, 'error'));
+  });
+  row.style.cursor = 'pointer';
+});
+
+function copyBackendFix() {
+  const code = `async def clean_html_stream(gemini_stream):
+    import re
+    html_started = False
+    buffer = ""
+    HTML_RE = re.compile(r'<!doctype\\s+html|<html[\\s>]', re.IGNORECASE)
+    async for chunk in gemini_stream:
+        text = chunk.content if hasattr(chunk,"content") else str(chunk)
+        if not text:
+            continue
+        text = text.replace("\`\`\`html\\n","").replace("\`\`\`html","").replace("\`\`\`","")
+        if html_started:
+            yield text
+            continue
+        buffer += text
+        m = HTML_RE.search(buffer)
+        if m:
+            html_started = True
+            yield buffer[m.start():]
+            buffer = ""`;
+  navigator.clipboard.writeText(code).then(() => log('Backend fix code copied to clipboard!', 'success'));
+}
+
+log('Debug console ready. Configure API base URL and hit RUN.', 'info');
+</script>
 </body>
 </html>
