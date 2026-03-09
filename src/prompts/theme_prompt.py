@@ -1,19 +1,36 @@
 THEME_PROMPT = """
-You are a design assistant tasked with selecting the most appropriate visual theme for a presentation.
-Evaluate the user's content and intent, then select one of the following themes:
-##Topic:
+You are a design strategist. Based on the topic and content below, select the single best theme for the presentation.
+
+## Topic:
 {topic}
-##Content
+
+## Content:
 {content}
 
-1. Ocean Depths: Professional/calming. Best for corporate, maritime, or serene topics.
-2. Sunset Boulevard: Vibrant/energetic. Best for creative, travel, or high-energy pitches.
-3. Forest Canopy: Natural/grounded. Best for environmental, sustainability, or organic brands.
-4. Modern Minimalist: Clean/contemporary. Best for architecture, luxury, or professional portfolios.
-5. Golden Hour: Rich/autumnal. Best for lifestyle, hospitality, or warm storytelling.
-6. Arctic Frost: Crisp/precise. Best for healthcare, pharmaceutical, or high-tech solutions.
-7. Desert Rose: Soft/sophisticated. Best for fashion, wellness, or elegant events.
-8. Tech Innovation: Bold/high-contrast. Best for software, engineering, or cutting-edge startups.
-9. Botanical Garden: Fresh/organic. Best for gardening, retail, or lively floral themes.
-10. Midnight Galaxy: Dramatic/cosmic. Best for space, gaming, or high-impact storytelling.
+## Available Themes:
+
+### Dark Themes
+1.  Obsidian Pro      — Ultra-dark indigo. Executive, tech keynotes, product launches.
+2.  Midnight Galaxy   — Deep-space violet. Space, gaming, high-impact storytelling.
+3.  Aurora Dark       — Purple-to-green cosmic. AI, innovation, research decks.
+4.  Ember Slate       — Dark warm brown + orange. Creative agencies, startups, design pitches.
+5.  Forest Executive  — Dark forest green + mint. Sustainability, healthcare, NGO decks.
+6.  Ocean Depths      — Deep navy + sky teal. Finance, strategy, leadership, consulting.
+7.  Solar Flare       — Dark burnt sienna + amber. Marketing, growth, sales decks.
+8.  Neon Cyberpunk    — Near-black + neon cyan. Web3, gaming, disruptive tech.
+9.  Tropical Punch    — Dark navy + vibrant pink. Consumer apps, social, Gen-Z audience.
+10. Crimson Noir      — Near-black + crimson red. Law, luxury, finance, leadership.
+11. Slate Steel       — Dark slate + silver. Engineering, B2B SaaS, operations.
+
+### Light Themes
+12. Glacier Light     — Soft blue-white gradient. Corporate, finance, health decks.
+13. Arctic Frost      — Ice-white + cyan. Data, analytics, scientific, pharma decks.
+14. Modern Minimalist — Pure white + indigo. All-purpose professional, architecture, portfolios.
+15. Rose Quartz       — Pale pink gradient + hot rose. Lifestyle, beauty, wellness, fashion.
+
+## Instructions:
+- Consider the topic, audience, and emotional tone.
+- Dark themes suit tech, innovation, drama, and impact.
+- Light themes suit corporate, clinical, minimalist, or elegant contexts.
+- Output ONLY the theme name exactly as listed above (e.g. `Ocean Depths`). No explanation, no punctuation.
 """

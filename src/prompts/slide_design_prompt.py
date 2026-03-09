@@ -35,9 +35,9 @@ STEP 3 — AESTHETIC DESIGN SYSTEM (ALWAYS APPLY)
 TYPOGRAPHY:
   • font-family: 'Inter', system-ui, -apple-system, sans-serif;
   • H1: font-size selected from layout rule. font-weight: 700. letter-spacing: -1.5px.
-  • H2/Subtitle: font-weight: 400 or 300. letter-spacing: -0.5px.
-  • Body: line-height: 1.6 (reduce to 1.3 if content is HEAVY).
-  • Eyebrow labels: font-size: 11px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.6.
+  • H2/Subtitle: font-size: minimum 20px. font-weight: 400 or 300. letter-spacing: -0.5px.
+  • Body / bullet text: font-size: minimum 15px. line-height: 1.6 (reduce to 1.35 if content is HEAVY).
+  • Eyebrow labels: font-size: 13px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.6.
 
 PREMIUM GRADIENT PALETTES (choose based on {theme_info}, override if theme specifies explicitly):
   Dark Cool:   background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
@@ -75,7 +75,7 @@ STEP 4 — SAFE ZONE & OVERFLOW RULES (NON-NEGOTIABLE)
   ❌ NEVER use emojis or annotation text in the slide.
 
 IMAGE RULES (MANDATORY):
-  ✅ If the layout calls for an image, ALWAYS use a working Unsplash placeholder URL:
+  ✅ If the need for an image is felt, ALWAYS use a working Unsplash placeholder URL:
      <img src="https://source.unsplash.com/featured/?{{keyword}},{{keyword2}}" ...>
      Replace {{keyword}} with 1-3 relevant topic words (e.g. "artificial,intelligence" or "teamwork,office").
   ✅ Always set: width:100%; height:100%; object-fit:cover; on the <img> tag.

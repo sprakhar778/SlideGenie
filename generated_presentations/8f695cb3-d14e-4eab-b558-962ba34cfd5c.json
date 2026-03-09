@@ -1,7 +1,7 @@
 {
     "topic": "AI is the future of the healthcare",
     "content": "Section 1: Foundations: What AI Really Is\n- What Artificial Intelligence actually means\n- Types of AI (Narrow, General, Super)\n- AI vs Machine Learning vs Deep Learning\n\nSection 2: How AI Works\n- Data: the fuel of AI\n- Models: how machines learn patterns\n- Training: how AI improves\n- Overfitting & generalization\n\nSection 3: Major AI Approaches\n- Supervised learning\n- Unsupervised learning\n- Reinforcement learning\n\nSection 4: Deep Learning & Neural Networks\n- What neural networks are",
-    "theme_info": "Theme: Tech Innovation | Primary: #0B0F19 | Secondary: #7C3AED | Accent: #06B6D4 | Headers: DejaVu Sans Bold | Body: DejaVu Sans",
+    "theme_info": "Obsidian Pro - ### Theme: Obsidian Pro | Identity: Ultra-dark, ultra-premium. Built for high-impact executive decks and tech keynotes. | CSS Background: background: linear-gradient(135deg, #0a0a0f 0%, #12121f 50%, #0d0d1a 100%); | Colors → Text (primary): #f0f0f8, Text (secondary/muted): rgba(240,240,248,0.55), Accent: #6366f1 (Indigo Electric), Accent glow: rgba(99,102,241,0.25), Card surface: rgba(255,255,255,0.05), Card border: rgba(255,255,255,0.09), Divider: rgba(255,255,255,0.08) | Typography (Google Fonts) → Headings: 'Plus Jakarta Sans', sans-serif weight 800; Body: 'Inter', sans-serif weight 300/400; Eyebrow labels: uppercase, letter-spacing 3–4px, accent color, opacity 0.65",
     "slides_data": [
         {
             "slide_type": "Hero",
