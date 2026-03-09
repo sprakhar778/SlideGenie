@@ -12,11 +12,15 @@ THEME:          {theme_info}
 ═══════════════════════════════════════════════════════
 STEP 1 — CONTENT DENSITY ANALYSIS (DO THIS FIRST)
 ═══════════════════════════════════════════════════════
-Before writing a single line of HTML, classify the content:
+Before writing a single line of HTML, classify the content into ONE of these tiers:
 
-  • MINIMAL  → 1-2 short sentences / title + sub-title only
-  • MODERATE → 3-5 bullet points or one short paragraph
-  • HEAVY    → 6+ bullets, 2+ paragraphs, or many facts/stats
+  • ICON-ONLY  → single word / symbol / logo / pure visual — no body text at all
+  • MINIMAL    → 1-2 short sentences / title + subtitle only
+  • MODERATE   → 3-5 bullet points or one short paragraph
+  • HEAVY      → 6-10 bullets, 2+ paragraphs, or mixed text and stats
+  • DATA-RICH  → tables, charts, many numbers, side-by-side comparisons, or 10+ items
+
+Pick the SINGLE best-fit tier and use it to govern your layout decisions in STEP 2.
 
 
 ═══════════════════════════════════════════════════════
@@ -64,10 +68,19 @@ STEP 4 — SAFE ZONE & OVERFLOW RULES (NON-NEGOTIABLE)
   ✅ Slide is EXACTLY 1280×720px. width:1280px; height:720px; overflow:hidden.
   ✅ MANDATORY safe inner padding → see layout playbook above (min 40px all sides).
   ✅ All child elements: max-width:100%; box-sizing:border-box.
+  ❌ NEVER include page numbers, slide counters, company names, brand names, department names, presenter names, author credits, or placeholder dates (e.g. "Q1 2025", "March 2026") — unless the user has explicitly provided that information in SLIDE CONTENT or OVERALL TOPIC.
   ❌ NEVER use overflow:scroll, overflow:auto — this is exported as PPT/PDF.
   ❌ NEVER use position:absolute for primary text content.
   ❌ NEVER make elements taller than the available height after padding.
   ❌ NEVER use emojis or annotation text in the slide.
+
+IMAGE RULES (MANDATORY):
+  ✅ If the layout calls for an image, ALWAYS use a working Unsplash placeholder URL:
+     <img src="https://source.unsplash.com/featured/?{{keyword}},{{keyword2}}" ...>
+     Replace {{keyword}} with 1-3 relevant topic words (e.g. "artificial,intelligence" or "teamwork,office").
+  ✅ Always set: width:100%; height:100%; object-fit:cover; on the <img> tag.
+  ❌ NEVER use broken paths like "image.jpg", "photo.png", or any local/relative file reference.
+  ❌ NEVER use a <div> as a fake image — always use a real <img> tag with the Unsplash URL above.
 
 ═══════════════════════════════════════════════════════
 STEP 5 — MANDATORY BASE HTML TEMPLATE

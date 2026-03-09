@@ -43,8 +43,7 @@ AGENDA_SLIDE_LAYOUT = {
       "    + section heading (font-size:15px; font-weight:700; margin-top:4px). "
       "  Right cell: short description — font-size:13px; font-weight:300; opacity:0.7; line-height:1.55. "
       "Footer bar (margin-top:auto; display:flex; justify-content:space-between; align-items:center): "
-      "  • Presenter name or date — 11px, opacity:0.45, letter-spacing:1px. "
-      "  • Topic count badge — accent colored pill, 11px."
+     
     )
   },
   "3": {
