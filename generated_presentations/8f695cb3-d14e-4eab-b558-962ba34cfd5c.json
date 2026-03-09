@@ -1,7 +1,7 @@
 {
     "topic": "ai",
     "content": "Section 1: Foundations: What AI Really Is\n- What Artificial Intelligence actually means\n- Types of AI (Narrow, General, Super)\n- AI vs Machine Learning vs Deep Learning\n\nSection 2: How AI Works\n- Data: the fuel of AI\n- Models: how machines learn patterns\n- Training: how AI improves\n- Overfitting & generalization\n\nSection 3: Major AI Approaches\n- Supervised learning\n- Unsupervised learning\n- Reinforcement learning\n\nSection 4: Deep Learning & Neural Networks\n- What neural networks are",
-    "theme_info": "### Theme: Tech Innovation\nIdentity: Cutting-edge and high-contrast. Bold colors for modern tech.\n\n#### Color Plete New Blue Corporate Style - Actionable elements.\n\n#### Typography\n- Headers: DejaVu Sans Bold\n- Body Text: DejaVu Sans",
+    "theme_info": "### Theme: Tech Innovation\nIdentity: Cutting-edge and high-contrast. Bold colors for modern tech.\n\n#### Color Palette (60-30-10 Rule)\n- Primary (60%): #F2F2F2 (Off-white) - Clean tech surface.\n- Secondary (30%): #028090 (Teal) - Core brand color.\n- Accent (10%): #02C39A (Mint) - Actionable elements.\n\n#### Typography\n- Headers: DejaVu Sans Bold\n- Body Text: DejaVu Sans",
     "slides_data": [
         {
             "slide_type": "Hero",

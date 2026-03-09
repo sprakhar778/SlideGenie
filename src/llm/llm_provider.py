@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_llm(model_name: str = "openai/gpt-oss-120b", temperature: float = 0.3, streaming: bool = True):
-    model_name="qwen/qwen3-32b"
+    # model_name="qwen/qwen3-32b"
     llm=ChatGroq(model=model_name, temperature=temperature,streaming=streaming, max_tokens=5000)
     return llm
 
@@ -18,8 +18,9 @@ def get_llm(model_name: str = "openai/gpt-oss-120b", temperature: float = 0.3, s
 
 # def get_llm(model_name: str = "gemini-3.1-pro-preview", temperature: float = 0.3, streaming: bool = True):
 #     """Factory function to initialize and return a configured LLM instance."""
-#     model_name = "gemini-3-flash-preview"
+#     # model_name = "gemini-3-flash-preview"
 #     # model_name = "gemini-2.5-flash-lite"
+#     model_name="gemini-3.1-flash-lite-preview"
 #     llm = ChatGoogleGenerativeAI(model=model_name, temperature=temperature,streaming=streaming)
 #     # thinking_level="low"
 #     return llm
