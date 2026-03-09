@@ -14,7 +14,7 @@ def generate_slide_layout_node(state):
         slide_type = slide["slide_type"] 
 
         # 🔹 Call layout selection chain
-        slide_layout = get_layout(slide_type,k=1)
+        slide_layout = get_layout(slide_type)
 
         # 🔹 Store structured layout inside state
         slide["layout"]=slide_layout

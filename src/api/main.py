@@ -203,8 +203,8 @@ def get_presentation_data(presentation_id: str, presentation_index: int = 0):
 
 
 #-------------------------------get presentation slide layout - generates slide layout if not already generated, otherwise returns existing slide layout-------------
-@app.get("/presentation-layout/{presentation_id}",description="Generates slide layout for each slide based on the presentation state if not already generated. Returns existing slide layout if already generated.",tags=["Slide Layout Management"])
-def get_presentation_layout(presentation_id: str,presentation_index:int=0):
+@app.get("/presentation-layout/{presentation_id}",description="Generates slide layout for each slide based on the presentation state if not already generated. Returns existing slide layout if already generated. Pass force=true to regenerate even if already generated.",tags=["Slide Layout Management"])
+def get_presentation_layout(presentation_id: str, presentation_index:int=0, force:bool=False):
     # Load the presentation state
     output_path = os.path.join("generated_presentations", f"{presentation_id}.json")
     
@@ -214,7 +214,7 @@ def get_presentation_layout(presentation_id: str,presentation_index:int=0):
     
     state = load_presentation(presentation_id)
 
-    if state.get("slides_data")[presentation_index].get("layout"):
+    if not force and state.get("slides_data")[presentation_index].get("layout"):
         return {"message": "Slide layout already generated.", "presentation_id": presentation_id, "slides_data": state["slides_data"][presentation_index]}
  
     # Step 3: Generate slide layout
