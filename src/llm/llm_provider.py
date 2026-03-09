@@ -9,7 +9,8 @@ load_dotenv()
 def get_llm(model_name: str = "openai/gpt-oss-120b", temperature: float = 0.3, streaming: bool = True):
     # model_name="qwen/qwen3-32b"
   
-    model_name="moonshotai/kimi-k2-instruct-0905"
+    # model_name="moonshotai/kimi-k2-instruct-0905"
+    # model_name="llama-3.3-70b-versatile"
     llm=ChatGroq(model=model_name, temperature=temperature,streaming=streaming, max_tokens=5000)
     return llm
 

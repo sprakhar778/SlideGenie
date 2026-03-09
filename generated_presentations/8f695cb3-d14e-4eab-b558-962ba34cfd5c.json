@@ -1,5 +1,5 @@
 {
-    "topic": "ai",
+    "topic": "AI is the future of the healthcare",
     "content": "Section 1: Foundations: What AI Really Is\n- What Artificial Intelligence actually means\n- Types of AI (Narrow, General, Super)\n- AI vs Machine Learning vs Deep Learning\n\nSection 2: How AI Works\n- Data: the fuel of AI\n- Models: how machines learn patterns\n- Training: how AI improves\n- Overfitting & generalization\n\nSection 3: Major AI Approaches\n- Supervised learning\n- Unsupervised learning\n- Reinforcement learning\n\nSection 4: Deep Learning & Neural Networks\n- What neural networks are",
     "theme_info": "Theme: Tech Innovation | Primary: #0B0F19 | Secondary: #7C3AED | Accent: #06B6D4 | Headers: DejaVu Sans Bold | Body: DejaVu Sans",
     "slides_data": [

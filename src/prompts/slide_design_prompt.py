@@ -28,7 +28,9 @@ Then pick the matching layout from the LAYOUT PLAYBOOK below:
 STEP 2 — LAYOUT PLAYBOOK (EXACT CSS PATTERNS TO USE)
 ═══════════════════════════════════════════════════════
 
+
 ● HERO Layout  (MINIMAL content)
+
   .slide-container {{
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
