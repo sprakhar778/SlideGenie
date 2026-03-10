@@ -7,7 +7,8 @@ import asyncio
 
 
 async def get_image_planner_chain(topic: str, content: str, layout: str) -> list[dict]:
-    llm = get_llm(streaming=False).with_structured_output(ImagePlanList)
+    # Use json_mode for better reliability with models that sometimes include preambles
+    llm = get_llm(streaming=False).with_structured_output(ImagePlanList, method="json_mode")
 
     image_planner_prompt = PromptTemplate(
         template=IMAGE_PLANNER_PROMPT,
@@ -49,6 +50,5 @@ def format_image_plan(image_plan: list[dict]) -> str:
     for i, img in enumerate(image_plan, 1):
         lines.append(f"  IMAGE {i}:")
         lines.append(f"    URL:         {img['image_url']}")
-        lines.append(f"    Keywords:    {img['image_keywords']}")
-        lines.append(f"    Placement:   {img['image_description']}")
+        lines.append(f"    Image Description:   {img['image_description']}")
     return "\n".join(lines)

@@ -10,19 +10,14 @@ from dotenv import load_dotenv
 import asyncio
 load_dotenv()
 
-#  image_plan_dict = []
-#     for image_plan in image_plan:
-#         image_plan_dict.append({
-#             "image_keywords": image_plan["image_keywords"],
-#             "image_description": image_plan["image_description"],
-#             "image_url": fetch_unsplash_image_url(image_plan["image_keywords"]),
-#         })  
+
     
 async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
     slide_type = slide_data["slide_type"]
     slide_content = slide_data["content"]
     slide_layout = slide_data["layout"]
     
+    #for geeting image plan dict {}
     image_plan_list = await get_image_planner_chain(topic, slide_content, slide_layout)
     image_plan = format_image_plan(image_plan_list)
     

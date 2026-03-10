@@ -77,38 +77,61 @@ STEP 4 — SAFE ZONE & OVERFLOW RULES (NON-NEGOTIABLE)
 IMAGE RULES (MANDATORY):
 {image_plan}
 
+  ── IMAGE FORMAT (READ FIRST) ─────────────────────────────────────────────
+    All pre-fetched images are already 1280×720px (16:9 landscape, center-cropped by Unsplash).
+      Use containers that RESPECT this 16:9 ratio. Forcing a landscape image into a tall/narrow
+      box will cut the subject badly. Always match container shape to the image ratio.
+
   ── WHEN IMAGES ARE PROVIDED ──────────────────────────────────────────────
-  ✅ Use EXACTLY the URLs provided — do NOT alter, truncate, or guess any URL.
-  ✅ Follow the Placement description for each image (hero, card, sidebar, etc.).
+  -Use EXACTLY the image URLs from IMAGE PLAN below — never alter, truncate, or invent a URL.
+  -Follow the Image Description for each image to decide placement type (HERO/CARD/SIDEBAR/INLINE).
+  -Images must ALWAYS be contained — they must NEVER control or expand the layout.
+  -Design the slide layout and content grid FIRST; images fill their pre-allocated space.
 
   HERO / BACKGROUND IMAGE (full-slide or half-panel background):
+    <!-- Image IS 1280×720 — matches slide exactly, no cropping occurs -->
     <div style="position:absolute; inset:0; overflow:hidden; z-index:0;">
-      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
-      <!-- Add dark overlay for text legibility: -->
-      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 100%);"></div>
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
+      <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.15) 100%);"></div>
     </div>
+    <!-- All text must sit in: <div style="position:relative; z-index:1;"> -->
 
   CARD / THUMBNAIL IMAGE (inside a card or panel):
-    <div style="width:100%; height:180px; overflow:hidden; border-radius:10px 10px 0 0;">
-      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
+    <!-- Use aspect-ratio:16/9 — never a fixed height. Landscape image fits naturally. -->
+    <div style="width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:10px 10px 0 0; flex-shrink:0;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;">
     </div>
 
-  SIDEBAR / SPLIT-PANEL IMAGE (right or left panel):
-    <div style="width:100%; height:100%; overflow:hidden; border-radius:12px;">
-      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
+  SIDEBAR / SPLIT-PANEL IMAGE (right or left panel, max 45% of slide width):
+    <!-- Constrain width explicitly. Never use height:100% alone — it stretches a landscape image badly. -->
+    <div style="width:45%; max-width:560px; aspect-ratio:16/9; overflow:hidden; border-radius:12px; flex-shrink:0; align-self:center;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
     </div>
 
-  ✅ If a URL is "none", substitute with a loremflickr URL using its keywords:
-     <img src="https://loremflickr.com/1280/720/{{keyword}}" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;" loading="lazy">
+  INLINE / ACCENT IMAGE (illustration sitting in content flow):
+    <!-- Respect 16:9. Never use height:auto — it will expand and push content off slide. -->
+    <div style="width:100%; aspect-ratio:16/9; max-height:240px; overflow:hidden; border-radius:10px; flex-shrink:0;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;">
+    </div>
+
+  ── FALLBACK — IF A URL IS "none" OR MISSING ──────────────────────────────
+  ✅ Replace with a loremflickr URL built from the image's keywords (comma-separated → use first word):
+     <img src="https://loremflickr.com/800/500/keyword" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" loading="lazy">
 
   ── WHEN NO IMAGES ARE NEEDED ─────────────────────────────────────────────
-  ❌ If image_plan says "No images are needed" — do NOT add any <img> tags at all.
+  ❌ If IMAGE PLAN says "No images needed" — do NOT add any <img> tags whatsoever.
 
   ── ALWAYS FORBIDDEN ──────────────────────────────────────────────────────
-  ❌ NEVER use source.unsplash.com — it is deprecated and returns broken images.
-  ❌ NEVER use broken paths like "image.jpg", "photo.png", or any local/relative file reference.
-  ❌ NEVER use a <div> as a fake image — always use a real <img> tag with a valid URL.
-  ❌ NEVER place <img> outside an overflow:hidden container — images must never bleed.
+  ❌ NEVER use source.unsplash.com — deprecated, returns broken images.
+  ❌ NEVER use local/relative paths like "image.jpg", "photo.png".
+  ❌ NEVER use a <div> with background-image as a substitute for <img>.
+  ❌ NEVER place <img> outside an overflow:hidden wrapper — images must never bleed.
+  ❌ NEVER use height:auto on <img> inside flex/grid — always use height:100% with an aspect-ratio wrapper.
+  ❌ NEVER use a fixed pixel height (e.g. height:160px) for image containers — use aspect-ratio:16/9 instead.
+  ❌ NEVER squeeze a 16:9 image into a tall/narrow box — this cuts the subject. Match the container shape to the image ratio.
+  ❌ NEVER add images if doing so would force text off-screen or shrink critical content.
+
+
 
 ═══════════════════════════════════════════════════════
 STEP 5 — MANDATORY BASE HTML TEMPLATE

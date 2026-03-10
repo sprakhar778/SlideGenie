@@ -14,21 +14,20 @@ async def generate_slides_node(state):
     slides_data =[slides_data[0], slides_data[1]]  # --- TEST MODE: Only generate first slide safely ---
 
     queue = asyncio.Queue()
+    sem = asyncio.Semaphore(2)  # Max 2 concurrent LLM calls to avoid rate limits
 
     async def stream_single_slide(index, slide_data):
-        # Stagger starts by 3s per slide to avoid concurrent LLM calls hitting rate limits
-        if index > 0:
-            await asyncio.sleep(index)
-        async for token in stream_slide_generator_chain(
-            topic, theme, slide_data
-        ):
-            await queue.put(
-                {
-                    "slide_index": index,
-                    "token": token,
-                }
-            )
-        await queue.put({"slide_index": index, "done": True})
+        async with sem:
+            async for token in stream_slide_generator_chain(
+                topic, theme, slide_data
+            ):
+                await queue.put(
+                    {
+                        "slide_index": index,
+                        "token": token,
+                    }
+                )
+            await queue.put({"slide_index": index, "done": True})
 
     tasks = [
         asyncio.create_task(stream_single_slide(i, slide))
@@ -51,30 +50,30 @@ async def generate_slides_node(state):
         await asyncio.gather(*tasks, return_exceptions=True)
 
 
-if __name__ == "__main__":
-    # Example state for testing
-    state = {
-        "topic": "Sustainable Energy Solutions",
-        "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
-        "slides_data": [
-            {
-                "slide_type": "Title Slide",
-                "content": "Introduction to Sustainable Energy Solutions",
-                "layout": "Title and Subtitle"
-            },
-            {
-                "slide_type": "Content Slide",
-                "content": "Overview of different sustainable energy solutions including solar, wind, and hydro power.",
-                "layout": "Title and Bullet Points"
-            }
-        ]
-    }
+# if __name__ == "__main__":
+#     # Example state for testing
+#     state = {
+#         "topic": "Sustainable Energy Solutions",
+#         "theme_info": "A modern, clean design with green and blue accents to reflect the sustainability theme.",
+#         "slides_data": [
+#             {
+#                 "slide_type": "Title Slide",
+#                 "content": "Introduction to Sustainable Energy Solutions",
+#                 "layout": "Title and Subtitle"
+#             },
+#             {
+#                 "slide_type": "Content Slide",
+#                 "content": "Overview of different sustainable energy solutions including solar, wind, and hydro power.",
+#                 "layout": "Title and Bullet Points"
+#             }
+#         ]
+#     }
 
-    async def test_generate_slides():
-        async for item in generate_slides_node(state):
-            print(item)
+#     async def test_generate_slides():
+#         async for item in generate_slides_node(state):
+#             print(item)
 
-    asyncio.run(test_generate_slides())
+#     asyncio.run(test_generate_slides())
 
 # python -m src.graph.nodes.slide_generator_node
 
