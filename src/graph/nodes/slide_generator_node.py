@@ -11,11 +11,14 @@ async def generate_slides_node(state):
     theme = state["theme_info"]
     # FIX: Assuming slides_data is a list of slide dicts based on your JSON
     slides_data = state.get("slides_data", [])
-    slides_data =[slides_data[0], slides_data[1], slides_data[2]]  # --- TEST MODE: Only generate first slide safely ---
+    slides_data =[slides_data[0], slides_data[1]]  # --- TEST MODE: Only generate first slide safely ---
 
     queue = asyncio.Queue()
 
     async def stream_single_slide(index, slide_data):
+        # Stagger starts by 3s per slide to avoid concurrent LLM calls hitting rate limits
+        if index > 0:
+            await asyncio.sleep(index)
         async for token in stream_slide_generator_chain(
             topic, theme, slide_data
         ):

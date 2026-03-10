@@ -26,8 +26,8 @@ Pick the SINGLE best-fit tier and use it to govern your layout decisions in STEP
 ═══════════════════════════════════════════════════════
 STEP 2 — LAYOUT PLAYBOOK (EXACT CSS PATTERNS TO USE)
 ═══════════════════════════════════════════════════════
-
-LAYOUT HINT - ADAPT BASED ON CONTENT IF REQUIRED:    {slide_layout}  |  Slide type: {slide_type}
+Slide type is: {slide_type}
+LAYOUT HINT - ADAPT BASED ON CONTENT IF REQUIRED:    {slide_layout} 
 ═══════════════════════════════════════════════════════
 STEP 3 — AESTHETIC DESIGN SYSTEM (ALWAYS APPLY)
 ═══════════════════════════════════════════════════════
@@ -75,12 +75,40 @@ STEP 4 — SAFE ZONE & OVERFLOW RULES (NON-NEGOTIABLE)
   ❌ NEVER use emojis or annotation text in the slide.
 
 IMAGE RULES (MANDATORY):
-  ✅ If the need for an image is felt, ALWAYS use a working Unsplash placeholder URL:
-     <img src="https://source.unsplash.com/featured/?{{keyword}},{{keyword2}}" ...>
-     Replace {{keyword}} with 1-3 relevant topic words (e.g. "artificial,intelligence" or "teamwork,office").
-  ✅ Always set: width:100%; height:100%; object-fit:cover; on the <img> tag.
+{image_plan}
+
+  ── WHEN IMAGES ARE PROVIDED ──────────────────────────────────────────────
+  ✅ Use EXACTLY the URLs provided — do NOT alter, truncate, or guess any URL.
+  ✅ Follow the Placement description for each image (hero, card, sidebar, etc.).
+
+  HERO / BACKGROUND IMAGE (full-slide or half-panel background):
+    <div style="position:absolute; inset:0; overflow:hidden; z-index:0;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
+      <!-- Add dark overlay for text legibility: -->
+      <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 100%);"></div>
+    </div>
+
+  CARD / THUMBNAIL IMAGE (inside a card or panel):
+    <div style="width:100%; height:180px; overflow:hidden; border-radius:10px 10px 0 0;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
+    </div>
+
+  SIDEBAR / SPLIT-PANEL IMAGE (right or left panel):
+    <div style="width:100%; height:100%; overflow:hidden; border-radius:12px;">
+      <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;">
+    </div>
+
+  ✅ If a URL is "none", substitute with a loremflickr URL using its keywords:
+     <img src="https://loremflickr.com/1280/720/{{keyword}}" style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block;" loading="lazy">
+
+  ── WHEN NO IMAGES ARE NEEDED ─────────────────────────────────────────────
+  ❌ If image_plan says "No images are needed" — do NOT add any <img> tags at all.
+
+  ── ALWAYS FORBIDDEN ──────────────────────────────────────────────────────
+  ❌ NEVER use source.unsplash.com — it is deprecated and returns broken images.
   ❌ NEVER use broken paths like "image.jpg", "photo.png", or any local/relative file reference.
-  ❌ NEVER use a <div> as a fake image — always use a real <img> tag with the Unsplash URL above.
+  ❌ NEVER use a <div> as a fake image — always use a real <img> tag with a valid URL.
+  ❌ NEVER place <img> outside an overflow:hidden container — images must never bleed.
 
 ═══════════════════════════════════════════════════════
 STEP 5 — MANDATORY BASE HTML TEMPLATE

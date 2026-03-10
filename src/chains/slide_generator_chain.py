@@ -5,15 +5,29 @@ from langchain_core.runnables import RunnableLambda
 from src.prompts.slide_design_prompt import SLIDE_DESIGN_PROMPT 
 from src.llm.llm_provider import get_llm
 from src.helpers.clean_text import clean_html_output
+from src.chains.image_planner_chain import get_image_planner_chain, format_image_plan
 from dotenv import load_dotenv
 import asyncio
 load_dotenv()
 
-
+#  image_plan_dict = []
+#     for image_plan in image_plan:
+#         image_plan_dict.append({
+#             "image_keywords": image_plan["image_keywords"],
+#             "image_description": image_plan["image_description"],
+#             "image_url": fetch_unsplash_image_url(image_plan["image_keywords"]),
+#         })  
+    
 async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
     slide_type = slide_data["slide_type"]
     slide_content = slide_data["content"]
     slide_layout = slide_data["layout"]
+    
+    image_plan_list = await get_image_planner_chain(topic, slide_content, slide_layout)
+    image_plan = format_image_plan(image_plan_list)
+    
+
+    
 
     llm = get_llm(streaming=True)
 
@@ -25,6 +39,8 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
             "theme_info",
             "slide_type",
             "slide_layout",
+            "image_plan",
+           
         ],
     )
 
@@ -37,6 +53,7 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
             "theme_info": theme_info,
             "slide_type": slide_type,
             "slide_layout": slide_layout,
+            "image_plan": image_plan,
         }
     ):
         yield chunk
