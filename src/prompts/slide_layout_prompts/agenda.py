@@ -185,7 +185,7 @@ AGENDA_SLIDE_LAYOUT = {
       "  • Eyebrow label — 10px uppercase, letter-spacing:4px, accent, opacity:0.7. "
       "  • H1 title — font-size:38px; font-weight:800; letter-spacing:-1.5px; line-height:1.15; margin-top:8px. "
       "  • Thin accent rule — height:3px; width:50px; background: accent; border-radius:2px; margin:20px 0. "
-      "  • Presenter or date info — font-size:13px; font-weight:300; opacity:0.55. "
+   
       "  • Goal/objective block (margin-top:auto): small 'KEY OBJECTIVE' eyebrow + 2-3 line outcome statement "
       "    (font-size:14px; font-weight:400; opacity:0.75; line-height:1.6). "
       "Right panel (padding:52px 56px; display:flex; flex-direction:column; gap:16px): "

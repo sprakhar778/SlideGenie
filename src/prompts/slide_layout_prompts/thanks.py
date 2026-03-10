@@ -13,7 +13,7 @@ THANK_YOU_SLIDE_LAYOUT = {
       "(5) Primary CTA button — padding:14px 40px; border-radius:30px; bg:accent; font-size:15px; font-weight:700; letter-spacing:0.5px; margin-top:8px. "
       "(6) Secondary CTA link — font-size:13px; opacity:0.6; letter-spacing:0.5px; text-decoration:none; margin-top:12px. "
       "Footer bar (position:absolute; bottom:28px; left:60px; right:60px; display:flex; justify-content:space-between; align-items:center): "
-      "  Brand name or logo text (12px; opacity:0.4; letter-spacing:2px; uppercase) + website/contact (12px; opacity:0.4)."
+    
     )
   },
   "2": {
@@ -53,26 +53,8 @@ THANK_YOU_SLIDE_LAYOUT = {
       "Optional: subtle large semi-transparent text watermark (position:absolute; font-size:300px; opacity:0.03; pointer-events:none; center)."
     )
   },
+ 
   "4": {
-    "name": "Brand_Forward_Closing",
-    "purpose": "Strong brand-centric closing reinforcing identity and next steps",
-    "structure": (
-      "Layout: display:flex; flex-direction:column; padding:0. "
-      "Background: dark gradient. "
-      "Full-width top header bar (padding:22px 72px; bg:rgba(accent,0.12); border-bottom:1px solid rgba(accent,0.2); "
-      "display:flex; align-items:center; justify-content:space-between): "
-      "  • Brand name — 12px uppercase, letter-spacing:4px, accent, font-weight:700. "
-      "  • Optional tagline — 11px, opacity:0.5. "
-      "Main body (flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:40px 80px; gap:20px): "
-      "  • Brand logo mark or large icon — width:80px; height:80px; border-radius:20px; "
-      "    bg:linear-gradient(135deg, accent-light, accent); box-shadow:0 0 48px rgba(accent,0.4); "
-      "    display:flex; align-items:center; justify-content:center; font-size:32px; color:white. "
-      "  • Thank You headline — font-size:52px; font-weight:800; letter-spacing:-1.5px; margin-top:16px. "
-      "  • CTA button (margin-top:8px) — padding:14px 40px; border-radius:30px; bg:accent; font-size:15px; font-weight:700. "
-      "  • Contact / next-step microtext — font-size:13px; opacity:0.55; letter-spacing:0.5px; margin-top:12px."
-    )
-  },
-  "5": {
     "name": "Speaker_Contact_Followup",
     "purpose": "Personalized closing highlighting speaker availability and connection",
     "structure": (
@@ -81,7 +63,7 @@ THANK_YOU_SLIDE_LAYOUT = {
       "Left column (padding:60px 56px; display:flex; flex-direction:column; gap:16px; justify-content:center): "
       "  • Thank You headline — font-size:48px; font-weight:800; letter-spacing:-1.5px; line-height:1.1. "
       "  • Accent rule — height:2px; width:60px; bg:accent; margin:14px 0. "
-      "  • Speaker name — font-size:22px; font-weight:700. "
+    
       "  • Speaker role/title — font-size:14px; font-weight:300; opacity:0.65; letter-spacing:0.5px. "
       "  • Contact details list (display:flex; flex-direction:column; gap:10px; margin-top:14px): "
       "    Each item: display:flex; align-items:center; gap:12px; font-size:13px; opacity:0.8. "
@@ -95,7 +77,7 @@ THANK_YOU_SLIDE_LAYOUT = {
       "    font-size:14px; font-weight:600; w:100%; text-align:center."
     )
   },
-  "6": {
+  "5": {
     "name": "Next_Steps_Checklist",
     "purpose": "Action-oriented closing guiding audience toward clear next actions",
     "structure": (
@@ -164,7 +146,7 @@ THANK_YOU_SLIDE_LAYOUT = {
       "      color:dark bg or accent; font-size:15px; font-weight:800; margin-top:8px. "
       "Footer strip (position:absolute; bottom:0; left:0; right:0; padding:16px 72px; "
       "bg:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:space-between): "
-      "  Brand name (12px; opacity:0.6; uppercase) + social/website handles (12px; opacity:0.5)."
+     
     )
   }
 }

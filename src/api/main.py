@@ -190,7 +190,7 @@ def get_presentation_data(presentation_id: str, presentation_index: int = 0):
     
     state = load_presentation(presentation_id)
 
-    if state.get("slides_data")[presentation_index].get("content"):
+    if state.get("slides_data") and state.get("slides_data")[presentation_index].get("content"):
         return {"message": "Slides data already generated.", "presentation_id": presentation_id, "slides_data": state["slides_data"][presentation_index]}
     
     # Step 4: Generate slides data
@@ -199,7 +199,7 @@ def get_presentation_data(presentation_id: str, presentation_index: int = 0):
     # Save updated state
     save_presentation(updated_state, presentation_id)
     
-    return {"message": "Slides data generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"][presentation_index]}
+    return {"message": "Slides data generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"]}
 
 
 #-------------------------------get presentation slide layout - generates slide layout if not already generated, otherwise returns existing slide layout-------------
@@ -214,7 +214,7 @@ def get_presentation_layout(presentation_id: str, presentation_index:int=0, forc
     
     state = load_presentation(presentation_id)
 
-    if not force and state.get("slides_data")[presentation_index].get("layout"):
+    if not force and state.get("slides_data") and  state.get("slides_data")[presentation_index].get("layout"):
         return {"message": "Slide layout already generated.", "presentation_id": presentation_id, "slides_data": state["slides_data"][presentation_index]}
  
     # Step 3: Generate slide layout
@@ -223,7 +223,7 @@ def get_presentation_layout(presentation_id: str, presentation_index:int=0, forc
     # Save updated state
     save_presentation(updated_state, presentation_id)
     
-    return {"message": "Slide layout generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"][presentation_index]}
+    return {"message": "Slide layout generated successfully.", "presentation_id": presentation_id, "slides_data": updated_state["slides_data"]}
    
 
 
