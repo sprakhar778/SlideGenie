@@ -1,6 +1,6 @@
 THEME_PROMPT = """
 You are a design strategist. Based on the topic and content below, select the single best theme for the presentation.
-
+Return the result in JSON format.
 ## Topic:
 {topic}
 
@@ -33,4 +33,10 @@ You are a design strategist. Based on the topic and content below, select the si
 - Dark themes suit tech, innovation, drama, and impact.
 - Light themes suit corporate, clinical, minimalist, or elegant contexts.
 - Output ONLY the theme name exactly as listed above (e.g. `Ocean Depths`). No explanation, no punctuation.
+
+Return JSON only:
+
+{{
+ "theme": "theme name"
+}}
 """

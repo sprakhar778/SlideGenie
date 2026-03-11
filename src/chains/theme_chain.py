@@ -12,7 +12,7 @@ def get_theme_chain(topic: str, content: Optional[str]):
     """Generate a presentation theme based on the given topic and content."""
 
     # Initialize LLM with structured output
-    llm = get_llm().with_structured_output(Theme)
+    llm = get_llm().with_structured_output(Theme, method="json_mode")
 
     # Build prompt
     theme_prompt = PromptTemplate(

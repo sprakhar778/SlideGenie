@@ -129,13 +129,13 @@ class ThemeResponse(BaseModel):
 
 # ── Shared inner model ───────────────────────────────────────
 
-# class SlideData(BaseModel):
-#     """Shape of a single slide's structured data."""
-#     slide_type: Optional[str] = Field(None, description="Category / type of the slide (e.g. 'title', 'bullets', 'image').")
-#     content: Optional[str] = Field(None, description="Body content of the slide.")
-#     description: Optional[str] = Field(None, description="Visual/layout description hint for this slide.")
-#     layout: Optional[str] = Field(None, description="Layout template name assigned to this slide.")
-#     slide_code: Optional[str] = Field(None, description="Final rendered HTML code for this slide.")
+class SlideData(BaseModel):
+    """Shape of a single slide's structured data."""
+    slide_type: Optional[str] = Field(None, description="Category / type of the slide (e.g. 'title', 'bullets', 'image').")
+    content: Optional[str] = Field(None, description="Body content of the slide.")
+    description: Optional[str] = Field(None, description="Visual/layout description hint for this slide.")
+    layout: Optional[str] = Field(None, description="Layout template name assigned to this slide.")
+    slide_code: Optional[str] = Field(None, description="Final rendered HTML code for this slide.")
 
 
 # ── Requests ─────────────────────────────────────────────────

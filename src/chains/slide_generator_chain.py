@@ -22,7 +22,7 @@ async def stream_slide_generator_chain(topic: str, theme_info: str, slide_data):
     image_plan = format_image_plan(image_plan_list)
     
 
-    
+
 
     llm = get_llm(streaming=True)
 
