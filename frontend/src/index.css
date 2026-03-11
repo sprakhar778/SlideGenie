@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 240 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 10% 6.5%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 239 84% 67%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4% 16%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 4% 16%;
+        --muted-foreground: 240 5% 65%;
+        --accent: 240 4% 16%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 4% 16%;
+        --input: 240 4% 16%;
+        --ring: 239 84% 67%;
+        --radius: 0.75rem;
+        
+        /* Custom colors */
+        --generating: 263 70% 50%;
+        --success: 160 84% 39%;
+        --warning: 38 92% 50%;
+        --error: 0 84% 60%;
+    }
+}
+
+* {
+    border-color: hsl(var(--border));
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+}
+
+code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+}
+
+/* Grid pattern background */
+.bg-grid-pattern {
+    background-image: 
+        linear-gradient(to right, rgba(128, 128, 128, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(128, 128, 128, 0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Glow effects */
+.glow-primary {
+    box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.glow-success {
+    box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.4);
+}
+
+.glow-generating {
+    box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.4);
+}
+
+/* Glassmorphism */
+.glass {
+    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Pulse animation for loading states */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(99, 102, 241, 0.1);
+    }
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.animate-blink {
+    animation: blink 1s step-end infinite;
+}
+
+/* Slide preview container */
+.slide-preview-container {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.slide-preview-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+/* Terminal-like streaming output */
+.terminal-output {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Status indicator dot */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.generating {
+    background-color: hsl(var(--generating));
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.status-dot.success {
+    background-color: hsl(var(--success));
+}
+
+.status-dot.error {
+    background-color: hsl(var(--error));
+}
+
+.status-dot.pending {
+    background-color: hsl(var(--muted-foreground));
+}

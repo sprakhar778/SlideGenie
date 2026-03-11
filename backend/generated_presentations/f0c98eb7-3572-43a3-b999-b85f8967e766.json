@@ -1,0 +1,42 @@
+{
+    "topic": "Machine Learning Fundamentals",
+    "content": "\u2022 Introduction to Machine Learning\n    \u2022 Types of ML: Supervised, Unsupervised, Reinforcement\n    \u2022 Popular algorithms and use cases\n    \u2022 Real-world applications and examples",
+    "theme_info": "### Theme: Aurora Dark\nIdentity: Cosmic and creative. Vivid purple-to-green gradient for innovation and AI decks.\n\n#### CSS Background\nbackground: linear-gradient(135deg, #0f0c29 0%, #302b63 45%, #1a3a2a 100%);\n\n#### Colors\n- Text (primary): #e8fff5\n- Text (secondary / muted): rgba(232,255,245,0.55)\n- Accent: #10b981  (Emerald)\n- Accent glow: rgba(16,185,129,0.22)\n- Card surface: rgba(255,255,255,0.06)\n- Card border: rgba(16,185,129,0.18)\n- Divider: rgba(255,255,255,0.09)\n\n#### Typography (Google Fonts)\n- Headings: 'Space Grotesk', sans-serif \u2014 weight 700\n- Body: 'Inter', sans-serif \u2014 weight 300\n- Eyebrow labels: uppercase, letter-spacing 4px, #10b981, opacity 0.7",
+    "slides_data": [
+        {
+            "slide_type": "Hero",
+            "description": "This slide introduces the presentation topic by presenting the phrase 'Introduction to Machine Learning' directly from the source, establishing the focus.",
+            "content": "Introduction to Machine Learning"
+        },
+        {
+            "slide_type": "Agenda",
+            "description": "Lists the main sections derived from the source bullets, providing a clear roadmap of the topics that will be covered.",
+            "content": "\u2022 Introduction to Machine Learning\n\u2022 Types of ML: Supervised, Unsupervised, Reinforcement\n\u2022 Popular algorithms and use cases\n\u2022 Real-world applications and examples"
+        },
+        {
+            "slide_type": "Concept Explanation",
+            "description": "Presents the source line on the three primary types of machine learning\u2014Supervised, Unsupervised, Reinforcement\u2014grouping them as a conceptual overview.",
+            "content": "Types of ML: Supervised, Unsupervised, Reinforcement"
+        },
+        {
+            "slide_type": "Key Points",
+            "description": "Highlights the source point about popular algorithms and their use cases, summarizing the key algorithmic content.",
+            "content": "Popular algorithms and use cases"
+        },
+        {
+            "slide_type": "Visual Emphasis",
+            "description": "Shows the source point on real\u2011world applications and examples, emphasizing practical relevance.",
+            "content": "Real-world applications and examples"
+        },
+        {
+            "slide_type": "Summary",
+            "description": "Recaps all four source statements in a concise list, ensuring every original point is revisited before closing.",
+            "content": "Introduction to Machine Learning\nTypes of ML: Supervised, Unsupervised, Reinforcement\nPopular algorithms and use cases\nReal-world applications and examples"
+        },
+        {
+            "slide_type": "Thank You",
+            "description": "Uses the source phrase on real\u2011world applications and examples as a closing note, echoing the practical focus of the presentation.",
+            "content": "Real-world applications and examples"
+        }
+    ]
+}
