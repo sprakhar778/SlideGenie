@@ -11,7 +11,7 @@ async def generate_slides_node(state):
     theme = state["theme_info"]
     # FIX: Assuming slides_data is a list of slide dicts based on your JSON
     slides_data = state.get("slides_data", [])
-    slides_data =[slides_data[0], slides_data[1]]  # --- TEST MODE: Only generate first slide safely ---
+    slides_data =[slides_data[0]]  # --- TEST MODE: Only generate first slide safely ---
 
     queue = asyncio.Queue()
     sem = asyncio.Semaphore(2)  # Max 2 concurrent LLM calls to avoid rate limits

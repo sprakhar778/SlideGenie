@@ -41,12 +41,17 @@ TYPOGRAPHY:
   • Body / bullet text: font-size: minimum 15px. line-height: 1.6 (reduce to 1.35 if content is HEAVY).
   • Eyebrow labels: font-size: 13px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.6.
 
-PREMIUM GRADIENT PALETTES (choose based on {theme_info}, override if theme specifies explicitly):
+PREMIUM GRADIENT PALETTES (choose based on {theme_info} — only applies when NO background image is used):
   Dark Cool:   background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
   Dark Warm:   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   Dark Blue:   background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
   Light Clean: background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
   Light Warm:  background: linear-gradient(135deg, #fefefe 0%, #fdf6ec 100%);
+
+BACKGROUND IMAGE CONTRAST RULE (MANDATORY when a HERO/background image is used):
+  NO dark gradient palette (image is already the bg). Scrim overlay: rgba(0,0,0,0.55) min, rgba(0,0,0,0.72) if image is dark.
+  ALL text must be color:#ffffff / rgba(255,255,255,0.90) — NEVER dark text over an image. Cards over image: background:rgba(0,0,0,0.45).
+  Prefer bright accents (Teal #0ea5e9, Gold #f59e0b, Coral #f97316) — avoid dark violet/blue accents on image slides.
 
 ACCENT COLORS (for highlights, bars, badges — pick one consistent accent):
   Electric Blue: #4f8ef7   |   Violet: #7c3aed   |   Teal: #0ea5e9
@@ -92,11 +97,14 @@ IMAGE RULES (MANDATORY):
 
   HERO / BACKGROUND IMAGE (full-slide or half-panel background):
     <!-- Image IS 1280×720 — matches slide exactly, no cropping occurs -->
+    <!-- CONTRAST RULE: overlay opacity MUST be between 0.55 and 0.75. Never lower. -->
     <div style="position:absolute; inset:0; overflow:hidden; z-index:0;">
       <img src="URL" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
-      <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.15) 100%);"></div>
+      <!-- Use a strong gradient scrim so text is ALWAYS readable regardless of image brightness -->
+      <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.40) 60%, rgba(0,0,0,0.62) 100%);"></div>
     </div>
-    <!-- All text must sit in: <div style="position:relative; z-index:1;"> -->
+    <!-- All text must sit in: <div style="position:relative; z-index:1; color:#ffffff;"> -->
+    <!--  ALL text over a background image MUST be white or near-white. No dark text allowed. -->
 
   CARD / THUMBNAIL IMAGE (inside a card or panel):
     <!-- Use aspect-ratio:16/9 — never a fixed height. Landscape image fits naturally. -->
