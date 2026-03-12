@@ -53,6 +53,7 @@ import {
   downloadPresentationPDF,
 } from '@/lib/api';
 
+import { THEMES_DATA } from '@/data';
 const STAGES = [
   { id: 'theme', label: 'Theme', icon: Palette },
   { id: 'data', label: 'Content', icon: Database },
@@ -68,6 +69,7 @@ export default function Editor() {
   const [status, setStatus] = useState({ theme: 'pending', data: 'pending', layout: 'pending', preview: 'pending' });
   const [presentation, setPresentation] = useState(null);
   const [theme, setTheme] = useState('');
+  const [themeName, setThemeName] = useState('');
   const [editTheme, setEditTheme] = useState('');
   const [slides, setSlides] = useState([]);
   const [codes, setCodes] = useState({});
@@ -115,7 +117,7 @@ export default function Editor() {
       const data = await getPresentation(id);
       setPresentation(data);
       const s = data.state || {};
-      if (s.theme_info) { setTheme(s.theme_info); setEditTheme(s.theme_info); setStatus(p => ({ ...p, theme: 'success' })); }
+      if (s.theme_info) { setTheme(s.theme_info); setEditTheme(s.theme_info); setThemeName(s.theme_name || ''); setStatus(p => ({ ...p, theme: 'success' })); }
       if (s.slides_data?.length) {
         setSlides(s.slides_data);
         setStatus(p => ({ ...p, data: 'success', layout: 'success' }));
@@ -135,7 +137,7 @@ export default function Editor() {
     try {
       if (stageId === 'theme') {
         const r = await getTheme(id);
-        setTheme(r.theme_info || ''); setEditTheme(r.theme_info || '');
+        setTheme(r.theme_info || ''); setEditTheme(r.theme_info || ''); setThemeName(r.theme_name || '');
       } else if (stageId === 'data') {
         const r = await getSlidesData(id);
         setSlides(r.slides_data || []);
@@ -335,8 +337,8 @@ export default function Editor() {
       <div className="flex-1 overflow-hidden">
         {/* Theme Stage */}
         {stage === 0 && (
-          <div className="h-full flex items-center justify-center p-6">
-            <div className="w-full max-w-2xl space-y-6">
+          <div className="h-full flex flex-col lg:flex-row items-center justify-center p-6 gap-6 overflow-y-auto">
+            <div className="w-full max-w-5xl space-y-6">
               <div className="text-center space-y-2">
                 <div className="w-16 h-16 rounded-2xl bg-indigo-600/20 flex items-center justify-center mx-auto">
                   <Palette className="w-8 h-8 text-indigo-500" />
@@ -345,27 +347,51 @@ export default function Editor() {
                 <p className="text-zinc-500">Define colors, fonts, and visual style</p>
               </div>
               
-              <Card className="bg-zinc-900/50 border-zinc-800">
-                <CardContent className="p-6 space-y-4">
-                  <Textarea
-                    value={editTheme}
-                    onChange={(e) => setEditTheme(e.target.value)}
-                    placeholder="Modern dark theme with indigo accents, Inter font, clean minimal design..."
-                    className="min-h-[160px] bg-zinc-800/50 border-zinc-700 text-sm resize-none"
-                  />
-                  <div className="flex gap-3">
-                    <Button onClick={runStage} disabled={working} className="bg-indigo-600 hover:bg-indigo-700">
-                      {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Wand2 className="w-4 h-4 mr-2" />}
-                      Generate Theme
-                    </Button>
-                    {editTheme && editTheme !== theme && (
-                      <Button variant="outline" onClick={saveThemeChanges} disabled={working} className="border-zinc-700">
-                        <Save className="w-4 h-4 mr-2" /> Save
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="bg-zinc-900/50 border-zinc-800 flex flex-col">
+                  <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
+                    <Textarea
+                      value={editTheme}
+                      onChange={(e) => setEditTheme(e.target.value)}
+                      placeholder="Modern dark theme with indigo accents, Inter font, clean minimal design..."
+                      className="flex-1 min-h-[400px] bg-zinc-800/50 border-zinc-700 text-sm resize-none"
+                    />
+                    <div className="flex gap-3">
+                      <Button onClick={runStage} disabled={working} className="bg-indigo-600 hover:bg-indigo-700">
+                        {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Wand2 className="w-4 h-4 mr-2" />}
+                        Generate Theme
                       </Button>
+                      {editTheme && editTheme !== theme && (
+                        <Button variant="outline" onClick={saveThemeChanges} disabled={working} className="border-zinc-700">
+                          <Save className="w-4 h-4 mr-2" /> Save
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-zinc-900/50 border-zinc-800 flex flex-col shadow-xl overflow-hidden">
+                  <div className="px-6 py-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-900">
+                    <div className="flex items-center gap-2">
+                      <Eye className="w-4 h-4 text-zinc-400" />
+                      <span className="text-sm font-medium text-zinc-300">Theme Preview</span>
+                    </div>
+                    {themeName && (
+                      <span className="text-xs px-2 py-1 rounded-md bg-zinc-800 text-zinc-400">
+                        {themeName}
+                      </span>
                     )}
                   </div>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6 flex-1 flex bg-zinc-950/50 min-h-[400px]">
+                    <div 
+                      className="w-full h-full flex flex-col items-center justify-center"
+                      dangerouslySetInnerHTML={{ 
+                        __html: THEMES_DATA[themeName] || THEMES_DATA['Dummy Preview'] 
+                      }} 
+                    />
+                  </CardContent>
+                </Card>
+              </div>
 
               <div className="flex justify-between pt-4">
                 <div />
@@ -396,21 +422,21 @@ export default function Editor() {
             </div>
 
             <div className="flex-1 overflow-auto">
-              <div className="max-w-3xl mx-auto grid gap-3">
+              <div className="max-w-5xl mx-auto grid gap-4">
                 {slides.map((sl, i) => (
-                  <Card key={i} className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-colors">
-                    <CardContent className="p-4 flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-indigo-600/20 flex items-center justify-center shrink-0">
-                        <span className="text-indigo-400 font-bold text-sm">{i + 1}</span>
+                  <Card key={i} className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-colors min-h-[140px]">
+                    <CardContent className="p-6 flex items-start gap-6">
+                      <div className="w-12 h-12 rounded-lg bg-indigo-600/20 flex items-center justify-center shrink-0">
+                        <span className="text-indigo-400 font-bold text-lg">{i + 1}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          {sl.slide_type && <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">{sl.slide_type}</span>}
+                        <div className="flex items-center gap-2 mb-2">
+                          {sl.slide_type && <span className="text-xs px-2.5 py-1 rounded bg-zinc-800 text-zinc-400 font-medium">{sl.slide_type}</span>}
                         </div>
-                        <p className="text-sm text-zinc-300 line-clamp-2">{sl.content || 'No content'}</p>
+                        <p className="text-base text-zinc-300 line-clamp-4 leading-relaxed">{sl.content || 'No content'}</p>
                       </div>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => openEdit(i)}>
-                        <Edit3 className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0" onClick={() => openEdit(i)}>
+                        <Edit3 className="w-5 h-5" />
                       </Button>
                     </CardContent>
                   </Card>
@@ -546,7 +572,7 @@ export default function Editor() {
             {/* Slide View - Fixed size, no scroll */}
             <div className="flex-1 flex items-center justify-center p-4 bg-zinc-950 min-h-0">
               <div 
-                className="rounded-lg overflow-hidden shadow-2xl shadow-black/50 bg-white"
+                className="rounded-lg overflow-hidden shadow-2xl shadow-black/50 bg-black"
                 style={{ 
                   width: '100%',
                   maxWidth: 'calc((100vh - 180px) * 16 / 9)',
@@ -575,7 +601,7 @@ export default function Editor() {
                         </script>`
                       } 
                       className="w-full h-full border-0 block" 
-                      style={{ backgroundColor: 'white' }}
+                      style={{ backgroundColor: 'black' }}
                       sandbox="allow-scripts" 
                     />
                   ) : working ? (
@@ -648,7 +674,7 @@ export default function Editor() {
                             transformOrigin: 'top left', 
                             width: '1250%', 
                             height: '1250%',
-                            backgroundColor: 'white'
+                            backgroundColor: 'black'
                           }} 
                         />
                       ) : (

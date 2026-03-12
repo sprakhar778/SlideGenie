@@ -25,11 +25,13 @@ router = APIRouter(tags=["Theme Management"])
 )
 def get_presentation_theme(presentation_id: str):
     state = load_presentation(presentation_id)
+    
     if state.get("theme_info"):
         return {
             "message": "Theme already generated.",
             "presentation_id": presentation_id,
             "theme_info": state["theme_info"],
+            "theme_name":state.get("theme_name",""),
         }
     updated_state = generate_theme_node(state)
     save_presentation(updated_state, presentation_id)
@@ -37,6 +39,8 @@ def get_presentation_theme(presentation_id: str):
         "message": "Theme generated successfully.",
         "presentation_id": presentation_id,
         "theme_info": updated_state["theme_info"],
+        "theme_name":updated_state["theme_name"]
+       
     }
 
 
@@ -58,4 +62,6 @@ def update_presentation_theme(presentation_id: str, request: ThemeUpdateRequest)
         "message": "Theme updated successfully.",
         "presentation_id": presentation_id,
         "theme_info": state["theme_info"],
+        "theme_name":state.get("theme_name",""),
+        
     }
