@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -556,8 +556,25 @@ export default function Editor() {
                 {view === 'preview' ? (
                   codes[activeSlide] ? (
                     <iframe 
-                      srcDoc={codes[activeSlide]} 
-                      className="w-full h-full border-0" 
+                      srcDoc={
+                        (codes[activeSlide] || '') + 
+                        `<style>
+                          body, html { margin: 0 !important; padding: 0 !important; overflow: hidden !important; width: 100%; height: 100%; display: block !important; }
+                          .slide-container { position: absolute !important; top: 0 !important; left: 0 !important; margin: 0 !important; transform-origin: top left !important; }
+                        </style>
+                        <script>
+                          function fit() {
+                            const slide = document.querySelector('.slide-container');
+                            if (slide) {
+                              slide.style.transform = 'scale(' + (window.innerWidth / 1280) + ')';
+                            }
+                          }
+                          window.addEventListener('resize', fit);
+                          new MutationObserver(fit).observe(document.documentElement, { childList: true, subtree: true });
+                          fit();
+                        </script>`
+                      } 
+                      className="w-full h-full border-0 block" 
                       style={{ backgroundColor: 'white' }}
                       sandbox="allow-scripts" 
                     />
@@ -588,7 +605,7 @@ export default function Editor() {
 
             {/* Thumbnails - Horizontal scroll */}
             {slides.length > 0 && (
-              <div className="h-20 px-4 py-2 border-t border-zinc-800 bg-zinc-900/80 shrink-0 overflow-hidden">
+              <div className="h-20 px-4 py-2 border-t  border-zinc-800 bg-zinc-900/80 shrink-0 overflow-hidden">
                 <div className="flex gap-2 h-full overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent pb-1">
                   {slides.map((_, i) => (
                     <button
@@ -600,7 +617,31 @@ export default function Editor() {
                     >
                       {codes[i] ? (
                         <iframe 
-                          srcDoc={codes[i]} 
+                          srcDoc={
+                            (codes[i] || '') +
+                            `<style>
+                              html, body {
+                                margin:0 !important;
+                                padding:0 !important;
+                                overflow:hidden !important;
+                                width:1280px !important;
+                                height:720px !important;
+                                display:block !important;
+                                background:white;
+                              }
+                        
+                              body{
+                                transform:none !important;
+                                display:block !important;
+                              }
+                        
+                              .slide-container{
+                                position:absolute !important;
+                                top:0 !important;
+                                left:0 !important;
+                              }
+                            </style>`
+                          }
                           className="w-full h-full border-0 pointer-events-none" 
                           style={{ 
                             transform: 'scale(0.08)', 

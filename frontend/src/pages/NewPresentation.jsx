@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sparkles, Loader2, Presentation, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,19 +10,43 @@ import { toast } from 'sonner';
 import { createPresentation } from '@/lib/api';
 
 // Unsplash API for cover images
-const UNSPLASH_ACCESS_KEY = 'demo'; // Will use source.unsplash.com which doesn't need a key
+const UNSPLASH_ACCESS_KEY = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
 
-const getUnsplashCoverUrl = (topic) => {
-  // Use source.unsplash.com for easy topic-based images
-  const query = encodeURIComponent(topic.split(' ').slice(0, 3).join(' '));
-  return `https://source.unsplash.com/800x450/?${query}`;
+export const getUnsplashCoverUrl = async (topic) => {
+  try {
+    const res = await fetch(
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(topic)}&orientation=landscape&client_id=${UNSPLASH_ACCESS_KEY}`
+    );
+
+    const data = await res.json();
+    console.log(data);
+
+    return data?.urls?.regular;
+  } catch (error) {
+    console.error("Unsplash error:", error);
+    return null;
+  }
 };
-
 export default function NewPresentation() {
   const navigate = useNavigate();
   const [topic, setTopic] = useState('');
   const [content, setContent] = useState('');
   const [creating, setCreating] = useState(false);
+  const [previewCover, setPreviewCover] = useState(null);
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (!topic.trim()) {
+        setPreviewCover(null);
+        return;
+      }
+
+      const img = await getUnsplashCoverUrl(topic.trim());
+      setPreviewCover(img);
+    };
+
+    loadImage();
+  }, [topic]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +66,7 @@ export default function NewPresentation() {
       const result = await createPresentation(topic.trim(), content.trim());
       
       // Generate cover image URL based on topic
-      const coverImage = getUnsplashCoverUrl(topic.trim());
+      const coverImage = await getUnsplashCoverUrl(topic.trim());
       
       // Save to localStorage
       const stored = localStorage.getItem('slidegenie_presentations');
@@ -66,9 +90,6 @@ export default function NewPresentation() {
       setCreating(false);
     }
   };
-
-  // Preview cover image
-  const previewCover = topic.trim() ? getUnsplashCoverUrl(topic.trim()) : null;
 
   return (
     <div className="min-h-screen bg-background bg-grid-pattern">
@@ -195,8 +216,7 @@ export default function NewPresentation() {
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground mt-3 text-center">
-                  Auto-generated from Unsplash based on your topic
-                </p>
+                 </p>
               </CardContent>
             </Card>
 
