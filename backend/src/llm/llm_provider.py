@@ -6,13 +6,13 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 load_dotenv()
 
-# def get_llm(model_name: str = "openai/gpt-oss-120b", temperature: float = 0.3, streaming: bool = True):
-#     # model_name="qwen/qwen3-32b"
+def get_llm(model_name: str = "openai/gpt-oss-120b", temperature: float = 0.3, streaming: bool = True):
+    # model_name="qwen/qwen3-32b"
   
-#     # model_name="moonshotai/kimi-k2-instruct-0905"
-#     # model_name="llama-3.3-70b-versatile"
-#     llm=ChatGroq(model=model_name, temperature=temperature, streaming=streaming, max_tokens=7000, max_retries=5)
-#     return llm
+    # model_name="moonshotai/kimi-k2-instruct-0905"
+    # model_name="llama-3.3-70b-versatile"
+    llm=ChatGroq(model=model_name, temperature=temperature, streaming=streaming, max_tokens=7000, max_retries=5)
+    return llm
 
 # def get_llm(model_name: str = "gpt-4o", temperature: float = 0.3, streaming: bool = True):
 #     """Factory function to initialize and return a configured LLM instance."""

@@ -256,7 +256,7 @@ export default function Dashboard() {
                       <Clock className="w-3.5 h-3.5" />
                       <span>{formatDate(presentation.createdAt)}</span>
                     </div>
-                    <span>{presentation.slideCount || '?'} slides</span>
+                    <span>{presentation.slideCount || ' '} slides</span>
                   </div>
                 </CardContent>
 
