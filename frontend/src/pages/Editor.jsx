@@ -293,7 +293,10 @@ export default function Editor() {
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <Presentation className="w-5 h-5 text-indigo-500" />
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
+           <Presentation className="w-5 h-5 text-indigo-500" />
+          </Button>
+         
           <span className="font-medium text-sm truncate max-w-[180px]">{presentation?.state?.topic || 'Untitled'}</span>
         </div>
 
@@ -424,7 +427,7 @@ export default function Editor() {
             <div className="flex-1 overflow-auto">
               <div className="max-w-5xl mx-auto grid gap-4">
                 {slides.map((sl, i) => (
-                  <Card key={i} className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-colors min-h-[140px]">
+                  <Card key={i} className="bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 transition-colors min-h-[180px]">
                     <CardContent className="p-6 flex items-start gap-6">
                       <div className="w-12 h-12 rounded-lg bg-indigo-600/20 flex items-center justify-center shrink-0">
                         <span className="text-indigo-400 font-bold text-lg">{i + 1}</span>
@@ -700,11 +703,11 @@ export default function Editor() {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label className="text-zinc-400">Content</Label>
-              <Textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} className="min-h-[120px] bg-zinc-800 border-zinc-700" />
+              <Textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} className="min-h-[250px] bg-zinc-800 border-zinc-700" />
             </div>
             <div className="space-y-2">
               <Label className="text-zinc-400">Visual Description</Label>
-              <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} className="bg-zinc-800 border-zinc-700" />
+              <Input value={editDesc} onChange={(e) => setEditDesc(e.target.value)} className="text-wrap bg-zinc-800 border-zinc-700" />
             </div>
           </div>
           <DialogFooter>
