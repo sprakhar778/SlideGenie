@@ -93,24 +93,30 @@ async def save_presentation(state: dict, presentation_id: str) -> None:
         )
 
 
+
+local_cache={}
+
 async def load_presentation(presentation_id: str) -> dict:
     """Load presentation from MongoDB"""
 
     try:
+        if presentation_id in local_cache:
+            return local_cache[presentation_id]
+            
         presentation = await presentations_collection.find_one(
             {"_id": presentation_id}
         )
 
         if not presentation:
-            raise HTTPException(
-                status_code=404,
-                detail="Presentation not found",
-            )
+          raise HTTPException(
+            status_code=404,
+            detail="Presentation not found",
+        )
 
+        local_cache[presentation_id] = presentation["state"]
         return presentation["state"]
 
-    except HTTPException:
-        raise
+   
 
     except Exception as e:
         raise HTTPException(

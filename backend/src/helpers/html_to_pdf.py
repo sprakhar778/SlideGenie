@@ -6,7 +6,7 @@ from pypdf import PdfReader, PdfWriter
 from src.api.helpers import PRESENTATIONS_DIR, get_browser, load_presentation
 
 async def generate_presentation_pdf(presentation_id: str):
-    state = load_presentation(presentation_id)
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if not slides:
         raise Exception("No slides found in presentation")

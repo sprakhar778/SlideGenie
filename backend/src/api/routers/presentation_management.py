@@ -22,6 +22,7 @@ from src.api.schemas import (
     PresentationStateResponse,
     PresentationDeletedResponse,
 )
+import os
 
 from src.helpers.html_to_pdf import generate_presentation_pdf
 
@@ -107,10 +108,7 @@ async def delete_presentation(presentation_id: str):
     description="Generates a merged PDF of all slides in the presentation and returns it as a file download. Slides that fail to generate will be skipped.",
 )
 async def download_presentation_pdf(presentation_id: str):
-    output_path = _presentation_path(presentation_id)
-    if not os.path.exists(output_path):
-        raise HTTPException(status_code=404, detail="Presentation not found.")
-    
+  
     try:
         pdf_path = await generate_presentation_pdf(presentation_id)
         if not os.path.exists(pdf_path):
