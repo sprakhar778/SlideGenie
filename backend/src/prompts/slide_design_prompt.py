@@ -160,6 +160,8 @@ You MUST use this exact shell and fill it in:
     min-height:100vh; background:#d0d0d0;
     font-family:'Inter', system-ui, sans-serif;
   }}
+  @page{{margin:0;}}
+  
   .slide-container {{
     width:1280px; min-width:1280px;
     height:720px; min-height:720px; max-height:720px;

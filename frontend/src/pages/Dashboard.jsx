@@ -35,9 +35,10 @@ export default function Dashboard() {
   const [selectedPresentation, setSelectedPresentation] = useState(null);
   const [deleting, setDeleting] = useState(false);
   
+  
   // Settings state
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [apiUrlInput, setApiUrlInput] = useState(getApiUrl());
+  const [apiUrlInput, setApiUrlInput] = useState("http://localhost:8000");
   const [testingConnection, setTestingConnection] = useState(false);
 
   useEffect(() => {
@@ -255,7 +256,7 @@ export default function Dashboard() {
                       <Clock className="w-3.5 h-3.5" />
                       <span>{formatDate(presentation.createdAt)}</span>
                     </div>
-                    <span>{presentation.slideCount || '?'} slides</span>
+                    <span>{presentation.slideCount || ' '} slides</span>
                   </div>
                 </CardContent>
 
@@ -329,7 +330,7 @@ export default function Dashboard() {
               Configure the URL of your SlideGenie API server. Make sure CORS is enabled.
             </DialogDescription>
           </DialogHeader>
-          
+         
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="api-url">API URL</Label>
@@ -339,6 +340,7 @@ export default function Dashboard() {
                 value={apiUrlInput}
                 onChange={(e) => setApiUrlInput(e.target.value)}
                 placeholder="http://localhost:8000 or https://your-ngrok-url.ngrok.io"
+                
               />
               <p className="text-xs text-muted-foreground">
                 Enter your SlideGenie API URL. Use ngrok if running locally.
@@ -348,7 +350,7 @@ export default function Dashboard() {
             <div className="p-3 rounded-lg bg-secondary/50 text-sm space-y-2">
               <p className="font-medium">CORS Setup Required</p>
               <p className="text-muted-foreground text-xs">
-                Your API must allow requests from: <code className="bg-background px-1 rounded">https://presentation-craft-5.preview.emergentagent.com</code>
+                Your API must allow requests from: <code className="bg-background px-1 rounded">https://presentation-craft-5.preview.com</code>
               </p>
             </div>
           </div>

@@ -111,13 +111,15 @@ class ThemeResponse(BaseModel):
     message: str
     presentation_id: str
     theme_info: str
+    theme_name:str
 
     model_config = {
         "json_schema_extra": {
             "example": {
                 "message": "Theme generated successfully.",
                 "presentation_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "theme_info": "Dark tech theme: background #0d1117, accent #58a6ff, font Inter."
+                "theme_info": "Dark tech theme: background #0d1117, accent #58a6ff, font Inter.",
+                "theme_name":"Obsidian Pro",
             }
         }
     }

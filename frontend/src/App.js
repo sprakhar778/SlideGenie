@@ -18,6 +18,7 @@ function App() {
       <Toaster 
         position="bottom-right" 
         theme="light"
+        duration={1000} //toast duration
         toastOptions={{
           style: {
             background: 'hsl(240 10% 6.5%)',

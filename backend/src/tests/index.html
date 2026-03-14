@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@300;400;600;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
+.slide-container {
+  width: 1280px;
+  height: 720px;
+ 
+  background: #a3abb7;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+  .header { padding: 52px 80px 0 80px; height: 112px; }
+  h1 { font-family:'Space Grotesk', sans-serif; font-size:42px; font-weight:800; letter-spacing:-1px; color:#ffffff; float: left; }
+  .badge { background:#334155; color:#94a3b8; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:1px; float: right; margin-top: 10px; }
+  .divider { height:1px; background:#334155; margin: 30px 80px; }
+  
+  .roadmap { position: relative; width: 100%; padding: 0 80px; }
+  .node-wrapper { float: left; width: 16.66%; position: relative; }
+  .top-row { position: relative; height: 44px; }
+  .line { position: absolute; top: 21px; height: 2px; background:#334155; width: 50%; }
+  .node { 
+    position: absolute; left: 50%; margin-left: -22px;
+    width:44px; height:44px; border-radius:50%; 
+    background:#1e293b; border:2px solid #3b82f6;
+    text-align: center; line-height: 40px;
+    font-size:14px; font-weight:800; color:#3b82f6; z-index: 2;
+  }
+  .card { 
+    margin: 24px auto 0 auto; width: 90%; text-align:center;
+    background:#334155; border:1px solid #475569; 
+    border-radius:12px; padding:16px;
+  }
+  .phase-label { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:#60a5fa; font-weight:700; }
+  .phase-title { font-size:13px; font-weight:700; margin-top:6px; line-height:1.35; color:#ffffff; }
+  .phase-desc { font-size:11px; color:#cbd5e1; margin-top:6px; line-height:1.5; }
+</style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="header">
+      <h1>AI Medical Ecosystem</h1>
+      <div class="badge">6 Strategic Phases</div>
+    </div>
+    <div class="divider"></div>
+    
+    <div class="roadmap">
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:50%"></div><div class="node">01</div></div>
+        <div class="card">
+          <div class="phase-label">Imaging</div>
+          <div class="phase-title">Diagnosis</div>
+          <div class="phase-desc">AI-driven pattern recognition for radiology.</div>
+        </div>
+      </div>
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:0"></div><div class="node">02</div><div class="line" style="left:50%"></div></div>
+        <div class="card">
+          <div class="phase-label">Analytics</div>
+          <div class="phase-title">Prevention</div>
+          <div class="phase-desc">Predictive modeling for early intervention.</div>
+        </div>
+      </div>
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:0"></div><div class="node">03</div><div class="line" style="left:50%"></div></div>
+        <div class="card">
+          <div class="phase-label">Genomics</div>
+          <div class="phase-title">Personalized</div>
+          <div class="phase-desc">Tailored treatment plans via AI.</div>
+        </div>
+      </div>
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:0"></div><div class="node">04</div><div class="line" style="left:50%"></div></div>
+        <div class="card">
+          <div class="phase-label">Operations</div>
+          <div class="phase-title">Efficiency</div>
+          <div class="phase-desc">Automating administrative workflows.</div>
+        </div>
+      </div>
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:0"></div><div class="node">05</div><div class="line" style="left:50%"></div></div>
+        <div class="card">
+          <div class="phase-label">IoT</div>
+          <div class="phase-title">Monitoring</div>
+          <div class="phase-desc">Real-time data from wearable devices.</div>
+        </div>
+      </div>
+      <div class="node-wrapper">
+        <div class="top-row"><div class="line" style="left:0"></div><div class="node">06</div></div>
+        <div class="card">
+          <div class="phase-label">Governance</div>
+          <div class="phase-title">Ethics</div>
+          <div class="phase-desc">Addressing bias and data security.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

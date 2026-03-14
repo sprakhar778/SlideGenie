@@ -13,6 +13,7 @@ def generate_theme_node(state):
     generated_theme_info = get_theme_chain(topic=topic, content=content)
     
     # Update the state with the generated theme information
-    state["theme_info"] = generated_theme_info
+    state["theme_info"] = generated_theme_info[0]
+    state["theme_name"]=generated_theme_info[1]
     
     return state

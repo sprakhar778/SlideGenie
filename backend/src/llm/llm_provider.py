@@ -10,7 +10,7 @@ load_dotenv()
 #     # model_name="qwen/qwen3-32b"
   
 #     # model_name="moonshotai/kimi-k2-instruct-0905"
-#     # model_name="llama-3.3-70b-versatile"
+#     model_name="llama-3.3-70b-versatile"
 #     llm=ChatGroq(model=model_name, temperature=temperature, streaming=streaming, max_tokens=7000, max_retries=5)
 #     return llm
 

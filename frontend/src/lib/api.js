@@ -1,22 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Get API URL from localStorage or use default
-const getApiUrl = () => {
-  return localStorage.getItem('slidegenie_api_url') || 'https://uncarbonated-divisibly-charlee.ngrok-free.dev';
+const DEFAULT_API_URL =
+  process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+
+export const getApiUrl = () => {
+  return localStorage.getItem("slidegenie_api_url") || DEFAULT_API_URL;
 };
 
-// Set API URL
 export const setApiUrl = (url) => {
-  localStorage.setItem('slidegenie_api_url', url);
+  localStorage.setItem("slidegenie_api_url", url);
 };
 
-// Create axios instance with dynamic baseURL
 const createApi = () => {
   return axios.create({
     baseURL: getApiUrl(),
     timeout: 120000,
     headers: {
-      'ngrok-skip-browser-warning': 'true', // Skip ngrok browser warning
+      "ngrok-skip-browser-warning": "true",
     },
   });
 };
@@ -43,10 +43,17 @@ export const deletePresentation = async (presentationId) => {
 
 // ── Theme Management ─────────────────────────────────────────
 
-export const getTheme = async (presentationId) => {
+
+export const getTheme = async (id, themeName = null) => {
   const api = createApi();
-  const response = await api.get(`/presentation-theme/${encodeURIComponent(presentationId)}`);
-  return response.data;
+
+  const params = themeName ? { theme_name: themeName } : {};
+
+  const res = await api.get(`/presentation-theme/${encodeURIComponent(id)}`, {
+    params
+  });
+
+  return res.data;
 };
 
 export const updateTheme = async (presentationId, themeInfo) => {
@@ -227,5 +234,3 @@ export const healthCheck = async () => {
   return response.data;
 };
 
-// Export getApiUrl for display purposes
-export { getApiUrl };
