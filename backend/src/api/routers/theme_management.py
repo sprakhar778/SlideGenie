@@ -10,9 +10,27 @@ from src.graph.nodes.theme_node import generate_theme_node
 from src.api.helpers import load_presentation, save_presentation
 from src.api.schemas import ThemeUpdateRequest, ThemeResponse
 from src.helpers.theme_info import get_theme_info
+import random   
 
 router = APIRouter(tags=["Theme Management"])
 
+THEMES = [
+    "Obsidian Pro",
+    "Midnight Galaxy",
+    "Aurora Dark",
+    "Ember Slate",
+    "Forest Executive",
+    "Ocean Depths",
+    "Solar Flare",
+    "Neon Cyberpunk",
+    "Tropical Punch",
+    "Crimson Noir",
+    "Slate Steel",
+    "Glacier Light",
+    "Arctic Frost",
+    "Modern Minimalist",
+    "Rose Quartz",
+]
 
 # -----------------------------------------------
 # GET /presentation-theme/{presentation_id}
@@ -39,7 +57,12 @@ def get_presentation_theme(presentation_id: str, theme_name: str = None):
         
     state = load_presentation(presentation_id)
     
+    #if already theme is generated then return that theme by ai and ask again give random theme
     if state.get("theme_info"):
+        theme_name=random.choice(THEMES)
+        state["theme_name"] = theme_name    
+        state["theme_info"] = get_theme_info(theme_name)
+        save_presentation(state, presentation_id)
         return {
             "message": "Theme already generated.",
             "presentation_id": presentation_id,
