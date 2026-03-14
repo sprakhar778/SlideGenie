@@ -42,12 +42,12 @@ THEMES = [
     summary="Generate or get theme",
     description="Generates a presentation theme based on topic and content. Returns the existing theme if already generated.",
 )
-def get_presentation_theme(presentation_id: str, theme_name: str = None):
+async def get_presentation_theme(presentation_id: str, theme_name: str = None):
     if theme_name:
-        state = load_presentation(presentation_id)
+        state = await load_presentation(presentation_id)
         state["theme_name"] = theme_name    
         state["theme_info"] = get_theme_info(theme_name)
-        save_presentation(state, presentation_id)
+        await save_presentation(state, presentation_id)
         return {
             "message": "Theme updated successfully.",
             "presentation_id": presentation_id,
@@ -55,14 +55,14 @@ def get_presentation_theme(presentation_id: str, theme_name: str = None):
             "theme_name":state.get("theme_name",""),
         }
         
-    state = load_presentation(presentation_id)
+    state = await load_presentation(presentation_id)
     
     #if already theme is generated then return that theme by ai and ask again give random theme
     if state.get("theme_info"):
         theme_name=random.choice(THEMES)
         state["theme_name"] = theme_name    
         state["theme_info"] = get_theme_info(theme_name)
-        save_presentation(state, presentation_id)
+        await save_presentation(state, presentation_id)
         return {
             "message": "Theme already generated.",
             "presentation_id": presentation_id,
