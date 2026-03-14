@@ -1,110 +1,67 @@
-from playwright.sync_api import sync_playwright
-from pathlib import Path
-from pypdf import PdfWriter
-from PIL import Image
+import io
 import os
-import tempfile
-from src.api.helpers import load_presentation, PRESENTATIONS_DIR
+from PIL import Image
+from pypdf import PdfReader, PdfWriter
 
-def generate_presentation_pdf(presentation_id: str) -> str:
-    """
-    UNIVERSAL PDF GENERATOR – works for ANY HTML/CSS, no vanishing elements.
-    Uses high‑quality screenshot of the slide container and embeds it into a PDF.
-    Optimized for file size (~300‑500KB per slide) while retaining crisp text.
-    """
-    slides = load_presentation(presentation_id).get("slides_data", [])
+from src.api.helpers import PRESENTATIONS_DIR, get_browser
+
+async def generate_presentation_pdf(presentation_id: str, state: dict):
+    slides = state.get("slides_data", [])
+    if not slides:
+        raise Exception("No slides found in presentation")
+
     output_path = os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.pdf")
     os.makedirs(PRESENTATIONS_DIR, exist_ok=True)
 
-    temp_files = []
     merger = PdfWriter()
+    browser = get_browser()
 
-    # Sweet‑spot settings: quality vs. file size
-    SCALE = 1.5      # 1920×1080 – plenty for screen
-    JPEG_QUALITY = 100  # 80% is visually lossless for most slides
-    PDF_DPI = 100        # good for on‑screen viewing
+    # Use a high device scale factor (e.g., 3) for extra detail
+    context = await browser.new_context(device_scale_factor=3)
+    page = await context.new_page()
+
+    # Set a large viewport – the slide will be scaled accordingly
+    await page.set_viewport_size({"width": 1920, "height": 1080})  # moderate size, scale factor multiplies pixels
 
     try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+        for idx, slide in enumerate(slides):
+            html = slide.get("slide_code", "").strip()
+            if not html:
+                continue
 
-            for idx, slide in enumerate(slides):
-                html = slide.get("slide_code", "").strip()
-                if not html:
-                    continue
-
-                # Temporary files
-                html_file = tempfile.NamedTemporaryFile(suffix=".html", mode="w", delete=False, encoding="utf-8")
-                jpg_file = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
-                pdf_file = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
-                temp_files.extend([html_file.name, jpg_file.name, pdf_file.name])
-
-                try:
-                    # Write raw HTML (no modifications)
-                    html_file.write(html)
-                    html_file.close()
-
-                    # Create page at scaled resolution
-                    page = browser.new_page(
-                        viewport={"width": int(1280 * SCALE), "height": int(720 * SCALE)}
-                    )
-
-                    # Load and wait for everything
-                    page.goto(Path(html_file.name).resolve().as_uri(), wait_until="networkidle")
-                    page.wait_for_timeout(150)  # extra time for fonts/animations
-
-                    # Locate the slide container (most reliable selector)
-                    container = page.query_selector('.slide-container')
-                    if not container:
-                        container = page.query_selector('body > div')  # fallback
-
-                    if container:
-                        # Screenshot only the container (excludes any body background)
-                        container.screenshot(path=jpg_file.name, type="jpeg", quality=JPEG_QUALITY)
-                    else:
-                        # Ultimate fallback – whole page
-                        page.screenshot(path=jpg_file.name, type="jpeg", quality=JPEG_QUALITY)
-
-                    page.close()
-
-                    # Convert image to PDF with compression
-                    img = Image.open(jpg_file.name)
-                    if img.mode != 'RGB':
-                        img = img.convert('RGB')
-
-                    # Save as PDF with optimization
-                    img.save(
-                        pdf_file.name,
-                        "PDF",
-                        quality=JPEG_QUALITY,
-                        optimize=True,
-                        dpi=(PDF_DPI, PDF_DPI)
-                    )
-
-                    merger.append(pdf_file.name)
-                    print(f"✓ Slide {idx+1} – {os.path.getsize(pdf_file.name)/1024:.1f}KB")
-
-                except Exception as e:
-                    print(f"⚠ Slide {idx+1} failed: {e}")
-                    continue
-
-            browser.close()
-
-        if len(merger.pages) > 0:
-            merger.write(output_path)
-            mb = os.path.getsize(output_path) / (1024 * 1024)
-            print(f"✓ PDF saved: {output_path} ({mb:.2f} MB)")
-        else:
-            raise Exception("No slides generated")
-
-        return os.path.abspath(output_path)
-
-    finally:
-        merger.close()
-        # Cleanup temporary files
-        for f in temp_files:
+            # Load HTML directly
+            await page.set_content(html, wait_until="networkidle")
             try:
-                if os.path.exists(f):
-                    os.remove(f)
+                await page.wait_for_selector(".slide-container", state="visible", timeout=5000)
             except:
                 pass
+            await page.wait_for_timeout(200)  # short extra wait
+
+            container = await page.query_selector(".slide-container")
+            if container:
+                # Screenshot at the increased pixel density
+                png_bytes = await container.screenshot(type="png", scale="device")  # scale uses deviceScaleFactor
+            else:
+                png_bytes = await page.screenshot(type="png", scale="device")
+
+            # Convert PNG bytes → PDF bytes (in‑memory)
+            img = Image.open(io.BytesIO(png_bytes))
+            if img.mode != "RGB":
+                img = img.convert("RGB")
+            pdf_bytes_io = io.BytesIO()
+            # Save with 72 DPI – 1 pixel = 1 point, so page size matches image dimensions
+            img.save(pdf_bytes_io, format="PDF", resolution=72, optimize=True)
+            pdf_bytes_io.seek(0)
+
+            # Append in‑memory PDF
+            reader = PdfReader(pdf_bytes_io)
+            merger.append(reader)
+
+        if not merger.pages:
+            raise Exception("No valid slides generated")
+
+        merger.write(output_path)
+        return os.path.abspath(output_path)
+    finally:
+        await context.close()
+        merger.close()

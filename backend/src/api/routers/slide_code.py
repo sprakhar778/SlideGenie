@@ -43,7 +43,7 @@ async def clean_html_stream_and_save(gemini_stream, presentation_id: str, state:
                     slides = state.get("slides_data", [])
                     if 0 <= slide_index < len(slides):
                         slides[slide_index]["slide_code"] = final_html
-                        save_presentation(state, presentation_id)
+                        await save_presentation(state, presentation_id)
                 yield json.dumps({"slide_index": slide_index, "done": True}) + "\n"
             continue
             
@@ -73,9 +73,7 @@ async def clean_html_stream_and_save(gemini_stream, presentation_id: str, state:
     ),
 )
 async def get_presentation_slides(presentation_id: str):
-    if not os.path.exists(_presentation_path(presentation_id)):
-        raise HTTPException(status_code=404, detail="Presentation not found.")
-    state = load_presentation(presentation_id)
+    state = await load_presentation(presentation_id)
     slide_stream = generate_slides_node(state)
     cleaned_stream = clean_html_stream_and_save(slide_stream, presentation_id, state)
     
@@ -95,10 +93,7 @@ async def get_presentation_slides(presentation_id: str):
     ),
 )
 async def edit_presentation_slide(presentation_id: str, slide_index: int, request: SlideCodeEditRequest):
-    if not os.path.exists(_presentation_path(presentation_id)):
-        raise HTTPException(status_code=404, detail="Presentation not found.")
-        
-    state = load_presentation(presentation_id)
+    state = await load_presentation(presentation_id)
     slides_data = state.get("slides_data", [])
     
     if slide_index < 0 or slide_index >= len(slides_data):

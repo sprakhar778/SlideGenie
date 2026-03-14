@@ -1,28 +1,40 @@
 
 from src.helpers.get_layout import get_layout
 
+
 def generate_slide_layout_node(state):
-    """Node to select slide layout based on topic, content, and slide type."""
-    
+    """
+    Assign layout templates to each slide based on slide_type.
+    """
+
     if not state.get("content") or not state.get("topic"):
-        raise ValueError("Both 'content' and 'topic' must be provided in the state.")
+        raise ValueError(
+            "Both 'content' and 'topic' must be provided in the state."
+        )
 
     slides = state.get("slides_data")
 
-    for i in range(len(slides)):
-        slide=slides[i]
-        slide_type = slide["slide_type"] 
+    if not slides:
+        raise ValueError("No slides found in state. slides_data is empty.")
 
-        # 🔹 Call layout selection chain
+    for slide in slides:
+
+        slide_type = slide.get("slide_type")
+
+        if not slide_type:
+            raise ValueError("Slide missing 'slide_type'.")
+
+        # Generate layout
         slide_layout = get_layout(slide_type)
 
-        # 🔹 Store structured layout inside state
-        slide["layout"]=slide_layout
-    
-   
+        # Save layout to slide
+        slide["layout"] = slide_layout
+
+    # Update state
+    state["slides_data"] = slides
 
     return state
-
+        
 # if __name__ == "__main__":
 
 #     # Dummy state

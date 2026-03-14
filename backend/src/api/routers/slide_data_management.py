@@ -28,8 +28,8 @@ router = APIRouter(tags=["Slides Data Management"])
     summary="Generate or get all slides data",
     description="Generates structured slide data (slide_type, content, description) for all slides. Returns existing data if already generated.",
 )
-def get_presentation_data(presentation_id: str):
-    state = load_presentation(presentation_id)
+async def get_presentation_data(presentation_id: str):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slides and all(s.get("content") for s in slides):
         return {
@@ -39,7 +39,7 @@ def get_presentation_data(presentation_id: str):
             "total_slides": len(slides),
         }
     updated_state = generate_slides_data_node(state)
-    save_presentation(updated_state, presentation_id)
+    await save_presentation(updated_state, presentation_id)
     return {
         "message": "Slides data generated successfully.",
         "presentation_id": presentation_id,
@@ -58,8 +58,8 @@ def get_presentation_data(presentation_id: str):
     summary="Get a single slide's data",
     description="Returns the slide data (type, content, description) for a specific slide by index.",
 )
-def get_slide_data(presentation_id: str, slide_index: int):
-    state = load_presentation(presentation_id)
+async def get_slide_data(presentation_id: str, slide_index: int):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slide_index < 0 or slide_index >= len(slides):
         raise HTTPException(
@@ -83,8 +83,8 @@ def get_slide_data(presentation_id: str, slide_index: int):
     summary="Update a single slide's data",
     description="Manually update the content and/or description of a specific slide by index.",
 )
-def update_slide_data(presentation_id: str, slide_index: int, request: SlideDataUpdateRequest):
-    state = load_presentation(presentation_id)
+async def update_slide_data(presentation_id: str, slide_index: int, request: SlideDataUpdateRequest):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slide_index < 0 or slide_index >= len(slides):
         raise HTTPException(
@@ -96,7 +96,7 @@ def update_slide_data(presentation_id: str, slide_index: int, request: SlideData
     if request.description is not None:
         slides[slide_index]["description"] = request.description
     state["slides_data"] = slides
-    save_presentation(state, presentation_id)
+    await save_presentation(state, presentation_id)
     return {
         "message": "Slide data updated successfully.",
         "presentation_id": presentation_id,

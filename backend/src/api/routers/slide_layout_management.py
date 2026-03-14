@@ -28,8 +28,8 @@ router = APIRouter(tags=["Slide Layout Management"])
     summary="Generate or get layout for all slides",
     description="Assigns a layout template to every slide based on its slide_type. Returns existing layouts if already assigned.",
 )
-def get_presentation_layout(presentation_id: str):
-    state = load_presentation(presentation_id)
+async def get_presentation_layout(presentation_id: str):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slides and all(s.get("layout") for s in slides):
         return {
@@ -38,7 +38,7 @@ def get_presentation_layout(presentation_id: str):
             "slides_data": slides,
         }
     updated_state = generate_slide_layout_node(state)
-    save_presentation(updated_state, presentation_id)
+    await save_presentation(updated_state, presentation_id)
     return {
         "message": "Slide layouts generated successfully.",
         "presentation_id": presentation_id,
@@ -56,8 +56,8 @@ def get_presentation_layout(presentation_id: str):
     summary="Get layout for a single slide",
     description="Returns the assigned layout for a specific slide by index.",
 )
-def get_slide_layout(presentation_id: str, slide_index: int):
-    state = load_presentation(presentation_id)
+async def get_slide_layout(presentation_id: str, slide_index: int):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slide_index < 0 or slide_index >= len(slides):
         raise HTTPException(
@@ -88,8 +88,8 @@ def get_slide_layout(presentation_id: str, slide_index: int):
     summary="Regenerate layout for a single slide",
     description="Force-regenerates the layout for a specific slide. Useful when slide content has been manually updated.",
 )
-def regenerate_slide_layout(presentation_id: str, slide_index: int):
-    state = load_presentation(presentation_id)
+async def regenerate_slide_layout(presentation_id: str, slide_index: int):
+    state = await load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if slide_index < 0 or slide_index >= len(slides):
         raise HTTPException(
@@ -100,7 +100,7 @@ def regenerate_slide_layout(presentation_id: str, slide_index: int):
     slide["layout"] = get_layout(slide["slide_type"])
     slides[slide_index] = slide
     state["slides_data"] = slides
-    save_presentation(state, presentation_id)
+    await save_presentation(state, presentation_id)
     return {
         "message": "Slide layout regenerated successfully.",
         "presentation_id": presentation_id,

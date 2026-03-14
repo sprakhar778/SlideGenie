@@ -7,9 +7,10 @@ router can import them without circular dependency issues.
 
 import json
 import os
+from datetime import datetime
 
 from fastapi import HTTPException
-
+from src.api.mongo_db import presentations_collection
 # -----------------------------------------------
 # Constants
 # -----------------------------------------------
@@ -28,6 +29,7 @@ def initial_state() -> dict:
         "theme_info": "",
         # Each slide: { slide_type, content, description, layout, slide_code }
         "slides_data": [],
+        "created_at": datetime.utcnow().isoformat(),
     }
 
 
@@ -35,31 +37,124 @@ def _presentation_path(presentation_id: str) -> str:
     return os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.json")
 
 
-def save_presentation(state: dict, presentation_id: str) -> None:
-    """Atomically write presentation state to disk."""
-    os.makedirs(PRESENTATIONS_DIR, exist_ok=True)
-    output_path = _presentation_path(presentation_id)
-    temp_path = output_path + ".tmp"
-    with open(temp_path, "w") as f:
-        json.dump(state, f, indent=4)
-    os.replace(temp_path, output_path)
+def _presentation_path_pdf(presentation_id: str) -> str:
+    return os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.pdf")
 
 
-def load_presentation(presentation_id: str) -> dict:
-    """Load presentation state from disk. Raises 404/500 on failure."""
-    output_path = _presentation_path(presentation_id)
-    if not os.path.exists(output_path):
-        raise HTTPException(status_code=404, detail="Presentation not found.")
+# def save_presentation(state: dict, presentation_id: str) -> None:
+#     """Atomically write presentation state to disk."""
+#     os.makedirs(PRESENTATIONS_DIR, exist_ok=True)
+#     output_path = _presentation_path(presentation_id)
+#     temp_path = output_path + ".tmp"
+#     with open(temp_path, "w") as f:
+#         json.dump(state, f, indent=4)
+#     os.replace(temp_path, output_path)
+
+
+# def load_presentation(presentation_id: str) -> dict:
+#     """Load presentation state from disk. Raises 404/500 on failure."""
+#     output_path = _presentation_path(presentation_id)
+#     if not os.path.exists(output_path):
+#         raise HTTPException(status_code=404, detail="Presentation not found.")
+#     try:
+#         with open(output_path, "r") as f:
+#             content = f.read().strip()
+#             if not content:
+#                 raise ValueError("Empty file")
+#             return json.loads(content)
+#     except Exception:
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Presentation state corrupted. Please recreate.",
+#         )
+
+
+     
+
+
+
+# -----------------------------------------------
+# MongoDB helpers
+# -----------------------------------------------
+
+async def save_presentation(state: dict, presentation_id: str) -> None:
+    """Save or update presentation in MongoDB"""
+
     try:
-        with open(output_path, "r") as f:
-            content = f.read().strip()
-            if not content:
-                raise ValueError("Empty file")
-            return json.loads(content)
-    except Exception:
+        await presentations_collection.update_one(
+            {"_id": presentation_id},
+            {"$set": {"state": state}},
+            upsert=True,
+        )
+    except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail="Presentation state corrupted. Please recreate.",
+            detail=f"Failed to save presentation: {str(e)}",
         )
 
 
+async def load_presentation(presentation_id: str) -> dict:
+    """Load presentation from MongoDB"""
+
+    try:
+        presentation = await presentations_collection.find_one(
+            {"_id": presentation_id}
+        )
+
+        if not presentation:
+            raise HTTPException(
+                status_code=404,
+                detail="Presentation not found",
+            )
+
+        return presentation["state"]
+
+    except HTTPException:
+        raise
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to load presentation: {str(e)}",
+        )
+
+
+#----------------------------------------
+# Playwright helpers
+#----------------------------------------
+from playwright.async_api import async_playwright
+
+playwright_instance = None
+browser = None
+
+
+async def start_browser():
+    global playwright_instance, browser
+
+    playwright_instance = await async_playwright().start()
+
+    browser = await playwright_instance.chromium.launch(
+        headless=True,
+        args=["--disable-dev-shm-usage"]
+    )
+
+    print("✓ Playwright browser started")
+
+
+async def stop_browser():
+    global playwright_instance, browser
+
+    if browser:
+        await browser.close()
+
+    if playwright_instance:
+        await playwright_instance.stop()
+
+    print("✓ Playwright browser closed")
+
+
+def get_browser():
+    if browser is None:
+        raise RuntimeError("Browser not started")
+
+    return browser

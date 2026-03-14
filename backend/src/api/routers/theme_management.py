@@ -23,8 +23,8 @@ router = APIRouter(tags=["Theme Management"])
     summary="Generate or get theme",
     description="Generates a presentation theme based on topic and content. Returns the existing theme if already generated.",
 )
-def get_presentation_theme(presentation_id: str):
-    state = load_presentation(presentation_id)
+async def get_presentation_theme(presentation_id: str):
+    state = await load_presentation(presentation_id)
     
     if state.get("theme_info"):
         return {
@@ -34,7 +34,7 @@ def get_presentation_theme(presentation_id: str):
             "theme_name":state.get("theme_name",""),
         }
     updated_state = generate_theme_node(state)
-    save_presentation(updated_state, presentation_id)
+    await save_presentation(updated_state, presentation_id)
     return {
         "message": "Theme generated successfully.",
         "presentation_id": presentation_id,
@@ -54,10 +54,10 @@ def get_presentation_theme(presentation_id: str):
     summary="Update theme",
     description="Manually overrides the theme information for a presentation.",
 )
-def update_presentation_theme(presentation_id: str, request: ThemeUpdateRequest):
-    state = load_presentation(presentation_id)
+async def update_presentation_theme(presentation_id: str, request: ThemeUpdateRequest):
+    state = await load_presentation(presentation_id)
     state["theme_info"] = request.theme_info
-    save_presentation(state, presentation_id)
+    await save_presentation(state, presentation_id)
     return {
         "message": "Theme updated successfully.",
         "presentation_id": presentation_id,
