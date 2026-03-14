@@ -63,3 +63,45 @@ def load_presentation(presentation_id: str) -> dict:
         )
 
 
+
+#----------------------------------------
+# Playwright helpers
+#----------------------------------------
+from playwright.async_api import async_playwright
+
+playwright_instance = None
+browser = None
+
+
+async def start_browser():
+    global playwright_instance, browser
+
+    playwright_instance = await async_playwright().start()
+
+    browser = await playwright_instance.chromium.launch(
+        headless=True,
+        args=["--disable-dev-shm-usage"]
+    )
+
+    print("✓ Playwright browser started")
+
+
+async def stop_browser():
+    global playwright_instance, browser
+
+    if browser:
+        await browser.close()
+
+    if playwright_instance:
+        await playwright_instance.stop()
+
+    print("✓ Playwright browser closed")
+
+
+def get_browser():
+    if browser is None:
+        raise RuntimeError("Browser not started")
+
+    return browser
+    
+    

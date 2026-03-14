@@ -88,13 +88,13 @@ def delete_presentation(presentation_id: str):
     summary="Download presentation as PDF",
     description="Generates a merged PDF of all slides in the presentation and returns it as a file download. Slides that fail to generate will be skipped.",
 )
-def download_presentation_pdf(presentation_id: str):
+async def download_presentation_pdf(presentation_id: str):
     output_path = _presentation_path(presentation_id)
     if not os.path.exists(output_path):
         raise HTTPException(status_code=404, detail="Presentation not found.")
     
     try:
-        pdf_path = generate_presentation_pdf(presentation_id)
+        pdf_path = await generate_presentation_pdf(presentation_id)
         if not os.path.exists(pdf_path):
             raise HTTPException(status_code=500, detail="Failed to generate PDF.")
             
