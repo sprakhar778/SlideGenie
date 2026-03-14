@@ -43,10 +43,17 @@ export const deletePresentation = async (presentationId) => {
 
 // ── Theme Management ─────────────────────────────────────────
 
-export const getTheme = async (presentationId) => {
+
+export const getTheme = async (id, themeName = null) => {
   const api = createApi();
-  const response = await api.get(`/presentation-theme/${encodeURIComponent(presentationId)}`);
-  return response.data;
+
+  const params = themeName ? { theme_name: themeName } : {};
+
+  const res = await api.get(`/presentation-theme/${encodeURIComponent(id)}`, {
+    params
+  });
+
+  return res.data;
 };
 
 export const updateTheme = async (presentationId, themeInfo) => {

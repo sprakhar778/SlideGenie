@@ -9,6 +9,7 @@ from fastapi import APIRouter
 from src.graph.nodes.theme_node import generate_theme_node
 from src.api.helpers import load_presentation, save_presentation
 from src.api.schemas import ThemeUpdateRequest, ThemeResponse
+from src.helpers.theme_info import get_theme_info
 
 router = APIRouter(tags=["Theme Management"])
 
@@ -23,7 +24,19 @@ router = APIRouter(tags=["Theme Management"])
     summary="Generate or get theme",
     description="Generates a presentation theme based on topic and content. Returns the existing theme if already generated.",
 )
-def get_presentation_theme(presentation_id: str):
+def get_presentation_theme(presentation_id: str, theme_name: str = None):
+    if theme_name:
+        state = load_presentation(presentation_id)
+        state["theme_name"] = theme_name    
+        state["theme_info"] = get_theme_info(theme_name)
+        save_presentation(state, presentation_id)
+        return {
+            "message": "Theme updated successfully.",
+            "presentation_id": presentation_id,
+            "theme_info": state["theme_info"],
+            "theme_name":state.get("theme_name",""),
+        }
+        
     state = load_presentation(presentation_id)
     
     if state.get("theme_info"):
