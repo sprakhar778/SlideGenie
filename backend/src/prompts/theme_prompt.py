@@ -30,8 +30,8 @@ Return the result in JSON format.
 
 ## Instructions:
 - Consider the topic, audience, and emotional tone.
-- Dark themes suit tech, innovation, drama, and impact.
-- Light themes suit corporate, clinical, minimalist, or elegant contexts.
+
+- You are free to select any theme from the list above.
 - Output ONLY the theme name exactly as listed above (e.g. `Ocean Depths`). No explanation, no punctuation.
 
 Return JSON only:
