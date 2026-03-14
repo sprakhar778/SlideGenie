@@ -3,9 +3,10 @@ import os
 from PIL import Image
 from pypdf import PdfReader, PdfWriter
 
-from src.api.helpers import PRESENTATIONS_DIR, get_browser
+from src.api.helpers import PRESENTATIONS_DIR, get_browser, load_presentation
 
-async def generate_presentation_pdf(presentation_id: str, state: dict):
+async def generate_presentation_pdf(presentation_id: str):
+    state = load_presentation(presentation_id)
     slides = state.get("slides_data", [])
     if not slides:
         raise Exception("No slides found in presentation")
@@ -21,7 +22,7 @@ async def generate_presentation_pdf(presentation_id: str, state: dict):
     page = await context.new_page()
 
     # Set a large viewport – the slide will be scaled accordingly
-    await page.set_viewport_size({"width": 1920, "height": 1080})  # moderate size, scale factor multiplies pixels
+    await page.set_viewport_size({"width": 1280, "height": 720})  # moderate size, scale factor multiplies pixels
 
     try:
         for idx, slide in enumerate(slides):
@@ -31,8 +32,22 @@ async def generate_presentation_pdf(presentation_id: str, state: dict):
 
             # Load HTML directly
             await page.set_content(html, wait_until="networkidle")
+        
+            # Inject print CSS so mobile printers respect page size
+            await page.add_style_tag(content="""
+            @page {
+            size: 1280px 720px;
+            margin: 0;
+            }
+
+            html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            }
+            """)
             try:
-                await page.wait_for_selector(".slide-container", state="visible", timeout=5000)
+                await page.wait_for_selector(".slide-container", state="visible", timeout=500)
             except:
                 pass
             await page.wait_for_timeout(200)  # short extra wait
@@ -50,7 +65,7 @@ async def generate_presentation_pdf(presentation_id: str, state: dict):
                 img = img.convert("RGB")
             pdf_bytes_io = io.BytesIO()
             # Save with 72 DPI – 1 pixel = 1 point, so page size matches image dimensions
-            img.save(pdf_bytes_io, format="PDF", resolution=72, optimize=True)
+            img.save(pdf_bytes_io, format="PDF", resolution=72, optimize=True,save_all=True)
             pdf_bytes_io.seek(0)
 
             # Append in‑memory PDF
@@ -65,3 +80,4 @@ async def generate_presentation_pdf(presentation_id: str, state: dict):
     finally:
         await context.close()
         merger.close()
+        

@@ -8,8 +8,7 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.helpers import start_browser, stop_browser,get_browser
-
+from src.api.helpers import start_browser, stop_browser
 from src.api.routers import (
     presentation_management,
     theme_management,
@@ -42,6 +41,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup():
     await start_browser()
@@ -67,6 +67,10 @@ app.include_router(utility.router)
 @app.on_event("shutdown")
 async def shutdown():
     await stop_browser()
+        
+# -----------------------------------------------
+# Entry point
+# -----------------------------------------------
 
 if __name__ == "__main__":
     import uvicorn

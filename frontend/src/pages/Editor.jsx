@@ -53,6 +53,7 @@ import {
   downloadPresentationPDF,
 } from '@/lib/api';
 
+
 import { THEMES_DATA } from '@/data';
 const STAGES = [
   { id: 'theme', label: 'Theme', icon: Palette },
@@ -60,11 +61,28 @@ const STAGES = [
   { id: 'layout', label: 'Layout', icon: LayoutTemplate },
   { id: 'preview', label: 'Preview', icon: Play },
 ];
+const THEMES = [
+  "Obsidian Pro",
+  "Midnight Galaxy",
+  "Aurora Dark",
+  "Ember Slate",
+  "Forest Executive",
+  "Ocean Depths",
+  "Solar Flare",
+  "Neon Cyberpunk",
+  "Tropical Punch",
+  "Crimson Noir",
+  "Slate Steel",
+  "Glacier Light",
+  "Arctic Frost",
+  "Modern Minimalist",
+  "Rose Quartz",
+];
 
 export default function Editor() {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [stage, setStage] = useState(0);
   const [status, setStatus] = useState({ theme: 'pending', data: 'pending', layout: 'pending', preview: 'pending' });
   const [presentation, setPresentation] = useState(null);
@@ -79,14 +97,14 @@ export default function Editor() {
   const [view, setView] = useState('preview');
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  
+
   // Dialogs
   const [editOpen, setEditOpen] = useState(false);
   const [editIdx, setEditIdx] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [saving, setSaving] = useState(false);
-  
+
   const [regenOpen, setRegenOpen] = useState(false);
   const [regenIdx, setRegenIdx] = useState(null);
   const [regenText, setRegenText] = useState('');
@@ -107,7 +125,7 @@ export default function Editor() {
         }
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [stage, activeSlide, slides.length, editOpen, regenOpen]);
@@ -133,7 +151,7 @@ export default function Editor() {
     setWorking(true);
     const stageId = STAGES[stage].id;
     setStatus(p => ({ ...p, [stageId]: 'generating' }));
-    
+
     try {
       if (stageId === 'theme') {
         const r = await getTheme(id);
@@ -162,15 +180,21 @@ export default function Editor() {
     setWorking(false);
   };
 
-  const saveThemeChanges = async () => {
-    setWorking(true);
-    try { await updateTheme(id, editTheme); setTheme(editTheme); toast.success('Saved!'); }
-    catch { toast.error('Failed'); }
-    setWorking(false);
-  };
+const saveThemeChanges = async () => {
+  setWorking(true);
+  try {
+    await updateTheme(id, editTheme);
+
+    setTheme(editTheme);   // sync display state
+    toast.success('Saved!');
+  } catch {
+    toast.error('Failed');
+  }
+  setWorking(false);
+};
 
   const openEdit = (i) => { setEditIdx(i); setEditContent(slides[i]?.content || ''); setEditDesc(slides[i]?.description || ''); setEditOpen(true); };
-  
+
   const saveEdit = async () => {
     setSaving(true);
     try {
@@ -187,7 +211,7 @@ export default function Editor() {
   };
 
   const openRegen = (i) => { setRegenIdx(i); setRegenText(''); setRegenOpen(true); };
-  
+
   const doRegen = async () => {
     if (!regenText.trim()) return;
     setRegenerating(true);
@@ -197,6 +221,30 @@ export default function Editor() {
       () => { setRegenerating(false); setRegenOpen(false); toast.success('Done!'); },
       () => { setRegenerating(false); toast.error('Failed'); }
     );
+  };
+  const chooseTheme = async () => {
+    if (!themeName) {
+      toast.error("Please select a theme");
+      return;
+    }
+
+    try {
+      setWorking(true);
+
+      const r = await getTheme(id, themeName);
+
+      setTheme(r.theme_info);
+      setEditTheme(r.theme_info);
+      setThemeName(r.theme_name);
+
+      setStatus((p) => ({ ...p, theme: "success" }));
+
+      toast.success("Theme applied!");
+    } catch (e) {
+      toast.error("Failed to apply theme");
+    }
+
+    setWorking(false);
   };
 
   const copyCode = () => {
@@ -217,14 +265,14 @@ export default function Editor() {
   const downloadPDF = async () => {
     setDownloading(true);
     toast.info('Generating PDF...');
-    
+
     try {
       const response = await downloadPresentationPDF(id);
-      
+
       // Create download link
       const blob = response.data;
       const blobUrl = URL.createObjectURL(blob);
-      
+
       // Create safe filename
       let filename = 'presentation';
       if (presentation?.state?.topic) {
@@ -234,7 +282,7 @@ export default function Editor() {
         filename = `presentation_${id}`;
       }
       filename += '.pdf';
-      
+
       // Create and trigger download
       const link = document.createElement('a');
       link.href = blobUrl;
@@ -242,7 +290,7 @@ export default function Editor() {
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       setTimeout(() => {
         if (document.body.contains(link)) {
@@ -250,11 +298,11 @@ export default function Editor() {
         }
         URL.revokeObjectURL(blobUrl);
       }, 1000);
-      
+
       toast.success(`PDF downloaded: ${filename}`);
     } catch (error) {
       console.error('PDF download error:', error);
-      
+
       // Handle specific error cases
       if (error.response) {
         const status = error.response.status;
@@ -294,9 +342,9 @@ export default function Editor() {
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
-           <Presentation className="w-5 h-5 text-indigo-500" />
+            <Presentation className="w-5 h-5 text-indigo-500" />
           </Button>
-         
+
           <span className="font-medium text-sm truncate max-w-[180px]">{presentation?.state?.topic || 'Untitled'}</span>
         </div>
 
@@ -311,15 +359,14 @@ export default function Editor() {
                 key={s.id}
                 onClick={() => canClick && setStage(i)}
                 disabled={!canClick}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-                  active ? 'bg-indigo-600 text-white' :
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${active ? 'bg-indigo-600 text-white' :
                   st === 'success' ? 'text-emerald-400 hover:bg-zinc-700 cursor-pointer' :
-                  i < stage ? 'text-zinc-400 hover:bg-zinc-700 cursor-pointer' :
-                  'text-zinc-500 cursor-not-allowed'
-                }`}
+                    i < stage ? 'text-zinc-400 hover:bg-zinc-700 cursor-pointer' :
+                      'text-zinc-500 cursor-not-allowed'
+                  }`}
               >
                 {st === 'generating' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
-                 st === 'success' ? <Check className="w-3.5 h-3.5" /> : <Icon className="w-3.5 h-3.5" />}
+                  st === 'success' ? <Check className="w-3.5 h-3.5" /> : <Icon className="w-3.5 h-3.5" />}
                 <span className="hidden sm:inline">{s.label}</span>
               </button>
             );
@@ -349,26 +396,80 @@ export default function Editor() {
                 <h2 className="text-2xl font-bold">Presentation Theme</h2>
                 <p className="text-zinc-500">Define colors, fonts, and visual style</p>
               </div>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card className="bg-zinc-900/50 border-zinc-800 flex flex-col">
                   <CardContent className="p-6 space-y-4 flex-1 flex flex-col">
-                    <Textarea
-                      value={editTheme}
-                      onChange={(e) => setEditTheme(e.target.value)}
-                      placeholder="Modern dark theme with indigo accents, Inter font, clean minimal design..."
-                      className="flex-1 min-h-[400px] bg-zinc-800/50 border-zinc-700 text-sm resize-none"
-                    />
-                    <div className="flex gap-3">
-                      <Button onClick={runStage} disabled={working} className="bg-indigo-600 hover:bg-indigo-700">
-                        {working ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Wand2 className="w-4 h-4 mr-2" />}
-                        Generate Theme
-                      </Button>
-                      {editTheme && editTheme !== theme && (
-                        <Button variant="outline" onClick={saveThemeChanges} disabled={working} className="border-zinc-700">
-                          <Save className="w-4 h-4 mr-2" /> Save
+                    <div className="space-y-4">
+
+                      <div className="space-y-2">
+                        <Label>Select Theme</Label>
+
+                        <select
+                          value={themeName}
+                          onChange={(e) => setThemeName(e.target.value)}
+                          className="w-full bg-zinc-800 border border-zinc-700 rounded-md p-2"
+                        >
+                          <option value="">Select theme</option>
+                          {THEMES.map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+
+                        <Button
+                          onClick={chooseTheme}
+                          disabled={!themeName || working}
+                          className="w-full"
+                        >
+                          Apply Theme
                         </Button>
-                      )}
+                      </div>
+
+                      <div className="space-y-4 w-full max-w-xl">
+
+                        {/* Generate Button */}
+                        <div className="flex items-center gap-3">
+                          <Button
+                            onClick={runStage}
+                            disabled={working}
+                            className="bg-indigo-600 hover:bg-indigo-700"
+                          >
+                            {working ? (
+                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            ) : (
+                              <Wand2 className="w-4 h-4 mr-2" />
+                            )}
+                            Generate Theme
+                          </Button>
+                        </div>
+
+                        {/* Textarea */}
+                        <Textarea
+                          value={editTheme}
+                          placeholder="Theme name from backend will appear here..."
+                          className="min-h-[250px] bg-zinc-800 border-zinc-700 w-full"
+                          onChange={(e) => setEditTheme(e.target.value)}
+                        />
+
+                        {/* Save Button */}
+                        {editTheme && editTheme !== theme && (
+                          <div className="flex justify-end">
+                            <Button
+                              variant="outline"
+                              onClick={saveThemeChanges}
+                              disabled={working}
+                              className="border-zinc-700"
+                            >
+                              <Save className="w-4 h-4 mr-2" />
+                              Save Changes
+                            </Button>
+                          </div>
+                        )}
+
+                      </div>
+
                     </div>
                   </CardContent>
                 </Card>
@@ -386,11 +487,11 @@ export default function Editor() {
                     )}
                   </div>
                   <CardContent className="p-6 flex-1 flex bg-zinc-950/50 min-h-[400px]">
-                    <div 
+                    <div
                       className="w-full h-full flex flex-col items-center justify-center"
-                      dangerouslySetInnerHTML={{ 
-                        __html: THEMES_DATA[themeName] || THEMES_DATA['Dummy Preview'] 
-                      }} 
+                      dangerouslySetInnerHTML={{
+                        __html: THEMES_DATA[themeName] || THEMES_DATA['Dummy Preview']
+                      }}
                     />
                   </CardContent>
                 </Card>
@@ -574,9 +675,9 @@ export default function Editor() {
 
             {/* Slide View - Fixed size, no scroll */}
             <div className="flex-1 flex items-center justify-center p-4 bg-zinc-950 min-h-0">
-              <div 
+              <div
                 className="rounded-lg overflow-hidden shadow-2xl shadow-black/50 bg-black"
-                style={{ 
+                style={{
                   width: '100%',
                   maxWidth: 'calc((100vh - 180px) * 16 / 9)',
                   aspectRatio: '16/9'
@@ -584,9 +685,9 @@ export default function Editor() {
               >
                 {view === 'preview' ? (
                   codes[activeSlide] ? (
-                    <iframe 
+                    <iframe
                       srcDoc={
-                        (codes[activeSlide] || '') + 
+                        (codes[activeSlide] || '') +
                         `<style>
                           body, html { margin: 0 !important; padding: 0 !important; overflow: hidden !important; width: 100%; height: 100%; display: block !important; }
                           .slide-container { position: absolute !important; top: 0 !important; left: 0 !important; margin: 0 !important; transform-origin: top left !important; }
@@ -602,10 +703,10 @@ export default function Editor() {
                           new MutationObserver(fit).observe(document.documentElement, { childList: true, subtree: true });
                           fit();
                         </script>`
-                      } 
-                      className="w-full h-full border-0 block" 
+                      }
+                      className="w-full h-full border-0 block"
                       style={{ backgroundColor: 'black' }}
-                      sandbox="allow-scripts" 
+                      sandbox="allow-scripts"
                     />
                   ) : working ? (
                     <div className="w-full h-full flex items-center justify-center bg-zinc-900">
@@ -640,12 +741,11 @@ export default function Editor() {
                     <button
                       key={i}
                       onClick={() => setActiveSlide(i)}
-                      className={`h-full aspect-video rounded overflow-hidden border-2 transition-all shrink-0 ${
-                        activeSlide === i ? 'border-indigo-500 ring-1 ring-indigo-500/50 scale-105' : 'border-zinc-700 hover:border-zinc-500 opacity-70 hover:opacity-100'
-                      }`}
+                      className={`h-full aspect-video rounded overflow-hidden border-2 transition-all shrink-0 ${activeSlide === i ? 'border-indigo-500 ring-1 ring-indigo-500/50 scale-105' : 'border-zinc-700 hover:border-zinc-500 opacity-70 hover:opacity-100'
+                        }`}
                     >
                       {codes[i] ? (
-                        <iframe 
+                        <iframe
                           srcDoc={
                             (codes[i] || '') +
                             `<style>
@@ -671,14 +771,14 @@ export default function Editor() {
                               }
                             </style>`
                           }
-                          className="w-full h-full border-0 pointer-events-none" 
-                          style={{ 
-                            transform: 'scale(0.08)', 
-                            transformOrigin: 'top left', 
-                            width: '1250%', 
+                          className="w-full h-full border-0 pointer-events-none"
+                          style={{
+                            transform: 'scale(0.08)',
+                            transformOrigin: 'top left',
+                            width: '1250%',
                             height: '1250%',
                             backgroundColor: 'black'
-                          }} 
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-zinc-800 text-zinc-500 text-xs font-bold">

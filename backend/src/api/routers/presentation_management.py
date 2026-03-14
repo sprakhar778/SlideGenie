@@ -100,17 +100,22 @@ async def delete_presentation(presentation_id: str):
 # -----------------------------------------------
 # GET /presentations/{presentation_id}/download
 # -----------------------------------------------
-@router.get("/presentations/{presentation_id}/download")
+
+@router.get(
+    "/presentations/{presentation_id}/download",
+    summary="Download presentation as PDF",
+    description="Generates a merged PDF of all slides in the presentation and returns it as a file download. Slides that fail to generate will be skipped.",
+)
 async def download_presentation_pdf(presentation_id: str):
-
-    state = await load_presentation(presentation_id)
-
-    if not state:
-        raise HTTPException(status_code=404, detail="Presentation not found")
-
+    output_path = _presentation_path(presentation_id)
+    if not os.path.exists(output_path):
+        raise HTTPException(status_code=404, detail="Presentation not found.")
+    
     try:
-        pdf_path = await generate_presentation_pdf(presentation_id, state)
-
+        pdf_path = await generate_presentation_pdf(presentation_id)
+        if not os.path.exists(pdf_path):
+            raise HTTPException(status_code=500, detail="Failed to generate PDF.")
+            
         return FileResponse(
             path=pdf_path,
             filename=f"presentation_{presentation_id}.pdf",
