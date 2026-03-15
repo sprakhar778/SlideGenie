@@ -44,21 +44,19 @@ async def generate_presentation_pdf(presentation_id: str) -> str:
 <head>
 <meta charset="UTF-8">
 <style>
-html, body {{
-    width:1280px;
-    height:720px;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden;
-    background:#000;
-}}
+
+
  
 .slide-container {{
     width:1280px;
     height:720px;
     position:relative;
-    padding:10px !important;
- 
+    padding:20px !important;
+   overflow:hidden !important;
+   display:flex !important; flex-direction:column !important;
+   justify-content:center !important;
+   align-items:center !important;
+
     box-sizing:border-box !important;
   
 }}
