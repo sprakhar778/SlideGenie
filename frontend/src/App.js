@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import Dashboard from "@/pages/Dashboard";
+import Landing from "@/pages/Landing";
 import NewPresentation from "@/pages/NewPresentation";
 import Editor from "@/pages/Editor";
 
@@ -10,7 +11,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/new" element={<NewPresentation />} />
           <Route path="/editor/:id" element={<Editor />} />
         </Routes>

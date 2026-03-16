@@ -17,7 +17,7 @@ async def generate_slides_node(state):
         slides_data = []  
 
     queue = asyncio.Queue()
-    sem = asyncio.Semaphore(2)  # Max 2 concurrent LLM calls to avoid rate limits
+    sem = asyncio.Semaphore(3)  # Max 2 concurrent LLM calls to avoid rate limits
 
     async def stream_single_slide(index, slide_data):
         async with sem:
