@@ -244,7 +244,7 @@ export default function Landing() {
             </div>
 
             {/* Feature 3: Small Box (Export Anywhere) with PDF Carousel */}
-            <div className="rounded-[2rem] p-10 relative overflow-hidden group bg-gradient-to-b from-zinc-900 to-black border border-white/5 hover:border-white/20 transition-all duration-500">
+            <div className="md:col-span-2 rounded-[2rem] p-10 relative overflow-hidden group bg-gradient-to-b from-zinc-900 to-black border border-white/5 hover:border-white/20 transition-all duration-500">
               <div className="absolute top-0 left-0 w-64 h-64 bg-green-500/10 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
               <div className="relative z-10 flex flex-col h-full">
@@ -329,7 +329,7 @@ export default function Landing() {
             </div>
 
             {/* Feature 4: Large Span (Command Center) */}
-            <div className="md:col-span-2 rounded-[2rem] p-10 md:p-14 relative overflow-hidden group bg-gradient-to-bl from-zinc-900 to-black border border-white/5 hover:border-white/20 transition-all duration-500">
+            <div className="md:col-span-1 rounded-[2rem] p-10 md:p-14 relative overflow-hidden group bg-gradient-to-bl from-zinc-900 to-black border border-white/5 hover:border-white/20 transition-all duration-500">
               <div className="relative z-10 flex flex-col md:flex-row items-center gap-16 h-full">
                 <div className="flex-1 max-w-sm">
                   <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-white group-hover:bg-white/10 transition-colors">
@@ -339,10 +339,7 @@ export default function Landing() {
                   <p className="text-lg text-zinc-400 leading-relaxed">Manage everything in one hyper-optimized workspace. Resume drafts, view history, or spin up new ideas on the fly.</p>
                 </div>
 
-                <div className="flex-1 w-full relative h-[300px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black translate-x-12 translate-y-12 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-700 rotate-[8deg] group-hover:rotate-[4deg]">
-                  <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover opacity-60 mix-blend-luminosity"></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                </div>
+              
               </div>
             </div>
 

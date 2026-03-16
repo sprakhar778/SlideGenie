@@ -338,10 +338,10 @@ const saveThemeChanges = async () => {
       {/* Header */}
       <header className="h-14 px-4 flex items-center justify-between border-b border-zinc-800 bg-zinc-900/80 backdrop-blur shrink-0">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
+          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/dashboard')}>
             <Presentation className="w-5 h-5 text-indigo-500" />
           </Button>
 

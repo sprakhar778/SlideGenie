@@ -148,9 +148,11 @@ export default function Dashboard() {
       <header className="border-b border-border glass sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            <button onClick={() => navigate('/')}>
             <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
               <Presentation className="w-5 h-5 text-primary" />
             </div>
+            </button>
             <div>
               <h1 className="text-xl font-bold tracking-tight font-[Manrope]">SlideGenie</h1>
               <p className="text-xs text-muted-foreground uppercase tracking-widest">

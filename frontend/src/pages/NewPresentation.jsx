@@ -96,7 +96,7 @@ export default function NewPresentation() {
       {/* Header */}
       <header className="border-b border-border glass sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="flex items-center gap-3">
