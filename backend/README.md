@@ -44,5 +44,26 @@ The backend for SlideGenie is a high-performance, asynchronous REST API powered 
    ```
    The API will be available at `http://localhost:8000`. You can access the Swagger UI documentation at `http://localhost:8000/docs`.
 
-## Demo Video
-> 🎥 *[]*
+
+
+------------------------
+## 🔑 API KEYS
+------------------------
+```
+GOOGLE_API_KEY=your_google_api_key_here
+
+LANGCHAIN_API_KEY=your_langchain_api_key_here
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_PROJECT=slide-genie
+
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
+
+```
+----------
+# 🗄️ DATABASE
+---------------
+```
+MONGO_URI=your mongodb uri
+```
+
+

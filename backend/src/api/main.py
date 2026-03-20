@@ -8,6 +8,8 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+
 from src.api.helpers import start_browser, stop_browser
 from src.api.routers import (
     presentation_management,
@@ -19,6 +21,17 @@ from src.api.routers import (
 )
 
 logging.basicConfig(level=logging.INFO)
+
+
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    await start_browser()
+    yield
+    # Shutdown
+    await stop_browser()
 
 # -----------------------------------------------
 # App
@@ -42,10 +55,6 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-async def startup():
-    await start_browser()
-
 
 # -----------------------------------------------
 # Routers
@@ -64,9 +73,6 @@ app.include_router(utility.router)
 # -----------------------------------------------
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    await stop_browser()
         
 # -----------------------------------------------
 # Entry point

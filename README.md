@@ -1,46 +1,158 @@
-# SlideGenie 🧞‍♂️
 
-**SlideGenie** is a cutting-edge, AI-powered presentation generation platform. It empowers users to effortlessly turn ideas into beautifully styled, layout-perfect slides and export them seamlessly. 
 
-With a dynamic React frontend and a powerful FastAPI + AI backend, SlideGenie automates the tedious parts of presentation design, from theme creation to layout structuring and PDF exporting.
+# 🧞‍♂️ SlideGenie  
+### *AI-Powered Presentation Generation Platform*
 
-## 🌟 Key Features
-- **AI-Driven Creativity:** Generate complete slide themes and robust layouts directly from your prompts. 
-- **Real-Time Editor & Preview:** Instantly preview generated slides in a sandboxed, visually rich editor environment.
-- **Pixel-Perfect PDF Export:** Advanced conversion using WeasyPrint to keep your slides' orientation and styling undistorted when exporting to PDF.
-- **Interactive "Export Anywhere":** Features a beautiful PDF carousel and layout views for an enhanced management experience.
-- **Modern Tech Stack:** Built with speed and scalability in mind using React, TailwindCSS, and FastAPI.
+<p align="center">
+  <a href="https://youtu.be/1XqbWz1Pc48">
+    <img src="https://img.youtube.com/vi/1XqbWz1Pc48/maxresdefault.jpg" width="800" />
+  </a>
+</p>
+
+<p align="center">
+  Turn ideas into stunning, layout-perfect presentations in seconds 🚀
+</p>
+
+---
+
+## ✨ Overview
+
+**SlideGenie** is a next-generation AI-powered presentation builder that transforms raw ideas into **beautiful, structured slides instantly**.
+
+From **theme generation** to **layout composition** and **pixel-perfect PDF export**, SlideGenie eliminates the friction of traditional presentation design.
+
+---
+
+## 🔥 Why SlideGenie?
+
+- 🧠 **AI does the heavy lifting** — you focus on ideas  
+- 🎨 **Auto-generated themes & layouts**  
+- ⚡ **Instant visual feedback** with live preview  
+- 📄 **Export-ready PDFs** with perfect formatting  
+- 🧩 **Modular architecture** for scalability  
+
+---
+
+## 🌟 Features
+
+### 🤖 AI-Powered Generation
+- Generate full slide decks from simple prompts  
+- Smart layout structuring with contextual understanding  
+
+### 🎯 Real-Time Editor
+- Interactive editing environment  
+- Instant preview of slides as you build  
+
+### 📄 Pixel-Perfect Export
+- High-quality PDF generation using **WeasyPrint**  
+- Maintains layout integrity and styling  
+
+### 🖼️ Export Anywhere
+- Beautiful PDF carousel viewer  
+- Multiple layout views for easy navigation  
+
+### ⚙️ Modern Tech Stack
+- **Frontend:** React, TailwindCSS, Radix UI  
+- **Backend:** FastAPI, Langchain  (AI integration)  
+- Built for performance, scalability, and clean UX  
+
+---
 
 ## 🏗️ Project Structure
-The repository is split into two main directories:
-- [`/frontend`](./frontend/README.md): The React user interface, built with Tailwind CSS, Radix UI, and React Router.
-- [`/backend`](./backend/README.md): The FastAPI and Langbase (AI) processing server.
 
-## 🚀 Setup & Installation
+```
+SlideGenie/
+├── frontend/   → React + Tailwind UI
+├── backend/    → FastAPI + MongoDB Atlas+ AI Engine
+```
 
-### 1. Backend Setup
-Navigate into the backend directory, install the Python dependencies, and run the server.
+
+- [`/frontend`](./frontend/README.md) → User interface  
+- [`/backend`](./backend/README.md) → AI + API layer  
+
+---
+
+## 🚀 Getting Started
+
+### 🔧 Backend Setup
+
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
-pip install -e . # or use uv sync
-cp .env.example .env
-python -m src.api.main
-```
-The backend will run on `http://localhost:8000`.
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 
-### 2. Frontend Setup
-Navigate into the frontend directory, install the node dependencies, and start the development server.
+uv sync
+
+cp .env.example .env
+
+python -m src.api.main
+````
+
+📍 Runs on: **[http://localhost:8000](http://localhost:8000)**
+
+---
+
+### 💻 Frontend Setup
+
 ```bash
 cd frontend
 npm install
 npm start
 ```
-The frontend will run on `http://localhost:3000`.
 
-## 🎥 Demo Video
-> *[]*
+📍 Runs on: **[http://localhost:3000](http://localhost:3000)**
 
 ---
-*Built with ❤️ by the SlideGenie Team.*
+
+## 🎥 Demo
+
+Click below to watch SlideGenie in action 👇
+
+<p align="center">
+  <a href="https://youtu.be/1XqbWz1Pc48">
+    <img src="https://img.youtube.com/vi/1XqbWz1Pc48/maxresdefault.jpg" width="700" />
+  </a>
+</p>
+
+---
+
+## 🧠 How It Works
+
+1. Enter your idea or topic
+2. AI generates structured slide content
+3. Customize in real-time editor
+4. Export as polished PDF
+
+---
+
+## 🚧 Future Improvements
+
+* 🗂️ Template marketplace
+* 🌐 Cloud sync & collaboration
+* 🎙️ Voice-to-presentation generation
+* 📊 Advanced slide analytics
+* 🧠  Research Agent Intregation
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Feel free to open issues or submit pull requests to improve SlideGenie.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 💡 Inspiration
+
+Built to eliminate the pain of:
+
+* Spending hours designing slides
+* Struggling with layouts
+* Reformatting content repeatedly
+

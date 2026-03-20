@@ -1,83 +1,118 @@
-import io
+from playwright.async_api import async_playwright
+from pypdf import PdfWriter
 import os
-from PIL import Image
-from pypdf import PdfReader, PdfWriter
-
-from src.api.helpers import PRESENTATIONS_DIR, get_browser, load_presentation
-
-async def generate_presentation_pdf(presentation_id: str):
+import tempfile
+import logging
+ 
+from src.api.helpers import load_presentation, PRESENTATIONS_DIR
+ 
+logger = logging.getLogger(__name__)
+ 
+PAGE_WIDTH = "1280px"
+PAGE_HEIGHT = "720px"
+ 
+ 
+async def generate_presentation_pdf(presentation_id: str) -> str:
     state = await load_presentation(presentation_id)
-    slides = state.get("slides_data", [])
-    if not slides:
-        raise Exception("No slides found in presentation")
-
-    output_path = os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.pdf")
+    slides_data = state.get("slides_data", [])
+    
     os.makedirs(PRESENTATIONS_DIR, exist_ok=True)
-
+    final_pdf_path = os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.pdf")
+    
     merger = PdfWriter()
-    browser = get_browser()
-
-    # Use a high device scale factor (e.g., 3) for extra detail
-    context = await browser.new_context(device_scale_factor=3)
-    page = await context.new_page()
-
-    # Set a large viewport – the slide will be scaled accordingly
-    await page.set_viewport_size({"width": 1280, "height": 720})  # moderate size, scale factor multiplies pixels
-
-    try:
-        for idx, slide in enumerate(slides):
-            html = slide.get("slide_code", "").strip()
-            if not html:
-                continue
-
-            # Load HTML directly
-            await page.set_content(html, wait_until="networkidle")
+    temp_files = []
+    
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(
+            headless=True,
+            args=['--disable-web-security', '--no-sandbox']
+        )
         
-            # Inject print CSS so mobile printers respect page size
-            await page.add_style_tag(content="""
-            @page {
-            size: 1280px 720px;
-            margin: 0;
-            }
-
-            html {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            }
-            """)
-            try:
-                await page.wait_for_selector(".slide-container", state="visible", timeout=500)
-            except:
-                pass
-            await page.wait_for_timeout(200)  # short extra wait
-
-            container = await page.query_selector(".slide-container")
-            if container:
-                # Screenshot at the increased pixel density
-                png_bytes = await container.screenshot(type="png", scale="device")  # scale uses deviceScaleFactor
-            else:
-                png_bytes = await page.screenshot(type="png", scale="device")
-
-            # Convert PNG bytes → PDF bytes (in‑memory)
-            img = Image.open(io.BytesIO(png_bytes))
-            if img.mode != "RGB":
-                img = img.convert("RGB")
-            pdf_bytes_io = io.BytesIO()
-            # Save with 72 DPI – 1 pixel = 1 point, so page size matches image dimensions
-            img.save(pdf_bytes_io, format="PDF", resolution=72, optimize=True,save_all=True)
-            pdf_bytes_io.seek(0)
-
-            # Append in‑memory PDF
-            reader = PdfReader(pdf_bytes_io)
-            merger.append(reader)
-
-        if not merger.pages:
-            raise Exception("No valid slides generated")
-
-        merger.write(output_path)
-        return os.path.abspath(output_path)
-    finally:
-        await context.close()
-        merger.close()
+        page = await browser.new_page(
+            viewport={"width": 1280, "height": 720}
+        )
         
+        # Set realistic user agent
+        await page.set_extra_http_headers({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        })
+        
+        try:
+            for idx, slide in enumerate(slides_data):
+                raw_html = slide.get("slide_code", "").strip()
+                if not raw_html:
+                    continue
+                
+                # Wrap HTML with proper viewport and base URL
+                wrapped_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    /* Minimal reset - let slide content control layout */
+    * {{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }}
+    
+    body {{
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+    }}
+    
+    /* Only set dimensions, let the slide decide how to fill it */
+    body > * {{
+        width: 100%;
+        height: 100%;
+    }}
+</style>
+</head>
+<body>
+{raw_html}
+</body>
+</html>
+"""
+                
+                temp_pdf = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
+                temp_pdf_path = temp_pdf.name
+                temp_files.append(temp_pdf_path)
+                temp_pdf.close()
+                
+                try:
+                    # Set content with base URL for relative resources
+                    await page.set_content(wrapped_html, wait_until="networkidle")
+                    
+                    # Wait for images to load
+                    await page.wait_for_timeout(300)
+                    
+                    await page.pdf(
+                        path=temp_pdf_path,
+                        width=PAGE_WIDTH,
+                        height=PAGE_HEIGHT,
+                        print_background=True,
+                        scale=1,
+                        margin={'top': '0', 'bottom': '0', 'left': '0', 'right': '0'}
+                    )
+                    
+                    merger.append(temp_pdf_path)
+                    
+                except Exception as e:
+                    logger.error(f"Slide {idx} render failed: {e}")
+                    continue
+            
+            merger.write(final_pdf_path)
+            
+        finally:
+            await browser.close()
+            merger.close()
+            for file in temp_files:
+                if os.path.exists(file):
+                    try:
+                        os.remove(file)
+                    except Exception as e:
+                        logger.warning(f"Temp cleanup failed: {e}")
+    
+    return os.path.abspath(final_pdf_path)
