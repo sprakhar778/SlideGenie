@@ -104,15 +104,16 @@ npm start
 
 ---
 
-## 🎥 Demo
+## 📄 Sample Slides PDF
 
-Click below to watch SlideGenie in action 👇
+[![Open PDF](backend/generated_presentations/fashion.png)](https://drive.google.com/file/d/1-Hc6GwObKe8UaV06Zn-34Eg6C7njxJG0/view?usp=sharing)
 
-<p align="center">
-  <a href="https://youtu.be/1XqbWz1Pc48">
-    <img src="https://img.youtube.com/vi/1XqbWz1Pc48/maxresdefault.jpg" width="700" />
-  </a>
-</p>
+[![Open PDF](backend/generated_presentations/un.png)](https://drive.google.com/file/d/1Mr5Ea4vPs_pox55VQO6RnLXAmKNtdXAa/view)
+
+
+[![Open PDF](backend/generated_presentations/ai.png)](https://drive.google.com/file/d/1qxOooaRXvAaaYSbrmRfSaVjdEw5XuxVO/view?usp=sharing)
+
+[![Open PDF](backend/generated_presentations/space.png)](https://drive.google.com/file/d/1w3yrVHkO9oxrTbJaubtm7IBLYA56mzx4/view?usp=sharing)
 
 ---
 
