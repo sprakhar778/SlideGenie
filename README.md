@@ -104,7 +104,7 @@ npm start
 
 ---
 
-## 📄 Sample Slides PDF
+## 📄 Explore Sample Slide Decks Created with SlideGenie
 
 [![Open PDF](backend/generated_presentations/fashion.png)](https://drive.google.com/file/d/1-Hc6GwObKe8UaV06Zn-34Eg6C7njxJG0/view?usp=sharing)
 
