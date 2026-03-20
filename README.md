@@ -119,10 +119,23 @@ npm start
 
 ## 🧠 How It Works
 
-1. Enter your idea or topic
-2. AI generates structured slide content
-3. Customize in real-time editor
-4. Export as polished PDF
+1. **Start with your idea or topic**  
+   Simply enter what you want to create—your concept, subject, or key message.
+
+2. **Instant AI-generated slide structure**  
+   Get a well-organized set of slides with clear headings and content flow.
+
+3. **Edit and refine in real time**  
+   Customize text, layout, and style effortlessly using the live editor.
+
+4. **Export as a professional PDF**  
+   Download your presentation as a clean, presentation-ready PDF.
+
+5. **Convert PDF to PPT (optional)**  
+   Use any external tool like ilovepdf to turn your PDF into a PowerPoint file if needed.
+
+6. **Preserve layout and keep editing**  
+   Maintain the same design and continue refining your slides seamlessly.
 
 ---
 
