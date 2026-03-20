@@ -41,33 +41,6 @@ def _presentation_path_pdf(presentation_id: str) -> str:
     return os.path.join(PRESENTATIONS_DIR, f"{presentation_id}.pdf")
 
 
-# def save_presentation(state: dict, presentation_id: str) -> None:
-#     """Atomically write presentation state to disk."""
-#     os.makedirs(PRESENTATIONS_DIR, exist_ok=True)
-#     output_path = _presentation_path(presentation_id)
-#     temp_path = output_path + ".tmp"
-#     with open(temp_path, "w") as f:
-#         json.dump(state, f, indent=4)
-#     os.replace(temp_path, output_path)
-
-
-# def load_presentation(presentation_id: str) -> dict:
-#     """Load presentation state from disk. Raises 404/500 on failure."""
-#     output_path = _presentation_path(presentation_id)
-#     if not os.path.exists(output_path):
-#         raise HTTPException(status_code=404, detail="Presentation not found.")
-#     try:
-#         with open(output_path, "r") as f:
-#             content = f.read().strip()
-#             if not content:
-#                 raise ValueError("Empty file")
-#             return json.loads(content)
-#     except Exception:
-#         raise HTTPException(
-#             status_code=500,
-#             detail="Presentation state corrupted. Please recreate.",
-#         )
-
 
      
 
